@@ -1,7 +1,7 @@
 package hslu.sweng.fs22.team2;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Represents a single booking with one or more seats for a screening.
@@ -22,9 +22,8 @@ public class Booking {
     private String screeningID;
     /**
      * Time at which the booking was made.
-     * TODO replace with the correct java Date and Time object
      */
-    private String bookingTime;
+    private Date bookingTime;
     /**
      * Unique ID/QR Code used to authenticate the booking before a screening.
      */
@@ -50,7 +49,7 @@ public class Booking {
      * @param transactionAmount amount for the transaction MIGHT CHANGE
      * @param bookingTime       time at which the booking is made
      */
-    public Booking(ArrayList<Seat> seatList, String screeningID, double transactionAmount, String bookingTime) {
+    public Booking(ArrayList<Seat> seatList, String screeningID, double transactionAmount, Date bookingTime) {
         this.seatList = seatList;
         this.screeningID = screeningID;
         this.transactionAmount = transactionAmount;
@@ -63,7 +62,7 @@ public class Booking {
     public void createBooking(ArrayList<Seat> seatList, String screeningID) {
         // TODO create SQL Query/Statement
         // TODO random generator for bookingCode
-        // TODO Time and date code
+        // TODO Time and date code to fetch current date and time
     }
 
     /**

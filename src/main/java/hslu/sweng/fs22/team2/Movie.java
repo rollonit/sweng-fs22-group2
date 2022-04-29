@@ -1,5 +1,7 @@
 package hslu.sweng.fs22.team2;
 
+import java.time.Duration;
+
 /**
  * Represents a single movie playing at the theater.
  * TODO might need to add more info or a picture
@@ -22,16 +24,16 @@ public class Movie {
      */
     private String director;
     /**
-     * The duration of the movie in minutes.
+     * The duration of the movie.
      */
-    private double duration;
+    private Duration duration;
 
     /**
      * Default constructor for the movie class.
      */
     public Movie() {
         releaseYear = 0;
-        duration = 0.0d;
+        duration = Duration.ofMinutes(0);
     }
 
     /**
@@ -43,7 +45,7 @@ public class Movie {
      * @param director    the director of the movie
      * @param duration    the duration of the movie
      */
-    public Movie(String movieID, String movieName, int releaseYear, String director, double duration) {
+    public Movie(String movieID, String movieName, int releaseYear, String director, Duration duration) {
         this.movieID = movieID;
         this.movieName = movieName;
         this.releaseYear = releaseYear;
@@ -98,7 +100,7 @@ public class Movie {
      * @param movieID     the ID of the movie whose duration must be changed
      * @param newDuration the new duration to apply to the movie
      */
-    public void editDuration(String movieID, double newDuration) {
+    public void editDuration(String movieID, Duration newDuration) {
         // TODO create SQL Query/Statement
     }
 
@@ -108,9 +110,9 @@ public class Movie {
      * @param movieName   the name of the movie to be created
      * @param releaseYear the release year of the movie
      * @param director    the director of the movie
-     * @param duration    the duration of the movie in years
+     * @param duration    the duration of the movie
      */
-    public void createMovie(String movieName, int releaseYear, String director, double duration) {
+    public void createMovie(String movieName, int releaseYear, String director, Duration duration) {
         // TODO create SQL Query/Statement
     }
 }

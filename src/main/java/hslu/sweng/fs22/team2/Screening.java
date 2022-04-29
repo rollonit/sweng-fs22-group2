@@ -1,5 +1,7 @@
 package hslu.sweng.fs22.team2;
 
+import java.util.Date;
+
 /**
  * Represents a single screening of a certain movie on a certain date at a certain time in a certain hall
  */
@@ -21,15 +23,14 @@ public class Screening {
 
     /**
      * The date and time at which the screening begins. The end time is determined by the duration of the movie.
-     * TODO replace with Java date and time object
      */
-    private String dateTime;
+    private Date dateTime;
 
     /**
      * Default constructor for the Screening class.
      */
     public Screening() {
-        dateTime = ""; // TODO initialize date time object
+        dateTime = new Date();
     }
 
     /**
@@ -38,9 +39,9 @@ public class Screening {
      * @param screeningID the private key screening ID
      * @param movieID     the foreign key of the movie
      * @param hallNumber  the foreign key for the hall
-     * @param dateTime    the date and time at which the movie is being screened TODO replace with datetime object
+     * @param dateTime    the date and time at which the movie is being screened
      */
-    public Screening(String screeningID, String movieID, String hallNumber, String dateTime) {
+    public Screening(String screeningID, String movieID, String hallNumber, Date dateTime) {
         this.screeningID = screeningID;
         this.movieID = movieID;
         this.hallNumber = hallNumber;
@@ -63,9 +64,9 @@ public class Screening {
      *
      * @param hallNumber the foreign key for the hall
      * @param movieID    the foreign key for the movie being played
-     * @param dateTime   the date and time at which the screening starts TODO replace with datetime object
+     * @param dateTime   the date and time at which the screening starts
      */
-    public void addScreening(String hallNumber, String movieID, String dateTime) {
+    public void addScreening(String hallNumber, String movieID, Date dateTime) {
         // TODO create SQL Query/Statement
     }
 
@@ -93,9 +94,9 @@ public class Screening {
      * Edits the start date and/or time of the screening.
      *
      * @param ScreeningID the screening which is to be edited
-     * @param newDateTime the updated date and time TODO replace with dateTime object
+     * @param newDateTime the updated date and time
      */
-    public void editDateTime(String ScreeningID, String newDateTime) {
+    public void editDateTime(String ScreeningID, Date newDateTime) {
         // TODO create SQL Query/Statement
     }
 

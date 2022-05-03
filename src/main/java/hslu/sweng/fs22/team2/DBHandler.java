@@ -20,10 +20,10 @@ public class DBHandler {
      * Default constructor for the DB handler, initialises the connection and makes it ready for queries. TODO check if static info and functions are better suited here.
      */
     public DBHandler() {
-        this.connectionUrl = "jdbc:postgresql://192.168.137.81:5432/sweng2"; //TODO replace with actual final DB url, may not be PostgreSQL
+        this.connectionUrl = "jdbc:mariadb://hashtagit.ch:3306/hashtag_SWENG";
         this.connectionProperties = new Properties();
-        connectionProperties.setProperty("user", "sweng2");
-        connectionProperties.setProperty("password", "sweng2pass");
+        connectionProperties.setProperty("user", "cinema_admin");
+        connectionProperties.setProperty("password", "SgWm21M6gp9S");
     }
 
 
@@ -32,15 +32,14 @@ public class DBHandler {
      *
      * @param queryText the text contents of the SQL query
      */
-    public void query(String queryText) {
-        try (Connection connection = DriverManager.getConnection(connectionUrl, connectionProperties); Statement statement = connection.createStatement();) {
-            //String testQueryTable = "insert into test" + "\nvalues(01, 'test01first', 'test01last');";
-            ResultSet resultSet = statement.executeQuery(queryText);
-            System.out.println(resultSet.toString());
+    public ResultSet query(String queryText) {
+        try (Connection sqlConnection = DriverManager.getConnection(connectionUrl, connectionProperties); Statement statement = sqlConnection.createStatement();) {
+            return statement.executeQuery(queryText);
         }
         // Handle any errors that may have occurred.
         catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }

@@ -72,11 +72,7 @@ public class App {
 
         }
 
-        Hall hall1 = hallList.stream().filter(Hall -> "1".equals(Hall.getHallNumber())).findAny().orElse(null);
-
-        Integer x = 8;
-        Integer y = 9;
-        System.out.println((hall1.getSeatInfo(x,y)).getSeatID());
+        movieList.get(0).;
 
     }
 }

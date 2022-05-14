@@ -132,7 +132,7 @@ public class Movie {
      */
     public void removeMovie() {
         String queryText = String.format("DELETE FROM movie WHERE movieID = '%s'", this.movieID);
-        databaseHandler.query(queryText);
+        this.databaseHandler.query(queryText);
     }
 
     public Boolean doesExist() throws SQLException {
@@ -140,7 +140,7 @@ public class Movie {
         Boolean exists = false;
 
         String queryText = String.format("select COUNT(*) from movie WHERE movieID = '%s';", this.movieID);
-        ResultSet rs = databaseHandler.query(queryText);
+        ResultSet rs = this.databaseHandler.query(queryText);
 
         while (rs.next()) {
             count = rs.getInt("COUNT(*)");

@@ -50,7 +50,33 @@ public class App {
 
         }
 
+        /**
+         * Retrieves a list of all Halls and creates the respective objects
+         */
+        rs = databaseHandler.query("SELECT * FROM hall;");
+        List<Hall> hallList = new ArrayList<Hall>(0);
+        if(rs != null) {
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            hallList = new ArrayList<Hall>(columns);
 
+            while(rs.next())
+            {
+                String hallNumber = rs.getString("hallNumber");
+                Integer hallWidth = rs.getInt("hallWidth");
+                Integer hallLength = rs.getInt("hallLength");
+
+
+                hallList.add(new Hall(hallNumber, hallWidth, hallLength, username, password.toCharArray()));
+            }
+
+        }
+
+        Hall hall1 = hallList.stream().filter(Hall -> "1".equals(Hall.getHallNumber())).findAny().orElse(null);
+
+        Integer x = 8;
+        Integer y = 9;
+        System.out.println((hall1.getSeatInfo(x,y)).getSeatID());
 
     }
 }

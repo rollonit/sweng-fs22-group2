@@ -2,6 +2,9 @@ package hslu.sweng.fs22.team2;
 
 import java.sql.*;
 import java.util.Properties;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Handles the low level aspects of the SQL database connection and allows for simpler usage.
@@ -11,6 +14,13 @@ public class DBHandler {
      * Stores the URL of the SQL server.
      */
     private final String connectionUrl;
+
+    /**
+     * Stores Username and Password
+     */
+    private String username;
+    private char[] password = {'a','n','d','r','i','n'};
+
     /**
      * Stores the connection properties, such as credentials.
      */
@@ -19,11 +29,13 @@ public class DBHandler {
     /**
      * Default constructor for the DB handler, initialises the connection and makes it ready for queries. TODO check if static info and functions are better suited here.
      */
-    public DBHandler() {
+    public DBHandler(String username, char[] password) {
+        this.username = username;
+        this.password = password;
         this.connectionUrl = "jdbc:mariadb://hashtagit.ch:3306/hashtag_SWENG";
         this.connectionProperties = new Properties();
-        connectionProperties.setProperty("user", "cinema_admin");
-        connectionProperties.setProperty("password", "SgWm21M6gp9S");
+        connectionProperties.setProperty("user", username);
+        connectionProperties.setProperty("password", String.valueOf(this.password));
     }
 
 
@@ -37,7 +49,6 @@ public class DBHandler {
         try (Connection sqlConnection = DriverManager.getConnection(connectionUrl, connectionProperties); Statement statement = sqlConnection.createStatement();) {
             return statement.executeQuery(queryText);
         }
-        // Handle any errors that may have occurred.
         catch (SQLException e) {
             e.printStackTrace();
             return null;

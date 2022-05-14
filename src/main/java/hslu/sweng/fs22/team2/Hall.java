@@ -19,6 +19,11 @@ public class Hall {
     private int hallLength;
 
     /**
+     * DBHandler for SQL Queries
+     */
+    private DBHandler databaseHandler;
+
+    /**
      * Default constructor for the Hall class.
      */
     public Hall() {
@@ -33,33 +38,53 @@ public class Hall {
      * @param hallNumber the number to assign to hall
      * @param hallWidth  the number of seats in each row of the hall
      * @param hallLength the number of rows of seats in the hall
+     * @param username   the username for the Database
+     * @param password   the password for the Database
      */
-    public Hall(String hallNumber, int hallWidth, int hallLength) {
+    public Hall(String hallNumber, int hallWidth, int hallLength,String username, char[] password) {
         this.hallNumber = hallNumber;
         this.hallWidth = hallWidth;
         this.hallLength = hallLength;
+
+        this.databaseHandler = new DBHandler(username, password);
     }
 
     /**
-     * Returns the Hall object with the given number.
-     *
-     * @param hallNumber the unique hall number
-     * @return the Hall object if found, null otherwise
+     * @Returns The Hall Number.
      */
-    public Hall getHall(String hallNumber) {
-        // TODO create SQL Query/Statement
-        return null;
+    public String getHallNumber() {
+        return this.hallNumber;
     }
 
     /**
-     * Creates a new hall in the database with the given parameters.
+     * @Returns The Hall Width.
+     */
+    public Integer getHallWidth() {
+        return this.hallWidth;
+    }
+
+    /**
+     * @Returns The Hall Length.
+     */
+    public Integer getHallLength() {
+        return this.hallLength;
+    }
+
+    /**
+     * Edits the Hall with the given parameters
+     * Changes the object itself and write those changes to the Database as well
      *
-     * @param hallNumber a unique new hall number to assign to the hall
      * @param hallWidth  the number of seats in each row of the hall
      * @param hallLength the number of rows of seats in the hall
      */
-    public void createHall(String hallNumber, String hallWidth, String hallLength) {
-        // TODO create SQL Query/Statement
+    public void editHall(Integer hallWidth, Integer hallLength) {
+        this.hallWidth = hallWidth;
+        this.hallLength = hallLength;
+
+        String queryText = String.format("UPDATE hall SET " +
+                "hallWidth = '%s', " +
+                "hallLength = '%s', " +
+                "WHERE hallNumber = '%s';", hallWidth, hallLength, this.hallNumber);
     }
 
     /**

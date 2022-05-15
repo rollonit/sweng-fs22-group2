@@ -1,5 +1,6 @@
 package hslu.sweng.fs22.team2;
 
+import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -16,67 +17,23 @@ public class App {
     public static void main(String[] args) throws SQLException {
         String username = "cinema_admin";
         String password = "SgWm21M6gp9S";
-        DBHandler databaseHandler = new DBHandler(username, password.toCharArray());
 
-        /**
-         * Retrieves a list of all movies and creates the respective objects
-         */
-        ResultSet rs = databaseHandler.query("SELECT * FROM movie;");
-        List<Movie> movieList = new ArrayList<Movie>(0);
-        if(rs != null) {
+        Management EntryHandler = new Management(username, password.toCharArray());
 
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-            movieList = new ArrayList<Movie>(columns);
-            while(rs.next())
-            {
-                String movieID = rs.getString("movieID");
-                String movieName = rs.getString("movieName");
-                Integer releaseYear = rs.getInt("releaseYear");
-                String director = rs.getString("director");
-                Double duration = rs.getDouble("duration");
-
-                int durationToInt = (int) Math.round(duration);
-                Duration durationConverted = Duration.of((long) durationToInt, ChronoUnit.MINUTES);
-
-//                System.out.println("MovieID: "+movieID);
-//                System.out.println("Movie Name: "+movieName);
-//                System.out.println("Release Year: "+releaseYear);
-//                System.out.println("Director: "+director);
-//                System.out.println("Duration: "+duration);
-
-                movieList.add(new Movie(movieID, movieName, releaseYear, director, durationConverted, username, password.toCharArray()));
-            }
-
-        }
-
-        /**
-         * Retrieves a list of all Halls and creates the respective objects
-         */
-        rs = databaseHandler.query("SELECT * FROM hall;");
-        List<Hall> hallList = new ArrayList<Hall>(0);
-        if(rs != null) {
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-            hallList = new ArrayList<Hall>(columns);
-
-            while(rs.next())
-            {
-                String hallNumber = rs.getString("hallNumber");
-                Integer hallWidth = rs.getInt("hallWidth");
-                Integer hallLength = rs.getInt("hallLength");
+        Movie movieSearch = EntryHandler.searchMovieByID("33");
+        System.out.println(movieSearch.getMovieName());
 
 
-                hallList.add(new Hall(hallNumber, hallWidth, hallLength, username, password.toCharArray()));
-            }
-
-        }
-
-        Hall hall1 = hallList.stream().filter(Hall -> "1".equals(Hall.getHallNumber())).findAny().orElse(null);
-
-        Integer x = 8;
-        Integer y = 9;
-        System.out.println((hall1.getSeatInfo(x,y)).getSeatID());
+//        Hall hall1 = hallList.stream().filter(Hall -> "1".equals(Hall.getHallNumber())).findAny().orElse(null);
+//
+//        String movieID = "";
+//        String movieName = "Warcraft";
+//        Integer releaseYear = 1998;
+//        String director = "Adolfos";
+//        Duration duration = Duration.ofMinutes(0);
+//
+//        Movie testMovie = new Movie(movieID, movieName, releaseYear, director, duration, username, password.toCharArray());
+//        System.out.println(testMovie.getMovieID());
 
     }
 }

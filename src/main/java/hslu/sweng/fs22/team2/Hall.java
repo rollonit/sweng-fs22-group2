@@ -183,7 +183,7 @@ public class Hall {
                     priceToSet = normalPrice;
                 }
 
-                queryText = String.format("INSERT INTO seat (seatID, x, y, price, hallNumber) VALUES (%s, %s, %s, %s, %s)",
+                queryText = String.format("INSERT INTO seat (seatID, x, y, price, hallNumber) VALUE (%s, %s, %s, %s, %s)",
                                                         ("'" + x.toString() + "/" + y.toString() + "'"),
                                                         x, y, priceToSet, this.hallNumber);
 

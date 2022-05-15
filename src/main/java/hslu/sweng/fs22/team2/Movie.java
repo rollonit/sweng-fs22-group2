@@ -38,7 +38,8 @@ public class Movie {
     /**
      * Default constructor for the movie class.
      */
-    public Movie() {
+    public Movie(){
+
         releaseYear = 0;
         duration = Duration.ofMinutes(0);
 
@@ -55,7 +56,7 @@ public class Movie {
      * @param username    the username for the Database
      * @param password    the password for the Database
      */
-    public Movie(String movieID, String movieName, int releaseYear, String director, Duration duration,String username, char[] password) {
+    public Movie(String movieID, String movieName, int releaseYear, String director, Duration duration,String username, char[] password) throws SQLException{
         this.movieID = movieID;
         this.movieName = movieName;
         this.releaseYear = releaseYear;
@@ -63,6 +64,36 @@ public class Movie {
         this.duration = duration;
 
         this.databaseHandler = new DBHandler(username, password);
+
+        double durationConverted = (double)duration.toMinutes();
+        String queryText = String.format("SELECT movieID FROM movie WHERE " +
+                "movieName = '%s' and " +
+                "releaseYear = '%s' and " +
+                "director = '%s' and " +
+                "duration = '%s';", this.movieName, this.releaseYear, this.director, durationConverted);
+        ResultSet rs = databaseHandler.query(queryText);
+        String movieIDFromQuery = "";
+        while (rs.next())
+        {
+            movieIDFromQuery = rs.getString("movieID");
+        }
+
+        if(movieIDFromQuery != "")
+        {
+            this.movieID = movieIDFromQuery;
+        }
+
+        if(this.movieID == ""){
+            rs = databaseHandler.query("SELECT movieID FROM movie order by movieID desc LIMIT 1;");
+            String latestName = "";
+            while (rs.next()) {
+                latestName = rs.getString("movieID");
+            }
+
+            Integer movieIDNumber = Integer.parseInt(latestName.replaceAll("[^0-9]", ""));
+            movieIDNumber++;
+            this.movieID = (movieIDNumber.toString());
+        }
     }
 
     /**
@@ -128,11 +159,34 @@ public class Movie {
     }
 
     /**
+     * Adds movie to the Database
+     */
+    public void addMovie() throws SQLException{
+        if(!(doesExist())) {
+            if(!(checkDuplicateName())) {
+                double durationConverted = (double) this.duration.toMinutes();
+                String queryText = String.format("INSERT INTO movie (movieID, movieName, releaseYear, director, duration) VALUE ('%s', '%s', %s, '%s', %s);",
+                        this.movieID, this.movieName, this.releaseYear, this.director, durationConverted);
+                ResultSet rs = this.databaseHandler.query(queryText);
+            }else {
+                System.out.println("MovieName Already in Database");
+            }
+        }else{
+            System.out.println("MovieID Already in Database");
+        }
+    }
+
+    /**
      * Removes the movie from the Database
      */
-    public void removeMovie() {
-        String queryText = String.format("DELETE FROM movie WHERE movieID = '%s'", this.movieID);
-        this.databaseHandler.query(queryText);
+    public void removeMovie() throws SQLException {
+            if(doesExist()) {
+                String queryText = String.format("DELETE FROM movie WHERE movieID = '%s'", this.movieID);
+                this.databaseHandler.query(queryText);
+            }else {
+                System.out.println("No Movie with ID: " + this.movieID + " in Database");
+            }
+
     }
 
     public Boolean doesExist() throws SQLException {
@@ -147,6 +201,30 @@ public class Movie {
         }
 
         if (count == 1) {
+            exists = true;
+        }
+        else {
+            exists = false;
+        }
+        return exists;
+    }
+
+
+    /**
+     * checks if movieName creates duplicates
+     */
+    public Boolean checkDuplicateName() throws SQLException {
+        Integer count = 0;
+        Boolean exists = false;
+
+        String queryText = String.format("select COUNT(*) from movie WHERE movieName = '%s';", this.movieName);
+        ResultSet rs = this.databaseHandler.query(queryText);
+
+        while (rs.next()) {
+            count = rs.getInt("COUNT(*)");
+        }
+
+        if (count > 0) {
             exists = true;
         }
         else {

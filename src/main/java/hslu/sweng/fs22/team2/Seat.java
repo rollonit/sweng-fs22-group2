@@ -39,10 +39,10 @@ public class Seat {
     /**
      * Parametrised constructor for the Seat class.
      *
-     * @param seatID the unique seatID / Hall
-     * @param x      the seat number in the row
-     * @param y      the row letter
-     * @param price  the price for that seat
+     * @param seatID     the unique seatID / Hall
+     * @param x          the seat number in the row
+     * @param y          the row letter
+     * @param price      the price for that seat
      * @param hallNumber unique HallNumber
      */
     public Seat(String seatID, String x, String y, double price, String hallNumber) {
@@ -56,7 +56,6 @@ public class Seat {
 
     /**
      * Sets price of the seat in the Object and the Database
-     *
      */
     public void setPrice() {
 

@@ -52,7 +52,7 @@ public class Hall {
      * @param username   the username for the Database
      * @param password   the password for the Database
      */
-    public Hall(String hallNumber, int hallWidth, int hallLength,String username, char[] password) throws SQLException {
+    public Hall(String hallNumber, int hallWidth, int hallLength, String username, char[] password) throws SQLException {
         this.hallNumber = hallNumber;
         this.hallWidth = hallWidth;
         this.hallLength = hallLength;
@@ -63,21 +63,21 @@ public class Hall {
     }
 
     /**
-     * @Returns The Hall Number.
+     * @return The Hall Number.
      */
     public String getHallNumber() {
         return this.hallNumber;
     }
 
     /**
-     * @Returns The Hall Width.
+     * @return The Hall Width.
      */
     public Integer getHallWidth() {
         return this.hallWidth;
     }
 
     /**
-     * @Returns The Hall Length.
+     * @return The Hall Length.
      */
     public Integer getHallLength() {
         return this.hallLength;
@@ -90,7 +90,7 @@ public class Hall {
      * @param hallWidth  the number of seats in each row of the hall
      * @param hallLength the number of rows of seats in the hall
      */
-    public void editHall(Integer hallWidth, Integer hallLength, double normalPrice, double lastRowPrice) throws SQLException{
+    public void editHall(Integer hallWidth, Integer hallLength, double normalPrice, double lastRowPrice) throws SQLException {
         this.hallWidth = hallWidth;
         this.hallLength = hallLength;
 
@@ -113,16 +113,16 @@ public class Hall {
         ResultSet rs = this.databaseHandler.query(queryText);
         List<Seat> seatList = new ArrayList<Seat>(0);
 
-        if(rs != null){
+        if (rs != null) {
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
             seatList = new ArrayList<Seat>(columns);
-            while(rs.next()) {
+            while (rs.next()) {
 
                 String seatID = rs.getString("seatID");
                 String x = rs.getString("x");
                 String y = rs.getString("y");
-                Double price = rs.getDouble("price");
+                double price = rs.getDouble("price");
 
                 seatList.add(new Seat(seatID, x, y, price, this.hallNumber));
             }
@@ -138,9 +138,8 @@ public class Hall {
     public Seat getSeatInfo(Integer x, Integer y) throws SQLException {
 
         String seatID = (x.toString() + "/" + y.toString());
-        Seat searchedSeat = seatList.stream().filter(Seat -> seatID.equals(Seat.getSeatID())).findAny().orElse(null);
 
-        return searchedSeat;
+        return seatList.stream().filter(Seat -> seatID.equals(Seat.getSeatID())).findAny().orElse(null);
 
     }
 
@@ -148,25 +147,21 @@ public class Hall {
      * checks amount of Seats
      */
     public Boolean checkSeats() throws SQLException {
-        if(this.seatList.size() == (this.hallWidth * this.hallLength)){
-            return true;
-        }else{
-            return false;
-        }
+        return this.seatList.size() == (this.hallWidth * this.hallLength);
     }
 
     /**
-     * Removes all Seats and creats new seats according to the Length and with of the hall
+     * Removes all Seats and creates new seats according to the Length and with of the hall
      *
      * @param lastRowPrice Prices for the last row
      * @param normalPrice  Prices for the other rows
      */
-    private void updateSeats(double normalPrice, double lastRowPrice) throws SQLException{
+    private void updateSeats(double normalPrice, double lastRowPrice) throws SQLException {
         String queryText = String.format("DELETE FROM seat WHERE hallNumber = '%s'", this.hallNumber);
         this.databaseHandler.query(queryText);
 
-        for (Integer y = 1; y < (this.hallLength + 1); y++){
-            for (Integer x = 1; x < (this.hallWidth + 1); x++) {
+        for (int y = 1; y < (this.hallLength + 1); y++) {
+            for (int x = 1; x < (this.hallWidth + 1); x++) {
 
 //                System.out.println("Column: " + y.toString() + "    Row: " + x.toString());
 //                System.out.println("seatID: " + ("'" + x.toString() + "/" + y.toString() + "'"));
@@ -176,16 +171,15 @@ public class Hall {
 //                System.out.println("hallNumber: " + this.hallNumber);
 
                 double priceToSet = 0;
-                if(y == hallLength) {
+                if (y == hallLength) {
                     priceToSet = lastRowPrice;
-                }
-                else {
+                } else {
                     priceToSet = normalPrice;
                 }
 
                 queryText = String.format("INSERT INTO seat (seatID, x, y, price, hallNumber) VALUE (%s, %s, %s, %s, %s)",
-                                                        ("'" + x.toString() + "/" + y.toString() + "'"),
-                                                        x, y, priceToSet, this.hallNumber);
+                        ("'" + Integer.toString(x) + "/" + Integer.toString(y) + "'"),
+                        x, y, priceToSet, this.hallNumber);
 
                 this.databaseHandler.query(queryText);
             }
@@ -207,9 +201,9 @@ public class Hall {
     /**
      * Checks if the hall exists in the Database
      */
-    public Boolean doesExist() throws SQLException {
-        Integer count = 0;
-        Boolean exists = false;
+    public boolean doesExist() throws SQLException {
+        int count = 0;
+        boolean exists = false;
 
         String queryText = String.format("select COUNT(*) from hall WHERE hallNumber = '%s';", this.hallNumber);
         ResultSet rs = this.databaseHandler.query(queryText);
@@ -220,9 +214,6 @@ public class Hall {
 
         if (count == 1) {
             exists = true;
-        }
-        else {
-            exists = false;
         }
         return exists;
     }

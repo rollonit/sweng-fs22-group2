@@ -14,17 +14,15 @@ public class DBHandler {
      * Stores the URL of the SQL server.
      */
     private final String connectionUrl;
-
-    /**
-     * Stores Username and Password
-     */
-    private String username;
-    private char[] password = {'a','n','d','r','i','n'};
-
     /**
      * Stores the connection properties, such as credentials.
      */
     private final Properties connectionProperties;
+    /**
+     * Stores Username and Password
+     */
+    private String username;
+    private char[] password = {'a', 'n', 'd', 'r', 'i', 'n'};
 
     /**
      * Default constructor for the DB handler, initialises the connection and makes it ready for queries. TODO check if static info and functions are better suited here.
@@ -48,8 +46,7 @@ public class DBHandler {
     public ResultSet query(String queryText) {
         try (Connection sqlConnection = DriverManager.getConnection(connectionUrl, connectionProperties); Statement statement = sqlConnection.createStatement();) {
             return statement.executeQuery(queryText);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }

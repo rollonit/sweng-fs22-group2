@@ -34,7 +34,7 @@ public class Management {
     private List<Hall> hallList;
 
     /**
-     * Default constructor for the Management class. Does not initialise anything.
+     * Default constructor for the Management class.
      */
     public Management(String username, char[] password) throws SQLException {
         screeningList = new ArrayList<Screening>();
@@ -43,9 +43,8 @@ public class Management {
         bookingList = new ArrayList<Booking>();
 
         DBHandler databaseHandler = new DBHandler(username, password);
-        /**
-         * Retrieves a list of all movies and creates the respective objects
-         */
+
+        // Retrieves a list of all movies and creates the respective objects
         ResultSet rs = databaseHandler.query("SELECT * FROM movie;");
         if(rs != null) {
 
@@ -73,9 +72,8 @@ public class Management {
             }
         }
 
-        /**
-         * Retrieves a list of all Halls and creates the respective objects
-         */
+
+        // Retrieves a list of all Halls and creates the respective objects
         rs = databaseHandler.query("SELECT * FROM hall;");
         if(rs != null) {
             ResultSetMetaData md = rs.getMetaData();

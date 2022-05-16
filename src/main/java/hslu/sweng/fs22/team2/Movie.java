@@ -242,8 +242,8 @@ public class Movie {
                 latestName = rs.getString("movieID");
             }
 
-            Integer movieIDNumber = Integer.parseInt(latestName);
+            int movieIDNumber = Integer.parseInt(latestName);
             movieIDNumber++;
-            return movieIDNumber.toString();
+            return Integer.toString(movieIDNumber);
     }
 }

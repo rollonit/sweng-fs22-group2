@@ -16,5 +16,5 @@
   <Label fx:id="welcomeText"/>
   <Button onAction="#onLoginPage" text="LoginPage"/>
   <Button onAction="#onNewMoviePage" text="NewMoviePage"/>
-  <Button onAction="#onNewScreeningPage" text="Hello!"/>
+  <Button onAction="#onNewScreeningPage" text="NewScreeningPage"/>
 </VBox>

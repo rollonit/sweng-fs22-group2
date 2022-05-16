@@ -14,7 +14,7 @@
   </Text>
 
   <Label text="Movie" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-  <ChoiceBox fx:id="MoviePicker" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
+  <ComboBox fx:id="moviePicker" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
              GridPane.rowIndex="1"/>
 
   <Label text="Date of Screening" GridPane.columnIndex="0" GridPane.rowIndex="2"/>

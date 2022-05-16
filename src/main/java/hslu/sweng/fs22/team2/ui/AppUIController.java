@@ -20,6 +20,11 @@ public class AppUIController {
     public void initialize() {
     }
 
+    /**
+     * FOR NOW spawns a login page and handles login validation. In the final program, this should probably show up first before the program boots, if the user is not already logged it
+     *
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
     @FXML
     protected void onLoginPage() throws IOException {
         Stage loginPrompt = new Stage();

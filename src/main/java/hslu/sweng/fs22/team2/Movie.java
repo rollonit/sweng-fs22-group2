@@ -243,6 +243,7 @@ public class Movie {
             }
 
             Integer movieIDNumber = Integer.parseInt(latestName);
+            movieIDNumber++;
             return movieIDNumber.toString();
     }
 }

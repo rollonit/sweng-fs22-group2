@@ -26,9 +26,8 @@ public class App {
             //System.out.println(((Movie) searchedMovie).getMovieName());
         }
 
-        Movie movie = new Movie("", "TestMovie", 2000, "TestDirector", Duration.ofMinutes(10));
+        Movie movie = entryHandler.getMovieList().get(0);
         System.out.println(movie.generateMovieID());
-        System.out.println(movie.getMovieID());
 
     }
 }

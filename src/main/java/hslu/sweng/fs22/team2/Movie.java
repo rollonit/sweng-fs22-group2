@@ -1,5 +1,7 @@
 package hslu.sweng.fs22.team2;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Duration;
 
 /**
@@ -29,11 +31,18 @@ public class Movie {
     private Duration duration;
 
     /**
+     * DBHandler for SQL Queries
+     */
+    private DBHandler databaseHandler;
+
+    /**
      * Default constructor for the movie class.
      */
     public Movie() {
+
         releaseYear = 0;
         duration = Duration.ofMinutes(0);
+
     }
 
     /**
@@ -44,75 +53,175 @@ public class Movie {
      * @param releaseYear the year the movie was released
      * @param director    the director of the movie
      * @param duration    the duration of the movie
+     * @param username    the username for the Database
+     * @param password    the password for the Database
      */
-    public Movie(String movieID, String movieName, int releaseYear, String director, Duration duration) {
+    public Movie(String movieID, String movieName, int releaseYear, String director, Duration duration, String username, char[] password) throws SQLException {
         this.movieID = movieID;
         this.movieName = movieName;
         this.releaseYear = releaseYear;
         this.director = director;
         this.duration = duration;
+
+        this.databaseHandler = new DBHandler(username, password);
+
+        double durationConverted = (double) duration.toMinutes();
+        String queryText = String.format("SELECT movieID FROM movie WHERE " +
+                "movieName = '%s' and " +
+                "releaseYear = '%s' and " +
+                "director = '%s' and " +
+                "duration = '%s';", this.movieName, this.releaseYear, this.director, durationConverted);
+        ResultSet rs = databaseHandler.query(queryText);
+        String movieIDFromQuery = "";
+        while (rs.next()) {
+            movieIDFromQuery = rs.getString("movieID");
+        }
+
+        if (!movieIDFromQuery.equals("")) {
+            this.movieID = movieIDFromQuery;
+        }
+
+        if (this.movieID.equals("")) {
+            rs = databaseHandler.query("SELECT movieID FROM movie order by movieID desc LIMIT 1;");
+            String latestName = "";
+            while (rs.next()) {
+                latestName = rs.getString("movieID");
+            }
+
+            int movieIDNumber = Integer.parseInt(latestName.replaceAll("[^0-9]", ""));
+            movieIDNumber++;
+            this.movieID = (Integer.toString(movieIDNumber));
+        }
     }
 
     /**
-     * Returns a movie given the movie ID.
-     *
-     * @param movieID the ID of the movie to return
-     * @return the requested movie object
+     * @return the MovieID
      */
-    public Movie getMovie(String movieID) {
-        // TODO create SQL Query/Statement
-        return null;
+    public String getMovieID() {
+        return this.movieID;
     }
 
     /**
-     * Edits the name of the movie at the given ID.
-     *
-     * @param movieID the ID of the movie whose name must be changed
-     * @param newName the new name to apply to the movie
+     * @return the Movie Name
      */
-    public void editName(String movieID, String newName) {
-        // TODO create SQL Query/Statement
+    public String getMovieName() {
+        return this.movieName;
     }
 
     /**
-     * Edits the release year of the movie at the given ID.
-     *
-     * @param movieID        the ID of the movie whose release year must be changed
-     * @param newReleaseYear the new release year to apply to the movie
+     * @return the Release Year
      */
-    public void editReleaseYear(String movieID, int newReleaseYear) {
-        // TODO create SQL Query/Statement
+    public int getReleaseYear() {
+        return this.releaseYear;
     }
 
     /**
-     * Edits the director of the movie at the given ID.
-     *
-     * @param movieID     the ID of the movie whose director must be changed
-     * @param newDirector the new director to apply to the movie
+     * @return the Director
      */
-    public void editDirector(String movieID, String newDirector) {
-        // TODO create SQL Query/Statement
+    public String getDirector() {
+        return this.director;
     }
 
     /**
-     * Edits the duration of the movie at the given ID.
-     *
-     * @param movieID     the ID of the movie whose duration must be changed
-     * @param newDuration the new duration to apply to the movie
+     * @return the Duration
      */
-    public void editDuration(String movieID, Duration newDuration) {
-        // TODO create SQL Query/Statement
+    public Duration getDuration() {
+        return this.duration;
     }
 
     /**
-     * Creates a new movie in the database with the given parameters.
+     * Edits the Movie with the given parameters
+     * Changes the object itself and write those changes to the Database as well
      *
-     * @param movieName   the name of the movie to be created
-     * @param releaseYear the release year of the movie
+     * @param movieName   the name of the movie
+     * @param releaseYear the year the movie was released
      * @param director    the director of the movie
      * @param duration    the duration of the movie
      */
-    public void createMovie(String movieName, int releaseYear, String director, Duration duration) {
-        // TODO create SQL Query/Statement
+    public void editMovie(String movieName, int releaseYear, String director, Duration duration) {
+        this.movieName = movieName;
+        this.releaseYear = releaseYear;
+        this.director = director;
+        this.duration = duration;
+
+        double durationConverted = (double) duration.toMinutes();
+
+        String queryText = String.format("UPDATE movie SET " +
+                "movieName = '%s', " +
+                "releaseYear = '%s', " +
+                "director = '%s', " +
+                "duration = %s " +
+                "WHERE movieID = '%s';", movieName, releaseYear, director, durationConverted, this.movieID);
+
+        databaseHandler.query(queryText);
+    }
+
+    /**
+     * Adds movie to the Database
+     */
+    public void addMovie() throws SQLException {
+        if (!(doesExist())) {
+            if (!(checkDuplicateName())) {
+                double durationConverted = (double) this.duration.toMinutes();
+                String queryText = String.format("INSERT INTO movie (movieID, movieName, releaseYear, director, duration) VALUE ('%s', '%s', %s, '%s', %s);",
+                        this.movieID, this.movieName, this.releaseYear, this.director, durationConverted);
+                ResultSet rs = this.databaseHandler.query(queryText);
+            } else {
+                System.out.println("MovieName Already in Database");
+            }
+        } else {
+            System.out.println("MovieID Already in Database");
+        }
+    }
+
+    /**
+     * Removes the movie from the Database
+     */
+    public void removeMovie() throws SQLException {
+        if (doesExist()) {
+            String queryText = String.format("DELETE FROM movie WHERE movieID = '%s'", this.movieID);
+            this.databaseHandler.query(queryText);
+        } else {
+            System.out.println("No Movie with ID: " + this.movieID + " in Database");
+        }
+
+    }
+
+    public Boolean doesExist() throws SQLException {
+        int count = 0;
+        boolean exists = false;
+
+        String queryText = String.format("select COUNT(*) from movie WHERE movieID = '%s';", this.movieID);
+        ResultSet rs = this.databaseHandler.query(queryText);
+
+        while (rs.next()) {
+            count = rs.getInt("COUNT(*)");
+        }
+
+        if (count == 1) {
+            exists = true;
+        }
+        return exists;
+    }
+
+
+    /**
+     * checks if movieName creates duplicates
+     */
+    public Boolean checkDuplicateName() throws SQLException {
+        int count = 0;
+        boolean exists = false;
+
+        String queryText = String.format("select COUNT(*) from movie WHERE movieName = '%s';", this.movieName);
+        ResultSet rs = this.databaseHandler.query(queryText);
+
+        while (rs.next()) {
+            count = rs.getInt("COUNT(*)");
+        }
+
+        if (count > 0) {
+            exists = true;
+        }
+        return exists;
     }
 }

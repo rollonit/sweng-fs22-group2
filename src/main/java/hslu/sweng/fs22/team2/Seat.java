@@ -8,18 +8,26 @@ public class Seat {
      * Stores unique seat ID for use as a primary key in the DB.
      */
     private String seatID;
+
     /**
      * Stores the seat number in its particular row.
      */
     private String x;
+
     /**
      * Stores the row letter of the seat at the theater.
      */
     private String y;
+
     /**
      * Price for the particular seat.
      */
     private double price;
+
+    /**
+     * Stores the related Hall
+     */
+    private String hallNumber;
 
     /**
      * Default constructor for the Seat class.
@@ -31,20 +39,26 @@ public class Seat {
     /**
      * Parametrised constructor for the Seat class.
      *
-     * @param x      the seat number in the row
-     * @param y      the row letter
-     * @param seatID the unique seatID
-     * @param price  the price for that seat
+     * @param seatID     the unique seatID / Hall
+     * @param x          the seat number in the row
+     * @param y          the row letter
+     * @param price      the price for that seat
+     * @param hallNumber unique HallNumber
      */
-    public Seat(String x, String y, String seatID, double price) {
+    public Seat(String seatID, String x, String y, double price, String hallNumber) {
+        this.seatID = seatID;
         this.x = x;
         this.y = y;
-        this.seatID = seatID;
         this.price = price;
+        this.hallNumber = hallNumber;
     }
 
-    public void setPrice(String seatID, double price) {
-        // TODO create SQL Query/Statement
+
+    /**
+     * Sets price of the seat in the Object and the Database
+     */
+    public void setPrice() {
+
     }
 
     /**

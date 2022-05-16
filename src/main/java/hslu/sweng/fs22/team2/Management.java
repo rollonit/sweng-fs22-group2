@@ -111,6 +111,4 @@ public class Management {
         Movie movieToReturn = movieList.stream().filter(Movie -> movieID.equals(Movie.getMovieID())).findAny().orElse(null);
         return movieToReturn;
     }
-
-
 }

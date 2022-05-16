@@ -124,6 +124,33 @@ public class Movie {
 
 
 
+
+    /**
+     * Adds movie to the Database
+     */
+    public int addMovie() throws SQLException{
+        int returnCode = 0;
+
+        if(!(doesExist())) {
+            if(!(checkDuplicateName())) {
+                double durationConverted = (double) this.duration.toMinutes();
+                String queryText = String.format("INSERT INTO movie (movieID, movieName, releaseYear, director, duration) VALUE ('%s', '%s', %s, '%s', %s);",
+                        this.movieID, this.movieName, this.releaseYear, this.director, durationConverted);
+                ResultSet rs = this.databaseHandler.query(queryText);
+
+                returnCode = 1;
+            }else {
+                System.out.println("MovieName Already in Database");
+                returnCode = -1;
+            }
+        }else{
+            System.out.println("MovieID Already in Database");
+            returnCode = -2;
+        }
+
+        return returnCode;
+    }
+
     /**
      * Edits the Movie with the given parameters
      * Changes the object itself and write those changes to the Database as well
@@ -149,24 +176,6 @@ public class Movie {
                 "WHERE movieID = '%s';", movieName, releaseYear, director, durationConverted, this.movieID);
 
         databaseHandler.query(queryText);
-    }
-
-    /**
-     * Adds movie to the Database
-     */
-    public void addMovie() throws SQLException{
-        if(!(doesExist())) {
-            if(!(checkDuplicateName())) {
-                double durationConverted = (double) this.duration.toMinutes();
-                String queryText = String.format("INSERT INTO movie (movieID, movieName, releaseYear, director, duration) VALUE ('%s', '%s', %s, '%s', %s);",
-                        this.movieID, this.movieName, this.releaseYear, this.director, durationConverted);
-                ResultSet rs = this.databaseHandler.query(queryText);
-            }else {
-                System.out.println("MovieName Already in Database");
-            }
-        }else{
-            System.out.println("MovieID Already in Database");
-        }
     }
 
     /**

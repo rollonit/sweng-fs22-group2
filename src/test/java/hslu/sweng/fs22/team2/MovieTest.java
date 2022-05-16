@@ -15,6 +15,7 @@ class MovieTest {
     private String director;
     private Duration duration;
     private Movie movie;
+    private DBHandler databaseHandler;
 
     @BeforeEach
     void setUp() throws SQLException {
@@ -24,6 +25,8 @@ class MovieTest {
         this.duration = Duration.ofMinutes(10);
 
         this.movie = new Movie("", this.movieName, this.releaseYear, this.director, this.duration);
+
+        databaseHandler = new DBHandler();
     }
 
     @Test
@@ -65,11 +68,13 @@ class MovieTest {
     }
 
     @Test
-    void editMovie() {
+    void addMovie() {
+
+
     }
 
     @Test
-    void addMovie() {
+    void editMovie() {
     }
 
     @Test

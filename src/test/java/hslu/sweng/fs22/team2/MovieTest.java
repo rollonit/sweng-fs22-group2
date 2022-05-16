@@ -68,9 +68,10 @@ class MovieTest {
     }
 
     @Test
-    void addMovie() {
+    void addMovie() throws SQLException {
+        int result = this.movie.addMovie();
 
-
+        assertEquals(1, result);
     }
 
     @Test
@@ -82,7 +83,10 @@ class MovieTest {
     }
 
     @Test
-    void doesExist() {
+    void doesExist() throws SQLException {
+        Boolean result  = this.movie.doesExist();
+
+        assertEquals(false, result);
     }
 
     @Test

@@ -7,13 +7,14 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<VBox alignment="CENTER" minHeight="600.0" minWidth="800.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="hslu.sweng.fs22.team2.ui.AppUIController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" minHeight="600.0" minWidth="800.0" spacing="20.0"
+      xmlns="http://javafx.com/javafx/16" fx:controller="hslu.sweng.fs22.team2.ui.AppUIController">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+  </padding>
 
-    <Label fx:id="welcomeText" />
-    <Button onAction="#onLoginPage" text="LoginPage" />
-    <Button onAction="#onNewMoviePage" text="NewMoviePage" />
-    <Button onAction="#onNewShowingPage" text="Hello!" />
+  <Label fx:id="welcomeText"/>
+  <Button onAction="#onLoginPage" text="LoginPage"/>
+  <Button onAction="#onNewMoviePage" text="NewMoviePage"/>
+  <Button onAction="#onNewScreeningPage" text="Hello!"/>
 </VBox>

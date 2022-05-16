@@ -30,9 +30,8 @@ public class NewMovieController {
         validationSupport.registerValidator(movieNameField, Validator.createEmptyValidator("Movie must have a name!"));
         validationSupport.registerValidator(yearField, Validator.createRegexValidator("Invalid year!", Pattern.compile("(?:(?:18|19|20|21)[0-9]{2})"), Severity.ERROR));
         validationSupport.registerValidator(directorField, Validator.createEmptyValidator("Must not me empty!"));
-        validationSupport.registerValidator(durationField, Validator.createRegexValidator("Invalid year!", Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"), Severity.ERROR));
+        validationSupport.registerValidator(durationField, Validator.createRegexValidator("Invalid duration!", Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"), Severity.ERROR));
         addMovieButton.disableProperty().bind(validationSupport.invalidProperty());
-
     }
 
     /**

@@ -36,13 +36,13 @@ public class Management {
     /**
      * Default constructor for the Management class.
      */
-    public Management(String username, char[] password) throws SQLException {
+    public Management() throws SQLException {
         screeningList = new ArrayList<Screening>();
         movieList = new ArrayList<Movie>();
         hallList  = new ArrayList<Hall>();
         bookingList = new ArrayList<Booking>();
 
-        DBHandler databaseHandler = new DBHandler(username, password);
+        DBHandler databaseHandler = new DBHandler();
 
         // Retrieves a list of all movies and creates the respective objects
         ResultSet rs = databaseHandler.query("SELECT * FROM movie;");
@@ -68,12 +68,14 @@ public class Management {
 //                System.out.println("Director: "+director);
 //                System.out.println("Duration: "+duration);
 
-                movieList.add(new Movie(movieID, movieName, releaseYear, director, durationConverted, username, password));
+                movieList.add(new Movie(movieID, movieName, releaseYear, director, durationConverted));
             }
         }
 
 
         // Retrieves a list of all Halls and creates the respective objects
+        double normalPrice = 10.00;
+        double lastRowPrice = 15.00;
         rs = databaseHandler.query("SELECT * FROM hall;");
         if(rs != null) {
             ResultSetMetaData md = rs.getMetaData();
@@ -87,14 +89,28 @@ public class Management {
                 int hallLength = rs.getInt("hallLength");
 
 
-                hallList.add(new Hall(hallNumber, hallWidth, hallLength, username, password));
+                hallList.add(new Hall(hallNumber, hallWidth, hallLength, normalPrice, lastRowPrice));
             }
 
         }
     }
 
-    public Movie searchMovieByID(String movieID){
+
+    /**
+     * Returns movieList
+     */
+    public List<Movie> getMovieList() {
+        return this.movieList;
+    }
+
+    /**
+     * Searches in Movielist for movie with ID
+     * @param movieID ID of the movie to search for
+     */
+    public Object searchMovieByID(String movieID){
         Movie movieToReturn = movieList.stream().filter(Movie -> movieID.equals(Movie.getMovieID())).findAny().orElse(null);
         return movieToReturn;
     }
+
+
 }

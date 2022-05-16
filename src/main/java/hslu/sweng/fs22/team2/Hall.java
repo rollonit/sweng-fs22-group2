@@ -25,6 +25,16 @@ public class Hall {
     private int hallLength;
 
     /**
+     * The number of rows in the theater.
+     */
+    private double normalPrice;
+
+    /**
+     * The number of rows in the theater.
+     */
+    private double lastRowPrice;
+
+    /**
      * DBHandler for SQL Queries
      */
     private DBHandler databaseHandler;
@@ -49,15 +59,16 @@ public class Hall {
      * @param hallNumber the number to assign to hall
      * @param hallWidth  the number of seats in each row of the hall
      * @param hallLength the number of rows of seats in the hall
-     * @param username   the username for the Database
-     * @param password   the password for the Database
      */
-    public Hall(String hallNumber, int hallWidth, int hallLength, String username, char[] password) throws SQLException {
+    public Hall(String hallNumber, int hallWidth, int hallLength, double normalPrice, double lastRowPrice) throws SQLException {
         this.hallNumber = hallNumber;
         this.hallWidth = hallWidth;
         this.hallLength = hallLength;
 
-        this.databaseHandler = new DBHandler(username, password);
+        this.normalPrice = normalPrice;
+        this.lastRowPrice = lastRowPrice;
+
+        this.databaseHandler = new DBHandler();
 
         this.seatList = getSeats();
     }
@@ -83,6 +94,8 @@ public class Hall {
         return this.hallLength;
     }
 
+
+
     /**
      * Edits the Hall with the given parameters
      * Changes the object itself and write those changes to the Database as well
@@ -104,6 +117,35 @@ public class Hall {
         this.seatList.clear();
         this.seatList = getSeats();
     }
+
+    /**
+     * Adds hall to the Database
+     */
+    public void addHall() throws SQLException{
+        if(!(doesExist())) {
+            String queryText = String.format("INSERT INTO hall (hallNumber, hallWidth, hallLength) " +
+                            "VALUE ('%s', '%s', '%s');",
+                            this.hallNumber, this.hallWidth, this.hallLength);
+                ResultSet rs = this.databaseHandler.query(queryText);
+
+                updateSeats(this.normalPrice, this.lastRowPrice);
+        }else{
+            System.out.println("HallNumber Already in Database");
+        }
+    }
+
+    /**
+     * Removes the hall from the Database
+     * Removes all related seats from the Database
+     */
+    public void removeHall() {
+        String queryText = String.format("DELETE FROM hall WHERE hallNumber = '%s'", this.hallNumber);
+        this.databaseHandler.query(queryText);
+
+        removeSeats();
+    }
+
+
 
     /**
      * Gets all Seats for the Hall
@@ -187,16 +229,17 @@ public class Hall {
     }
 
     /**
-     * Removes the hall from the Database
-     * Removes all related seats from the Database
+     * Removes all Seats for a Hall in the database
+     * Clears seatList
      */
-    public void removeHall() {
-        String queryText = String.format("DELETE FROM hall WHERE hallNumber = '%s'", this.hallNumber);
+    private void removeSeats(){
+        String queryText = String.format("DELETE FROM seat WHERE hallNumber = '%s'", this.hallNumber);
         this.databaseHandler.query(queryText);
 
-        queryText = String.format("DELETE FROM seat WHERE hallNumber = '%s'", this.hallNumber);
-        this.databaseHandler.query(queryText);
+        this.seatList.clear();
     }
+
+
 
     /**
      * Checks if the hall exists in the Database
@@ -217,5 +260,4 @@ public class Hall {
         }
         return exists;
     }
-
 }

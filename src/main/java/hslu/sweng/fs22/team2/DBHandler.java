@@ -22,14 +22,14 @@ public class DBHandler {
      * Stores Username and Password
      */
     private String username;
-    private char[] password = {'a', 'n', 'd', 'r', 'i', 'n'};
+    private char[] password;
 
     /**
      * Default constructor for the DB handler, initialises the connection and makes it ready for queries. TODO check if static info and functions are better suited here.
      */
-    public DBHandler(String username, char[] password) {
-        this.username = username;
-        this.password = password;
+    public DBHandler() {
+        this.username = "cinema_admin";
+        this.password = "SgWm21M6gp9S".toCharArray();
         this.connectionUrl = "jdbc:mariadb://hashtagit.ch:3306/hashtag_SWENG";
         this.connectionProperties = new Properties();
         connectionProperties.setProperty("user", username);

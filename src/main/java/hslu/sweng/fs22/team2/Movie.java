@@ -76,12 +76,12 @@ public class Movie {
             movieIDFromQuery = rs.getString("movieID");
         }
 
-        if(movieIDFromQuery != "")
+        if(!movieIDFromQuery.isEmpty())
         {
             this.movieID = movieIDFromQuery;
         }
 
-        if(this.movieID == ""){
+        if(this.movieID.isEmpty()){
 
             this.movieID = (generateMovieID());
         }

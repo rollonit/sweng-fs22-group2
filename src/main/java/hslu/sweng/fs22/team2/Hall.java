@@ -142,11 +142,13 @@ public class Hall {
      * Removes the hall from the Database
      * Removes all related seats from the Database
      */
-    public void removeHall() {
-        String queryText = String.format("DELETE FROM hall WHERE hallNumber = '%s'", this.hallNumber);
-        this.databaseHandler.query(queryText);
+    public void removeHall() throws SQLException{
+        if(doesExist()) {
+            String queryText = String.format("DELETE FROM hall WHERE hallNumber = '%s'", this.hallNumber);
+            this.databaseHandler.query(queryText);
 
-        removeSeats();
+            removeSeats();
+        }
     }
 
 

@@ -3,6 +3,7 @@ package hslu.sweng.fs22.team2;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 
 public class App {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ParseException {
         String username = "cinema_admin";
         String password = "SgWm21M6gp9S";
 

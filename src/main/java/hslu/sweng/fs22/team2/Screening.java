@@ -87,7 +87,6 @@ public class Screening {
 
     /**
      * Saves the screening object to the Database
-     *
      */
     public int saveScreening() throws SQLException{
         int returnCode = 0;
@@ -106,10 +105,35 @@ public class Screening {
         return returnCode;
     }
 
+    /**
+     * Edits the screening with the given parameters
+     * Changes the object itself and write those changes to the Database as well
+     *
+     * @param dateTime the date of the screening
+     * @param hallNumber the number of the hall for the screening
+     * @param movieID the id of the movie
+     */
+    public void editHall(Date dateTime, String hallNumber, String movieID) throws SQLException {
+        this.dateTime = dateTime;
+        this.hallNumber = hallNumber;
+        this.movieID = movieID;
 
-    public Screening removeScreening(String screeningID) {
-        // TODO create SQL Query/Statement
-        return null;
+        if(doesExist()) {
+            String queryText = String.format("UPDATE screening SET " +
+                    "dateTime = '%s' " +
+                    "hallNumber = '%s' " +
+                    "movieID = '%s' " +
+                    "WHERE hallNumber = '%s';", dateTime.toString(), hallNumber, movieID, this.screeningID);
+            this.databaseHandler.query(queryText);
+        }
+    }
+
+    /**
+     * Removes the screening from the Database
+     */
+    public void removeScreening() throws SQLException{
+        String queryText = String.format("DELETE FROM screening WHERE screeningID = '%s'", this.screeningID);
+        this.databaseHandler.query(queryText);
     }
 
 

@@ -3,9 +3,12 @@ package hslu.sweng.fs22.team2;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,15 +37,26 @@ public class Management {
     private List<Hall> hallList;
 
     /**
+     * DBHandler for SQL Queries
+     */
+    private DBHandler databaseHandler;
+
+    /**
+     * Stores all the Halls at the theater.
+     */
+    private Helper helper;
+
+    /**
      * Default constructor for the Management class.
      */
-    public Management() throws SQLException {
+    public Management() throws SQLException, ParseException {
         screeningList = new ArrayList<Screening>();
         movieList = new ArrayList<Movie>();
         hallList  = new ArrayList<Hall>();
         bookingList = new ArrayList<Booking>();
 
         DBHandler databaseHandler = new DBHandler();
+        helper = new Helper();
 
         // Retrieves a list of all movies and creates the respective objects
         ResultSet rs = databaseHandler.query("SELECT * FROM movie;");
@@ -90,6 +104,27 @@ public class Management {
 
 
                 hallList.add(new Hall(hallNumber, hallWidth, hallLength, normalPrice, lastRowPrice));
+            }
+
+        }
+
+        // Retrieves a list of all Screenings and creates the respective objects
+        rs = databaseHandler.query("SELECT * FROM screening;");
+        if(rs != null) {
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            this.hallList = new ArrayList<Hall>(columns);
+
+            while(rs.next())
+            {
+                String screeningID = rs.getString("screeningID");
+                String movieID = rs.getString("movieID");
+                String hallNumber = rs.getString("hallNumber");
+                String dateTime = rs.getString("dateTime");
+
+                Date dateToAdd = helper.convertTextToDate(dateTime);
+
+                screeningList.add(new Screening(screeningID, movieID, hallNumber, dateToAdd));
             }
 
         }

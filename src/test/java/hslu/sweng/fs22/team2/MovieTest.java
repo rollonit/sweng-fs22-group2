@@ -21,7 +21,7 @@ class MovieTest {
     void setUp() throws SQLException {
         this.movieName = "TestMovie";
         this.releaseYear = 2000;
-        this.director = "TestDirector";
+        this.director = "";
         this.duration = Duration.ofMinutes(10);
 
         this.movie = new Movie("", this.movieName, this.releaseYear, this.director, this.duration);
@@ -69,7 +69,7 @@ class MovieTest {
 
     @Test
     void addMovie() throws SQLException {
-        int result = this.movie.addMovie();
+        int result = this.movie.saveMovie();
 
         assertEquals(1, result);
     }
@@ -79,7 +79,12 @@ class MovieTest {
     }
 
     @Test
-    void removeMovie() {
+    void removeMovie() throws SQLException {
+        int resultFromAdd = this.movie.saveMovie();
+        if(resultFromAdd == 1) {
+            removeMovie();
+            assertEquals(false, this.movie.doesExist());
+        }
     }
 
     @Test

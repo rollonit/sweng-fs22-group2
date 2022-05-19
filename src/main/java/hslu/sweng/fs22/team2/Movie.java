@@ -122,15 +122,15 @@ public class Movie {
 
 
     /**
-     * Adds movie to the Database
+     * Saves the movie object to the Database
      */
-    public int addMovie() throws SQLException {
+    public int saveMovie() throws SQLException {
         int returnCode = 0;
 
         if (!(doesExist())) {
             if (!(checkDuplicateName())) {
                 double durationConverted = (double) this.duration.toMinutes();
-                String queryText = String.format("INSERT INTO movie (movieID, movieName, releaseYear, director, duration) VALUE ('%s', '%s', %s, '%s', %s);",
+                String queryText = String.format("INSERT INTO movie (movieID, movieName, releaseYear, director, duration) VALUE ('%s', '%s', '%s', '%s', '%s');",
                         this.movieID, this.movieName, this.releaseYear, this.director, durationConverted);
                 ResultSet rs = this.databaseHandler.query(queryText);
 
@@ -156,7 +156,7 @@ public class Movie {
      * @param director    the director of the movie
      * @param duration    the duration of the movie
      */
-    public void editMovie(String movieName, int releaseYear, String director, Duration duration) {
+    public void editMovie(String movieName, int releaseYear, String director, Duration duration) throws SQLException{
         this.movieName = movieName;
         this.releaseYear = releaseYear;
         this.director = director;
@@ -164,14 +164,16 @@ public class Movie {
 
         double durationConverted = (double) duration.toMinutes();
 
-        String queryText = String.format("UPDATE movie SET " +
-                "movieName = '%s', " +
-                "releaseYear = '%s', " +
-                "director = '%s', " +
-                "duration = %s " +
-                "WHERE movieID = '%s';", movieName, releaseYear, director, durationConverted, this.movieID);
+        if(doesExist()) {
+            String queryText = String.format("UPDATE movie SET " +
+                    "movieName = '%s', " +
+                    "releaseYear = '%s', " +
+                    "director = '%s', " +
+                    "duration = %s " +
+                    "WHERE movieID = '%s';", movieName, releaseYear, director, durationConverted, this.movieID);
 
-        databaseHandler.query(queryText);
+            databaseHandler.query(queryText);
+        }
     }
 
     /**

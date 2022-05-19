@@ -1,5 +1,7 @@
 package hslu.sweng.fs22.team2;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -27,6 +29,11 @@ public class Screening {
     private Date dateTime;
 
     /**
+     * DBHandler for SQL Queries
+     */
+    private DBHandler databaseHandler;
+
+    /**
      * Default constructor for the Screening class.
      */
     public Screening() {
@@ -49,65 +56,80 @@ public class Screening {
     }
 
     /**
-     * Returns the screening with the given screening ID
-     *
-     * @param screeningID the ID for the screening to return
-     * @return the screening with that ID, null if non-existent
+     * @return The ScreeningID
      */
-    public Screening getScreening(String screeningID) {
-        // TODO create SQL Query/Statement
-        return null;
+    public String getScreeningID() {
+        return this.screeningID;
     }
 
     /**
-     * Creates a new screening in the database with the given parameters
-     *
-     * @param hallNumber the foreign key for the hall
-     * @param movieID    the foreign key for the movie being played
-     * @param dateTime   the date and time at which the screening starts
+     * @return The MovieID
      */
-    public void addScreening(String hallNumber, String movieID, Date dateTime) {
-        // TODO create SQL Query/Statement
+    public String getmovieID() {
+        return this.movieID;
     }
 
     /**
-     * Edits the hall in which the given screening is being played.
-     *
-     * @param ScreeningID   the screening which is to be edited
-     * @param newHallNumber the foreign key for the updated hall
+     * @return hallNumber
      */
-    public void editHall(String ScreeningID, String newHallNumber) {
-        // TODO create SQL Query/Statement
+    public String gethallNumber() {
+        return this.hallNumber;
     }
 
     /**
-     * Edits the movie which is being screened at a certain screening.
-     *
-     * @param ScreeningID the screening which is to be edited
-     * @param newMovieID  the foreign key for the updated movie
+     * @return hallNumber
      */
-    public void editMovie(String ScreeningID, String newMovieID) {
-        // TODO create SQL Query/Statement
+    public Date getdateTime() {
+        return this.dateTime;
     }
 
-    /**
-     * Edits the start date and/or time of the screening.
-     *
-     * @param ScreeningID the screening which is to be edited
-     * @param newDateTime the updated date and time
-     */
-    public void editDateTime(String ScreeningID, Date newDateTime) {
-        // TODO create SQL Query/Statement
-    }
+
 
     /**
-     * Removes the screening with the given ID from the database and returns it.
+     * Saves the screening object to the Database
      *
-     * @param screeningID the ID of the screening to be removed
-     * @return the screening object if successfully removed, null if that screening doesn't exist
      */
+    public int saveScreening() throws SQLException{
+        int returnCode = 0;
+
+        if(!(doesExist())) {
+            String queryText = String.format("insert into screening " +
+                            "(screeningID, dateTime, hallNumber, movieID) values " +
+                            "('%s', '%s', '%s', '%s');",
+                    this.screeningID, this.dateTime,toString(), this.hallNumber, this.movieID);
+            ResultSet rs = this.databaseHandler.query(queryText);
+            returnCode = 1;
+        }else{
+            System.out.println("HallNumber Already in Database");
+            returnCode = -2;
+        }
+        return returnCode;
+    }
+
+
     public Screening removeScreening(String screeningID) {
         // TODO create SQL Query/Statement
         return null;
+    }
+
+
+    /**
+     * Checks if the Screening exists in the Database
+     */
+    public boolean doesExist() throws SQLException {
+        int count = 0;
+        boolean exists = false;
+
+        String queryText = String.format("select COUNT(*) from screening WHERE screeningID = '%s';", this.hallNumber);
+        ResultSet rs = this.databaseHandler.query(queryText);
+
+        while (rs.next()) {
+            count = rs.getInt("COUNT(*)");
+        }
+
+        if (count == 1) {
+            exists = true;
+        }
+        return exists;
     }
 }

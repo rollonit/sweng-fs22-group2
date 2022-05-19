@@ -97,40 +97,44 @@ public class Hall {
 
 
     /**
+     * Saves the hall object to the Database
+     */
+    public void saveHall() throws SQLException{
+        if(!(doesExist())) {
+            String queryText = String.format("INSERT INTO hall (hallNumber, hallWidth, hallLength) " +
+                            "VALUE ('%s', '%s', '%s');",
+                    this.hallNumber, this.hallWidth, this.hallLength);
+            ResultSet rs = this.databaseHandler.query(queryText);
+
+            updateSeats(this.normalPrice, this.lastRowPrice);
+        }else{
+            System.out.println("HallNumber Already in Database");
+        }
+    }
+
+    /**
      * Edits the Hall with the given parameters
      * Changes the object itself and write those changes to the Database as well
      *
      * @param hallWidth  the number of seats in each row of the hall
      * @param hallLength the number of rows of seats in the hall
+     * @param normalPrice the price for normal seats
+     * @param lastRowPrice the price for seats in the last row
      */
     public void editHall(Integer hallWidth, Integer hallLength, double normalPrice, double lastRowPrice) throws SQLException {
         this.hallWidth = hallWidth;
         this.hallLength = hallLength;
 
-        String queryText = String.format("UPDATE hall SET " +
-                "hallWidth = '%s', " +
-                "hallLength = '%s' " +
-                "WHERE hallNumber = '%s';", hallWidth, hallLength, this.hallNumber);
-        this.databaseHandler.query(queryText);
+        if(doesExist()) {
+            String queryText = String.format("UPDATE hall SET " +
+                    "hallWidth = '%s', " +
+                    "hallLength = '%s' " +
+                    "WHERE hallNumber = '%s';", hallWidth, hallLength, this.hallNumber);
+            this.databaseHandler.query(queryText);
 
-        updateSeats(normalPrice, lastRowPrice);
-        this.seatList.clear();
-        this.seatList = getSeats();
-    }
-
-    /**
-     * Adds hall to the Database
-     */
-    public void addHall() throws SQLException{
-        if(!(doesExist())) {
-            String queryText = String.format("INSERT INTO hall (hallNumber, hallWidth, hallLength) " +
-                            "VALUE ('%s', '%s', '%s');",
-                            this.hallNumber, this.hallWidth, this.hallLength);
-                ResultSet rs = this.databaseHandler.query(queryText);
-
-                updateSeats(this.normalPrice, this.lastRowPrice);
-        }else{
-            System.out.println("HallNumber Already in Database");
+            updateSeats(normalPrice, lastRowPrice);
+            this.seatList.clear();
+            this.seatList = getSeats();
         }
     }
 

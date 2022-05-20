@@ -26,7 +26,7 @@ public class Screening {
     /**
      * The date and time at which the screening begins. The end time is determined by the duration of the movie.
      */
-    private Date dateTime;
+    private long screeningTime;
 
     /**
      * DBHandler for SQL Queries
@@ -36,9 +36,7 @@ public class Screening {
     /**
      * Default constructor for the Screening class.
      */
-    public Screening() {
-        dateTime = new Date();
-    }
+    public Screening() {}
 
     /**
      * Parametrised constructor for the Screening class.
@@ -46,13 +44,15 @@ public class Screening {
      * @param screeningID the private key screening ID
      * @param movieID     the foreign key of the movie
      * @param hallNumber  the foreign key for the hall
-     * @param dateTime    the date and time at which the movie is being screened
+     * @param screeningTime    the date and time at which the movie is being screened
      */
-    public Screening(String screeningID, String movieID, String hallNumber, Date dateTime) {
+    public Screening(String screeningID, String movieID, String hallNumber, long screeningTime) {
         this.screeningID = screeningID;
         this.movieID = movieID;
         this.hallNumber = hallNumber;
-        this.dateTime = dateTime;
+        this.screeningTime = screeningTime;
+
+        this.databaseHandler = new DBHandler();
     }
 
     /**
@@ -79,8 +79,8 @@ public class Screening {
     /**
      * @return hallNumber
      */
-    public Date getdateTime() {
-        return this.dateTime;
+    public long getdateTime() {
+        return this.screeningTime;
     }
 
 
@@ -93,9 +93,9 @@ public class Screening {
 
         if(!(doesExist())) {
             String queryText = String.format("insert into screening " +
-                            "(screeningID, dateTime, hallNumber, movieID) values " +
+                            "(screeningID, screeningTime, hallNumber, movieID) values " +
                             "('%s', '%s', '%s', '%s');",
-                    this.screeningID, this.dateTime,toString(), this.hallNumber, this.movieID);
+                    this.screeningID, this.screeningTime,toString(), this.hallNumber, this.movieID);
             ResultSet rs = this.databaseHandler.query(queryText);
             returnCode = 1;
         }else{
@@ -109,21 +109,21 @@ public class Screening {
      * Edits the screening with the given parameters
      * Changes the object itself and write those changes to the Database as well
      *
-     * @param dateTime the date of the screening
+     * @param screeningTime the date of the screening
      * @param hallNumber the number of the hall for the screening
      * @param movieID the id of the movie
      */
-    public void editHall(Date dateTime, String hallNumber, String movieID) throws SQLException {
-        this.dateTime = dateTime;
+    public void editScreening(long screeningTime, String hallNumber, String movieID) throws SQLException {
+        this.screeningTime = screeningTime;
         this.hallNumber = hallNumber;
         this.movieID = movieID;
 
         if(doesExist()) {
             String queryText = String.format("UPDATE screening SET " +
-                    "dateTime = '%s' " +
-                    "hallNumber = '%s' " +
+                    "screeningTime = '%s', " +
+                    "hallNumber = '%s', " +
                     "movieID = '%s' " +
-                    "WHERE hallNumber = '%s';", dateTime.toString(), hallNumber, movieID, this.screeningID);
+                    "WHERE screeningID = '%s';", screeningTime, hallNumber, movieID, this.screeningID);
             this.databaseHandler.query(queryText);
         }
     }
@@ -132,8 +132,10 @@ public class Screening {
      * Removes the screening from the Database
      */
     public void removeScreening() throws SQLException{
-        String queryText = String.format("DELETE FROM screening WHERE screeningID = '%s'", this.screeningID);
-        this.databaseHandler.query(queryText);
+        if (doesExist()) {
+            String queryText = String.format("DELETE FROM screening WHERE screeningID = '%s'", this.screeningID);
+            this.databaseHandler.query(queryText);
+        }
     }
 
 

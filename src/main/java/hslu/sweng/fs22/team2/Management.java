@@ -82,7 +82,7 @@ public class Management {
 //                System.out.println("Director: "+director);
 //                System.out.println("Duration: "+duration);
 
-                movieList.add(new Movie(movieID, movieName, releaseYear, director, durationConverted));
+                this.movieList.add(new Movie(movieID, movieName, releaseYear, director, durationConverted));
             }
         }
 
@@ -103,7 +103,8 @@ public class Management {
                 int hallLength = rs.getInt("hallLength");
 
 
-                hallList.add(new Hall(hallNumber, hallWidth, hallLength, normalPrice, lastRowPrice));
+                this.hallList.add(new Hall(hallNumber, hallWidth, hallLength, normalPrice, lastRowPrice));
+
             }
 
         }
@@ -113,18 +114,16 @@ public class Management {
         if(rs != null) {
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
-            this.hallList = new ArrayList<Hall>(columns);
+            this.screeningList = new ArrayList<Screening>(columns);
 
             while(rs.next())
             {
                 String screeningID = rs.getString("screeningID");
                 String movieID = rs.getString("movieID");
                 String hallNumber = rs.getString("hallNumber");
-                String dateTime = rs.getString("dateTime");
+                long screeningTime = rs.getLong("screeningTime");
 
-                Date dateToAdd = helper.convertTextToDate(dateTime);
-
-                screeningList.add(new Screening(screeningID, movieID, hallNumber, dateToAdd));
+                this.screeningList.add(new Screening(screeningID, movieID, hallNumber, screeningTime));
             }
 
         }
@@ -145,5 +144,38 @@ public class Management {
     public Object searchMovieByID(String movieID){
         Movie movieToReturn = movieList.stream().filter(Movie -> movieID.equals(Movie.getMovieID())).findAny().orElse(null);
         return movieToReturn;
+    }
+
+
+    /**
+     * Returns hallList
+     */
+    public List<Hall> getHallList(){
+        return this.hallList;
+    }
+
+    /**
+     * Searches in hallList for hall with ID
+     * @param hallNumber ID of the hall to search for
+     */
+    public Object searchHallByID(String hallNumber){
+        Hall hallToReturn = hallList.stream().filter(Hall -> hallNumber.equals(Hall.getHallNumber())).findAny().orElse(null);
+        return hallToReturn;
+    }
+
+    /**
+     * Returns screeningList
+     */
+    public List<Screening> getScreeningList(){
+        return this.screeningList;
+    }
+
+    /**
+     * Searches in screeningList for hall with ID
+     * @param screeningID ID of the screening to search for
+     */
+    public Object searchScreeningByID(String screeningID){
+        Screening screeningToReturn = screeningList.stream().filter(Screening -> screeningID.equals(Screening.getScreeningID())).findAny().orElse(null);
+        return screeningToReturn;
     }
 }

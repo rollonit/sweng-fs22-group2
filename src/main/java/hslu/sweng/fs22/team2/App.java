@@ -5,10 +5,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Hello world!
@@ -27,8 +26,16 @@ public class App {
             //System.out.println(((Movie) searchedMovie).getMovieName());
         }
 
-        Movie movie = entryHandler.getMovieList().get(0);
-        System.out.println(movie.generateMovieID());
+        Object searchedHall = entryHandler.searchHallByID("1");
+        if(searchedHall != null) {
+            //System.out.println(((Hall) searchedHall).getHallNumber());
+        }
+
+        Object searchedScreening = entryHandler.searchScreeningByID("1");
+        if(searchedScreening != null) {
+            //System.out.println(((Screening) searchedScreening).getdateTime());
+        }
+
 
     }
 }

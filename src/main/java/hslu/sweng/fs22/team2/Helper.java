@@ -2,13 +2,15 @@ package hslu.sweng.fs22.team2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Helper {
     public Date convertTextToDate(String date) throws ParseException {
 
         try {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm dd.MM.yyyy");
             Date dateToAdd = dateFormatter.parse(date);
             return dateToAdd;
         }
@@ -16,5 +18,31 @@ public class Helper {
             Date dateToAdd = new Date(1990, 01, 01);
             return dateToAdd;
         }
+    }
+
+    public long convertDateToTicks(Date date){
+        try {
+            long ticksAtEpoch = 621355968000000000L;
+            long ticksPerMillisecond = 10000;
+
+            TimeZone timeZone = TimeZone.getDefault();
+            long offSet = timeZone.getOffset(date.getTime());
+
+            long givenTimeMillis = (date.getTime() + offSet) * ticksPerMillisecond;
+
+            return (givenTimeMillis + ticksAtEpoch);
+
+        }catch (Exception e){
+
+            return (long) 0;
+
+        }
+    }
+
+    public Date convertTicksToDate(long ticks){
+        long ticksAtEpoch = 621355968000000000L;
+        long ticksPerMillisecond = 10000;
+
+        return new Date((ticks -ticksAtEpoch) / ticksPerMillisecond);
     }
 }

@@ -56,13 +56,19 @@ public class Booking {
      * @param bookingTime time at which the booking is made
      * @param bookingCode A randomly generated booking code for the purpose of authentication, use getRandString
      */
-    public Booking(String bookingID, String screeningID, String bookedSeats, long bookingTime, String bookingCode) {
+    public Booking(String bookingID, String screeningID, String bookedSeats, long bookingTime, String bookingCode) throws SQLException {
         this.bookingID = bookingID;
         this.screeningID = screeningID;
         this.bookedSeats = bookedSeats;
         this.bookingTime = bookingTime;
         this.bookingCode = bookingCode;
+
         this.databaseHandler = new DBHandler();
+
+        if (this.bookingID.isEmpty()) {
+
+            this.bookingID = (generateBookingID());
+        }
     }
 
     /**
@@ -197,5 +203,21 @@ public class Booking {
             exists = true;
         }
         return exists;
+    }
+
+    /**
+     * Generates new BookingID by checking the database
+     */
+    public String generateBookingID() throws SQLException {
+
+        ResultSet rs = databaseHandler.query("SELECT BookingID FROM booking order by BookingID desc LIMIT 1;");
+        String latestName = "";
+        while (rs.next()) {
+            latestName = rs.getString("BookingID");
+        }
+
+        int bookingID = Integer.parseInt(latestName);
+        bookingID++;
+        return Integer.toString(bookingID);
     }
 }

@@ -73,6 +73,11 @@ public class Hall {
         this.databaseHandler = new DBHandler();
 
         this.seatList = getSeats();
+
+        if (this.hallNumber.isEmpty()) {
+
+            this.hallNumber = (generateHallNumber());
+        }
     }
 
     /**
@@ -296,5 +301,21 @@ public class Hall {
             exists = true;
         }
         return exists;
+    }
+
+    /**
+     * Generates new Halnumber by checking the database
+     */
+    public String generateHallNumber() throws SQLException {
+
+        ResultSet rs = databaseHandler.query("SELECT hallNumber FROM hall order by hallNumber desc LIMIT 1;");
+        String latestName = "";
+        while (rs.next()) {
+            latestName = rs.getString("hallNumber");
+        }
+
+        int hallNumber = Integer.parseInt(latestName);
+        hallNumber++;
+        return Integer.toString(hallNumber);
     }
 }

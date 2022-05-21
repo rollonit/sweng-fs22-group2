@@ -54,14 +54,14 @@ public class Booking {
      * @param screeningID screening ID for which the booking is made
      * @param bookedSeats String of seats that were booked
      * @param bookingTime time at which the booking is made
-     * @param bookingCode A randomly generated booking code for the purpose of authentication
+     * @param bookingCode A randomly generated booking code for the purpose of authentication, use getRandString
      */
-    public Booking(String bookingID, String screeningID, String bookedSeats, long bookingTime, String bookingCode) throws SQLException {
+    public Booking(String bookingID, String screeningID, String bookedSeats, long bookingTime, String bookingCode) {
         this.bookingID = bookingID;
         this.screeningID = screeningID;
         this.bookedSeats = bookedSeats;
         this.bookingTime = bookingTime;
-        this.bookingCode = this.getRandString();
+        this.bookingCode = bookingCode;
         this.databaseHandler = new DBHandler();
     }
 
@@ -70,7 +70,7 @@ public class Booking {
      *
      * @return the random code
      */
-    private String getRandString() {
+    public String getRandString() {
         String charsToUse = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
@@ -79,7 +79,6 @@ public class Booking {
             salt.append(charsToUse.charAt(index));
         }
         return salt.toString();
-
     }
 
     /**

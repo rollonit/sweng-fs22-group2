@@ -46,13 +46,18 @@ public class Screening {
      * @param hallNumber    the foreign key for the hall
      * @param screeningTime the date and time at which the movie is being screened
      */
-    public Screening(String screeningID, String movieID, String hallNumber, long screeningTime) {
+    public Screening(String screeningID, String movieID, String hallNumber, long screeningTime) throws SQLException {
         this.screeningID = screeningID;
         this.movieID = movieID;
         this.hallNumber = hallNumber;
         this.screeningTime = screeningTime;
 
         this.databaseHandler = new DBHandler();
+
+        if (this.screeningID.isEmpty()) {
+
+            this.screeningID = (generateScreeningID());
+        }
     }
 
     /**
@@ -156,5 +161,21 @@ public class Screening {
             exists = true;
         }
         return exists;
+    }
+
+    /**
+     * Generates new ScreeningID by checking the database
+     */
+    public String generateScreeningID() throws SQLException {
+
+        ResultSet rs = databaseHandler.query("SELECT screeningID FROM screening order by screeningID desc LIMIT 1;");
+        String latestName = "";
+        while (rs.next()) {
+            latestName = rs.getString("screeningID");
+        }
+
+        int screeningID = Integer.parseInt(latestName);
+        screeningID++;
+        return Integer.toString(screeningID);
     }
 }

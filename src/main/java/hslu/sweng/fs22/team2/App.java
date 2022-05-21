@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -28,20 +29,20 @@ public class App {
 
         Object searchedHall = entryHandler.searchHallByID("2");
         if(searchedHall != null) {
-//            Hall hall = ((Hall) searchedHall);
-//            hall.editHall(hall.getHallWidth(), hall.getHallLength(), hall.getNormalPrice(), hall.getLastRowPrice());
+            Hall hall = ((Hall) searchedHall);
+            System.out.println(hall.generateHallNumber());
         }
 
         Object searchedScreening = entryHandler.searchScreeningByID("1");
         if(searchedScreening != null) {
-            //System.out.println(((Screening) searchedScreening).getdateTime());
-//            System.out.println(entryHandler.getAvailableSeatIDs((Screening) searchedScreening));
+            Screening screening = ((Screening) searchedScreening);
+            System.out.println(screening.generateScreeningID());
         }
 
         Object searchedBooking = entryHandler.searchBookingByID("1");
         if(searchedBooking != null) {
-            double bookingPrice = entryHandler.getBookingPrice((Booking) searchedBooking);
-            System.out.println(bookingPrice);
+            Booking booking = ((Booking) searchedBooking);
+            System.out.println(booking.generateBookingID());
         }
 
 

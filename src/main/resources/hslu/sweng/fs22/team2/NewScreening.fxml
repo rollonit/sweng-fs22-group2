@@ -28,7 +28,7 @@
 
   <Label text="Time of Screening" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
-  <TextField fx:id="TimeField" promptText="Beginning time of screening" GridPane.columnIndex="1" GridPane.columnSpan="2"
+  <TextField fx:id="timeField" promptText="Beginning time of screening" GridPane.columnIndex="1" GridPane.columnSpan="2"
              GridPane.rowIndex="3"/>
 
   <Button fx:id="addScreeningButton" onAction="#addScreening" text="Add Screening" GridPane.columnIndex="2"

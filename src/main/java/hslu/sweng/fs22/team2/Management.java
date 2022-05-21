@@ -1,5 +1,6 @@
 package hslu.sweng.fs22.team2;
 
+import java.awt.print.Book;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -58,6 +59,8 @@ public class Management {
         DBHandler databaseHandler = new DBHandler();
         helper = new Helper();
 
+
+
         // Retrieves a list of all movies and creates the respective objects
         ResultSet rs = databaseHandler.query("SELECT * FROM movie;");
         if(rs != null) {
@@ -87,6 +90,7 @@ public class Management {
         }
 
 
+
         // Retrieves a list of all Halls and creates the respective objects
         double normalPrice = 10.00;
         double lastRowPrice = 15.00;
@@ -109,6 +113,8 @@ public class Management {
 
         }
 
+
+
         // Retrieves a list of all Screenings and creates the respective objects
         rs = databaseHandler.query("SELECT * FROM screening;");
         if(rs != null) {
@@ -124,6 +130,30 @@ public class Management {
                 long screeningTime = rs.getLong("screeningTime");
 
                 this.screeningList.add(new Screening(screeningID, movieID, hallNumber, screeningTime));
+            }
+
+        }
+
+
+
+        // Retrieves a list of all Bookings and creates the respective objects
+        rs = databaseHandler.query("SELECT * FROM booking;");
+        if(rs != null) {
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            this.bookingList = new ArrayList<Booking>(columns);
+
+            while(rs.next())
+            {
+                String bookingID = rs.getString("bookingID");
+                String screeningID = rs.getString("screeningID");
+                String bookedSeats = rs.getString("bookedSeats");
+                long bookedTime = rs.getLong("bookingTime");
+                String bookingCode = rs.getString("bookingCode");
+
+
+                this.bookingList.add(new Booking(bookingID, screeningID, bookedSeats, bookedTime, bookingCode));
+
             }
 
         }
@@ -147,6 +177,7 @@ public class Management {
     }
 
 
+
     /**
      * Returns hallList
      */
@@ -163,6 +194,8 @@ public class Management {
         return hallToReturn;
     }
 
+
+
     /**
      * Returns screeningList
      */
@@ -171,11 +204,101 @@ public class Management {
     }
 
     /**
-     * Searches in screeningList for hall with ID
+     * Searches in screeningList for screening with ID
      * @param screeningID ID of the screening to search for
      */
     public Object searchScreeningByID(String screeningID){
         Screening screeningToReturn = screeningList.stream().filter(Screening -> screeningID.equals(Screening.getScreeningID())).findAny().orElse(null);
         return screeningToReturn;
+    }
+
+
+
+    /**
+     * Returns bookingList
+     */
+    public List<Booking> getBookingList(){
+        return this.bookingList;
+    }
+
+    /**
+     * Searches in bookingList for booking with ID
+     * @param bookingID ID of the booking to search for
+     */
+    public Object searchBookingByID(String bookingID){
+        Booking bookingToReturn = bookingList.stream().filter(Booking -> bookingID.equals(Booking.getBookingID())).findAny().orElse(null);
+        return bookingToReturn;
+    }
+
+    /**
+     * Searches in bookingList for booking with ScreeningID
+     * @param screeningID ID of the booking to search for
+     */
+    public List<Booking> searchBookingsByScreeningID(String screeningID){
+        List<Booking> bookingListSorted = new ArrayList<Booking>(0);
+        for(Booking booking : getBookingList()){
+            if(booking.getScreeningID().equals(screeningID)){
+                bookingListSorted.add(booking);
+            }
+        }
+        return bookingListSorted;
+    }
+
+    /**
+     * Validates seats of booking
+     */
+    public boolean validateBookedSeats(Booking booking){
+
+        boolean isValid = false;
+
+        List<String> bookedSeatsList = booking.getBookedSeatsList();
+        try {
+            Object screening = searchScreeningByID(booking.getScreeningID());
+            if(screening != null) {
+                String hallNumber = ((Screening) screening).gethallNumber();
+
+                Object hall = searchHallByID(hallNumber);
+                if(hall != null) {
+                    List<String> seatIDList = ((Hall) hall).getSeatIDList();
+
+                    isValid = seatIDList.containsAll(bookedSeatsList);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Unable to find Seatlist from screening --> hall");
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Gets available Seats of Screening
+     */
+    public List<String> getAvailableSeatIDs(Screening screening){
+
+        List<String> availableSeatIDsList = new ArrayList<String>(0);
+
+        List<Booking> sortedBookings = searchBookingsByScreeningID(screening.getScreeningID());
+        List<String> bookedSeats = new ArrayList<String>(0);
+        for(Booking booking : sortedBookings){
+            for(String bookedSeatID : booking.getBookedSeatsList())
+            {
+                bookedSeats.add(bookedSeatID);
+            }
+        }
+
+        Object searchedHall = searchHallByID(screening.gethallNumber());
+        if(searchedHall != null) {
+            List<String> seatIDList = ((Hall) searchedHall).getSeatIDList();
+            for(String seatID : seatIDList){
+                if(!bookedSeats.contains(seatID)){
+                    availableSeatIDsList.add(seatID);
+                }
+            }
+        }
+
+        return availableSeatIDsList;
     }
 }

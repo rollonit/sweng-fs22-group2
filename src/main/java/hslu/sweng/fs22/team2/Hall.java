@@ -94,6 +94,24 @@ public class Hall {
         return this.hallLength;
     }
 
+    /**
+     * @return List of seats
+     */
+    public List<Seat> getSeatList() {
+        return this.seatList;
+    }
+
+    /**
+     * @return List of seatIDs
+     */
+    public List<String> getSeatIDList() {
+        List<String> seatIDList = new ArrayList<String>((getSeatList()).size());
+        for(Seat seat : (getSeatList())){
+            seatIDList.add(seat.getSeatID());
+        }
+        return seatIDList;
+    }
+
 
 
     /**

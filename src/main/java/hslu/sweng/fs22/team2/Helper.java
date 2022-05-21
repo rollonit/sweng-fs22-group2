@@ -45,4 +45,16 @@ public class Helper {
 
         return new Date((ticks -ticksAtEpoch) / ticksPerMillisecond);
     }
+
+    public static int countOccurrences(char delimiter, String inputString){
+        int count = 0;
+
+        for (int i = 0; i < inputString.length(); i++) {
+            if (inputString.charAt(i) == delimiter) {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }

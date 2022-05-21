@@ -34,6 +34,13 @@ public class App {
         Object searchedScreening = entryHandler.searchScreeningByID("1");
         if(searchedScreening != null) {
             //System.out.println(((Screening) searchedScreening).getdateTime());
+            System.out.println(entryHandler.getAvailableSeatIDs((Screening) searchedScreening));
+        }
+
+        Object searchedBooking = entryHandler.searchBookingByID("1");
+        if(searchedBooking != null) {
+//            boolean isValid = entryHandler.validateBookedSeats((Booking) searchedBooking);
+//            System.out.println(isValid);
         }
 
 

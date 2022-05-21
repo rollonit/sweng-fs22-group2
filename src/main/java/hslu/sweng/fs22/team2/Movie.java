@@ -209,7 +209,7 @@ public class Movie {
     /**
      * checks if movieName creates duplicates
      */
-    public Boolean checkDuplicateName() throws SQLException {
+    private Boolean checkDuplicateName() throws SQLException {
         int count = 0;
         boolean exists = false;
 

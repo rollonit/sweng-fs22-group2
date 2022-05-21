@@ -38,7 +38,7 @@
   <TextField fx:id="lastRowPriceField" promptText="Price of a premium seat" GridPane.columnIndex="1"
              GridPane.columnSpan="2" GridPane.rowIndex="5"/>
 
-  <Button fx:id="addHallButton" onAction="#editHall" text="Add Hall" GridPane.columnIndex="2"
+  <Button fx:id="addHallButton" onAction="#editHall" text="Edit Hall" GridPane.columnIndex="2"
           GridPane.halignment="RIGHT" GridPane.rowIndex="6"/>
   <columnConstraints>
     <ColumnConstraints/>

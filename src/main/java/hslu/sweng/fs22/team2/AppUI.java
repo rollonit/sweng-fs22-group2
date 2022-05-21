@@ -21,12 +21,12 @@ public class AppUI extends Application {
     public void start(Stage window) throws IOException {
         primaryStage = window;
         FXMLLoader fxmlLoader = new FXMLLoader(AppUI.class.getResource("PrimaryPage.fxml"));
-        Scene MainPage = new Scene(fxmlLoader.load(), 800, 600);
+        Scene MainPage = new Scene(fxmlLoader.load(), 900, 600);
 
 
         //Set up window settings
         primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(800);
+        primaryStage.setMinWidth(900);
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(AppUI.class.getResourceAsStream("icon.png"))));
 
 

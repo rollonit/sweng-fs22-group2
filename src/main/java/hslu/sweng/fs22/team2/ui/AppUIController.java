@@ -2,12 +2,17 @@ package hslu.sweng.fs22.team2.ui;
 
 import hslu.sweng.fs22.team2.AppUI;
 import hslu.sweng.fs22.team2.Management;
+import hslu.sweng.fs22.team2.Screening;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -20,6 +25,7 @@ import java.text.ParseException;
  */
 public class AppUIController {
     public ListView<String> viewSelector;
+    public TableView<Screening> centerTable;
     Management management;
     Stage primaryStage;
     @FXML
@@ -31,10 +37,23 @@ public class AppUIController {
         viewSelector.getItems().addAll("Screenings", "Movies", "Halls", "Bookings");
         //Detect changes in the selected item in the list
         viewSelector.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldVal, String newVal) -> {
-            if (!oldVal.equals(newVal)) this.updateTable();
+            if (oldVal == null || !oldVal.equals(newVal)) this.updateTable();
         });
         //Select the first item by default
         viewSelector.getSelectionModel().select(0);
+
+
+        ////////////
+        centerTable = new TableView<>();
+        TableColumn<Screening, String> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("screeningID"));
+
+        TableColumn<Screening, String> movieColumn = new TableColumn<>("MOvieID");
+        movieColumn.setCellValueFactory(new PropertyValueFactory<>("movieID"));
+
+        centerTable.setItems(FXCollections.observableList(management.getScreeningList()));
+        centerTable.getColumns().addAll(idColumn, movieColumn);
+        ///////////
     }
 
     /**
@@ -289,6 +308,7 @@ public class AppUIController {
      */
     public void updateTable() {
         // debug System.out.println(viewSelector.getSelectionModel().getSelectedItem());
+
 
     }
 }

@@ -69,10 +69,10 @@ public class ScreeningController {
 
     public void setToEdit(Screening screening) {
         toEdit = screening;
-        hallPicker.getSelectionModel().select((Hall) management.searchHallByID(screening.gethallNumber()));
-        moviePicker.getSelectionModel().select((Movie) management.searchMovieByID(screening.getmovieID()));
-        timeField.setText(Helper.convertMillisToDateTime(screening.getdateTime()).format(DateTimeFormatter.ofPattern("HH:mm")));
-        datePicker.setValue(Helper.convertMillisToDateTime(screening.getdateTime()).toLocalDate());
+        hallPicker.getSelectionModel().select((Hall) management.searchHallByID(screening.getHallNumber()));
+        moviePicker.getSelectionModel().select((Movie) management.searchMovieByID(screening.getMovieID()));
+        timeField.setText(Helper.convertMillisToDateTime(screening.getScreeningTime()).format(DateTimeFormatter.ofPattern("HH:mm")));
+        datePicker.setValue(Helper.convertMillisToDateTime(screening.getScreeningTime()).toLocalDate());
     }
 
     public void addScreening() throws Exception {

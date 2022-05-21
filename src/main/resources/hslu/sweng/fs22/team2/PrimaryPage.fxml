@@ -49,7 +49,7 @@
       </VBox>
    </left>
    <center>
-      <TableView BorderPane.alignment="CENTER">
+      <TableView fx:id="centerTable" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />

@@ -1,9 +1,12 @@
 package hslu.sweng.fs22.team2;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class Helper {
     public static int countOccurrences(char delimiter, String inputString) {
@@ -18,41 +21,52 @@ public class Helper {
         return count;
     }
 
-    public static Date convertTextToDate(String date) throws ParseException {
-
+    /**
+     * Converts a date in string form to a local date object
+     *
+     * @param toConvert date in format HH:mm yyyy-MM-dd
+     * @return a local date time object if valid, 1990.01.01 00:00:00 otherwise
+     */
+    public static LocalDateTime convertTextToDate(String toConvert) throws ParseException {
         try {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm dd.MM.yyyy");
-            Date dateToAdd = dateFormatter.parse(date);
-            return dateToAdd;
+            return LocalDateTime.parse(toConvert, DateTimeFormatter.ofPattern("HH:mm yyyy-MM-dd"));
         } catch (Exception e) {
-            Date dateToAdd = new Date(1990, 01, 01);
-            return dateToAdd;
+            e.printStackTrace();
+            return LocalDateTime.of(1990, 1, 1, 0, 0, 0);
         }
     }
 
-    public static long convertDateToTicks(Date date) {
+    /**
+     * Converts a local date object to epoch milliseconds in Zurich time
+     *
+     * @param toConvert local date object to convert
+     * @return the epoch milliseconds form of the given date object
+     */
+    public static long convertDateToTicks(LocalDateTime toConvert) {
         try {
-            long ticksAtEpoch = 621355968000000000L;
-            long ticksPerMillisecond = 10000;
-
-            TimeZone timeZone = TimeZone.getDefault();
-            long offSet = timeZone.getOffset(date.getTime());
-
-            long givenTimeMillis = (date.getTime() + offSet) * ticksPerMillisecond;
-
-            return (givenTimeMillis + ticksAtEpoch);
-
+            return toConvert.atZone(ZoneId.of("Europe/Zurich")).toInstant().toEpochMilli();
         } catch (Exception e) {
-
             return (long) 0;
-
         }
     }
 
-    public static Date convertTicksToDate(long ticks) {
-        long ticksAtEpoch = 621355968000000000L;
-        long ticksPerMillisecond = 10000;
+    /**
+     * Converts a date in string form to epoch milliseconds in Zurich time
+     *
+     * @param toConvert date in format HH:mm yyyy-MM-dd
+     * @return epoch milliseconds form of the given date
+     */
+    public static long convertTextToTicks(String toConvert) throws ParseException {
+        return convertDateToTicks(convertTextToDate(toConvert));
+    }
 
-        return new Date((ticks - ticksAtEpoch) / ticksPerMillisecond);
+    /**
+     * Converts epoch milliseconds to a LocalDateTime object in Zurich time
+     *
+     * @param epochMillis epoch milliseconds to convert
+     * @return a Local date time object
+     */
+    public static LocalDateTime convertTicksToDateTime(long epochMillis) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), ZoneId.of("Europe/Zurich"));
     }
 }

@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" hgap="15.0" prefHeight="400.0" prefWidth="600.0"
           vgap="10" xmlns="http://javafx.com/javafx/16"
-          fx:controller="hslu.sweng.fs22.team2.ui.NewMovieController">
+          fx:controller="hslu.sweng.fs22.team2.ui.MovieController">
   <Text text="Add New Movie" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
     <font>
       <Font size="32.0"/>

@@ -12,7 +12,7 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class NewBookingController {
+public class BookingController {
     public ComboBox<Screening> screeningPicker;
     public Button makeBookingButton;
     public ListView<Seat> seatsTable;
@@ -23,7 +23,6 @@ public class NewBookingController {
         management = new Management();
         screeningPicker.setItems(FXCollections.observableList(management.getScreeningList()));
         seatsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        //seatsTable.getItems().addAll("dsasdfas", "sdfasdfasdf", "SDfsdfasdfas");
         screeningPicker.setConverter(new StringConverter<Screening>() {
             @Override
             public String toString(Screening screening) {

@@ -13,10 +13,9 @@ import org.controlsfx.validation.Validator;
 import java.sql.SQLException;
 
 import java.text.ParseException;
-import java.util.List;
 import java.util.regex.Pattern;
 
-public class NewScreeningController {
+public class ScreeningController {
     public Button addScreeningButton;
     public ComboBox<Movie> moviePicker;
     public DatePicker datePicker;

@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * Controller for the add movie page.
  */
-public class NewMovieController {
+public class MovieController {
     private final ValidationSupport validationSupport = new ValidationSupport();
     public TextField movieNameField;
     public TextField directorField;

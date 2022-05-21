@@ -1,23 +1,41 @@
 package hslu.sweng.fs22.team2.ui;
 
 import hslu.sweng.fs22.team2.AppUI;
-import javafx.event.ActionEvent;
+import hslu.sweng.fs22.team2.Management;
+import javafx.beans.Observable;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 
+/**
+ * Primary brains of the software, controls the behaviour of the main window.
+ */
 public class AppUIController {
+    public ListView<String> viewSelector;
+    Management management;
     Stage primaryStage;
     @FXML
     private Label welcomeText;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException, ParseException {
+        management = new Management();
+        viewSelector.getItems().addAll("Screenings", "Movies", "Halls", "Bookings");
+        //Detect changes in the selected item in the list
+        viewSelector.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldVal, String newVal) -> {
+            if (!oldVal.equals(newVal)) this.updateTable();
+        });
+        //Select the first item by default
+        viewSelector.getSelectionModel().select(0);
     }
 
     /**
@@ -27,6 +45,7 @@ public class AppUIController {
      */
     @FXML
     protected void onLoginPage() throws IOException {
+        //Creating a new window
         Stage loginPrompt = new Stage();
         loginPrompt.setMinWidth(400);
         loginPrompt.setMinHeight(300);
@@ -44,10 +63,10 @@ public class AppUIController {
     /**
      * Spawns a new 'add movie' window based on fxml
      *
-     * @param actionEvent the event which triggered this function
      * @throws IOException in case it doesn't find the fxml file ig
      */
-    public void onNewMoviePage(ActionEvent actionEvent) throws IOException {
+    public void onNewMoviePage() throws IOException {
+        //Creating a new window
         Stage newMoviePrompt = new Stage();
         newMoviePrompt.setMinWidth(400);
         newMoviePrompt.setMinHeight(300);
@@ -65,10 +84,10 @@ public class AppUIController {
     /**
      * Spawns a new 'add screening' window based on fxml
      *
-     * @param actionEvent the event which triggered this function
      * @throws IOException in case it doesn't find the fxml file ig
      */
-    public void onNewScreeningPage(ActionEvent actionEvent) throws IOException {
+    public void onNewScreeningPage() throws IOException {
+        //Creating a new window
         Stage newScreeningPrompt = new Stage();
         newScreeningPrompt.setMinWidth(450);
         newScreeningPrompt.setMinHeight(360);
@@ -84,12 +103,12 @@ public class AppUIController {
     }
 
     /**
-     * Spawns a new 'make' window based on fxml
+     * Spawns a new 'make booking' window based on fxml
      *
-     * @param actionEvent the event which triggered this function
      * @throws IOException in case it doesn't find the fxml file ig
      */
-    public void onNewBookingPage(ActionEvent actionEvent) throws IOException {
+    public void onNewBookingPage() throws IOException {
+        //Creating a new window
         Stage newBookingPrompt = new Stage();
         newBookingPrompt.setMinWidth(550);
         newBookingPrompt.setMinHeight(650);
@@ -102,5 +121,78 @@ public class AppUIController {
         newBookingPrompt.initModality(Modality.APPLICATION_MODAL);
 
         newBookingPrompt.showAndWait();
+    }
+
+    /**
+     * Spawns a new 'create Hall' window based on fxml
+     *
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
+    public void onNewHallPage() throws IOException {
+        //Creating a new window
+        Stage newHallPrompt = new Stage();
+        newHallPrompt.setMinWidth(400);
+        newHallPrompt.setMinHeight(400);
+        newHallPrompt.setTitle("Create New Hall");
+
+        Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("NewHall.fxml")).load()), 400, 400);
+        newHallPrompt.setScene(NewScreening);
+
+        newHallPrompt.initOwner(welcomeText.getScene().getWindow());
+        newHallPrompt.initModality(Modality.APPLICATION_MODAL);
+
+        newHallPrompt.showAndWait();
+    }
+
+    /**
+     * Spawns a new 'primary' window based on fxml
+     *
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
+    public void onPrimaryPage() throws IOException {
+        //Creating a new window
+        Stage newPrimaryPage = new Stage();
+        newPrimaryPage.setMinWidth(800);
+        newPrimaryPage.setMinHeight(600);
+        newPrimaryPage.setTitle("Primary Page");
+
+        Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("PrimaryPage.fxml")).load()), 800, 600);
+        newPrimaryPage.setScene(NewScreening);
+
+        newPrimaryPage.initOwner(welcomeText.getScene().getWindow());
+        newPrimaryPage.initModality(Modality.APPLICATION_MODAL);
+
+        newPrimaryPage.showAndWait();
+    }
+
+    /**
+     * Closes and exits the program.
+     */
+    public void onClose() {
+        viewSelector.getScene().getWindow().hide();
+    }
+
+    public void onNew() throws IOException {
+        switch (viewSelector.getSelectionModel().getSelectedItem()) {
+            case "Screenings" -> this.onNewScreeningPage();
+            case "Movies" -> this.onNewMoviePage();
+            case "Bookings" -> this.onNewBookingPage();
+            case "Halls" -> this.onNewHallPage();
+        }
+    }
+
+    public void onEdit() {
+
+    }
+
+    public void onDelete() {
+    }
+
+    /**
+     * Important function, updates the table items when a mouseclick is detected in the viewSelector list and populates it correctly.
+     */
+    public void updateTable() {
+        // debug System.out.println(viewSelector.getSelectionModel().getSelectedItem());
+
     }
 }

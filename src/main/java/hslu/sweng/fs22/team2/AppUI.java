@@ -20,8 +20,8 @@ public class AppUI extends Application {
     @Override
     public void start(Stage window) throws IOException {
         primaryStage = window;
-        FXMLLoader fxmlLoader = new FXMLLoader(AppUI.class.getResource("MainPage.fxml"));
-        Scene MainPage = new Scene(fxmlLoader.load(), 800, 800);
+        FXMLLoader fxmlLoader = new FXMLLoader(AppUI.class.getResource("PrimaryPage.fxml"));
+        Scene MainPage = new Scene(fxmlLoader.load(), 800, 600);
 
 
         //Set up window settings

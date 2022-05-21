@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hslu.sweng.fs22.team2.ui.AppUIController">
+   <bottom>
+      <HBox prefHeight="18.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Label" />
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onClose" text="Close" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="New">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onNewBookingPage" text="Booking" />
+                  <MenuItem mnemonicParsing="false" onAction="#onNewScreeningPage" text="Screening" />
+                  <MenuItem mnemonicParsing="false" onAction="#onNewMoviePage" text="Movie" />
+                  <MenuItem mnemonicParsing="false" onAction="#onNewHallPage" text="Hall" />
+              </items>
+            </Menu>
+          <Menu text="_Help">
+            <items>
+              <MenuItem text="_About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <VBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Select View">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <ListView fx:id="viewSelector" onMouseClicked="#updateTable" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <TableView BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+   </center>
+   <right>
+     <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+       <padding>
+         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+       </padding>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" />
+       <Label fx:id="welcomeText" />
+       <Button onAction="#onNew" text="New" />
+       <Button onAction="#onEdit" text="Edit" />
+       <Button onAction="#onDelete" text="Delete" />
+     </VBox>
+   </right>
+</BorderPane>

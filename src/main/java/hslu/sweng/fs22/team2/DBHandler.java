@@ -2,9 +2,6 @@ package hslu.sweng.fs22.team2;
 
 import java.sql.*;
 import java.util.Properties;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Handles the low level aspects of the SQL database connection and allows for simpler usage.

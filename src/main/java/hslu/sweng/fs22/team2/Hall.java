@@ -106,26 +106,25 @@ public class Hall {
      */
     public List<String> getSeatIDList() {
         List<String> seatIDList = new ArrayList<String>((getSeatList()).size());
-        for(Seat seat : (getSeatList())){
+        for (Seat seat : (getSeatList())) {
             seatIDList.add(seat.getSeatID());
         }
         return seatIDList;
     }
 
 
-
     /**
      * Saves the hall object to the Database
      */
-    public void saveHall() throws SQLException{
-        if(!(doesExist())) {
+    public void saveHall() throws SQLException {
+        if (!(doesExist())) {
             String queryText = String.format("INSERT INTO hall (hallNumber, hallWidth, hallLength) " +
                             "VALUE ('%s', '%s', '%s');",
                     this.hallNumber, this.hallWidth, this.hallLength);
             ResultSet rs = this.databaseHandler.query(queryText);
 
             updateSeats(this.normalPrice, this.lastRowPrice);
-        }else{
+        } else {
             System.out.println("HallNumber Already in Database");
         }
     }
@@ -134,16 +133,16 @@ public class Hall {
      * Edits the Hall with the given parameters
      * Changes the object itself and write those changes to the Database as well
      *
-     * @param hallWidth  the number of seats in each row of the hall
-     * @param hallLength the number of rows of seats in the hall
-     * @param normalPrice the price for normal seats
+     * @param hallWidth    the number of seats in each row of the hall
+     * @param hallLength   the number of rows of seats in the hall
+     * @param normalPrice  the price for normal seats
      * @param lastRowPrice the price for seats in the last row
      */
     public void editHall(Integer hallWidth, Integer hallLength, double normalPrice, double lastRowPrice) throws SQLException {
         this.hallWidth = hallWidth;
         this.hallLength = hallLength;
 
-        if(doesExist()) {
+        if (doesExist()) {
             String queryText = String.format("UPDATE hall SET " +
                     "hallWidth = '%s', " +
                     "hallLength = '%s' " +
@@ -160,15 +159,14 @@ public class Hall {
      * Removes the hall from the Database
      * Removes all related seats from the Database
      */
-    public void removeHall() throws SQLException{
-        if(doesExist()) {
+    public void removeHall() throws SQLException {
+        if (doesExist()) {
             String queryText = String.format("DELETE FROM hall WHERE hallNumber = '%s'", this.hallNumber);
             this.databaseHandler.query(queryText);
 
             removeSeats();
         }
     }
-
 
 
     /**
@@ -254,13 +252,12 @@ public class Hall {
      * Removes all Seats for a Hall in the database
      * Clears seatList
      */
-    private void removeSeats(){
+    private void removeSeats() {
         String queryText = String.format("DELETE FROM seat WHERE hallNumber = '%s'", this.hallNumber);
         this.databaseHandler.query(queryText);
 
         this.seatList.clear();
     }
-
 
 
     /**

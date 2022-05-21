@@ -2,7 +2,6 @@ package hslu.sweng.fs22.team2;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 /**
  * Represents a single screening of a certain movie on a certain date at a certain time in a certain hall
@@ -36,15 +35,16 @@ public class Screening {
     /**
      * Default constructor for the Screening class.
      */
-    public Screening() {}
+    public Screening() {
+    }
 
     /**
      * Parametrised constructor for the Screening class.
      *
-     * @param screeningID the private key screening ID
-     * @param movieID     the foreign key of the movie
-     * @param hallNumber  the foreign key for the hall
-     * @param screeningTime    the date and time at which the movie is being screened
+     * @param screeningID   the private key screening ID
+     * @param movieID       the foreign key of the movie
+     * @param hallNumber    the foreign key for the hall
+     * @param screeningTime the date and time at which the movie is being screened
      */
     public Screening(String screeningID, String movieID, String hallNumber, long screeningTime) {
         this.screeningID = screeningID;
@@ -84,21 +84,20 @@ public class Screening {
     }
 
 
-
     /**
      * Saves the screening object to the Database
      */
-    public int saveScreening() throws SQLException{
+    public int saveScreening() throws SQLException {
         int returnCode = 0;
 
-        if(!(doesExist())) {
+        if (!(doesExist())) {
             String queryText = String.format("insert into screening " +
                             "(screeningID, screeningTime, hallNumber, movieID) values " +
                             "('%s', '%s', '%s', '%s');",
-                    this.screeningID, this.screeningTime,toString(), this.hallNumber, this.movieID);
+                    this.screeningID, this.screeningTime, this.hallNumber, this.movieID);
             ResultSet rs = this.databaseHandler.query(queryText);
             returnCode = 1;
-        }else{
+        } else {
             System.out.println("HallNumber Already in Database");
             returnCode = -2;
         }
@@ -110,15 +109,15 @@ public class Screening {
      * Changes the object itself and write those changes to the Database as well
      *
      * @param screeningTime the date of the screening
-     * @param hallNumber the number of the hall for the screening
-     * @param movieID the id of the movie
+     * @param hallNumber    the number of the hall for the screening
+     * @param movieID       the id of the movie
      */
     public void editScreening(long screeningTime, String hallNumber, String movieID) throws SQLException {
         this.screeningTime = screeningTime;
         this.hallNumber = hallNumber;
         this.movieID = movieID;
 
-        if(doesExist()) {
+        if (doesExist()) {
             String queryText = String.format("UPDATE screening SET " +
                     "screeningTime = '%s', " +
                     "hallNumber = '%s', " +
@@ -131,7 +130,7 @@ public class Screening {
     /**
      * Removes the screening from the Database
      */
-    public void removeScreening() throws SQLException{
+    public void removeScreening() throws SQLException {
         if (doesExist()) {
             String queryText = String.format("DELETE FROM screening WHERE screeningID = '%s'", this.screeningID);
             this.databaseHandler.query(queryText);

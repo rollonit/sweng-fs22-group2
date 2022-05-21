@@ -156,7 +156,7 @@ public class Movie {
      * @param director    the director of the movie
      * @param duration    the duration of the movie
      */
-    public void editMovie(String movieName, int releaseYear, String director, Duration duration) throws SQLException{
+    public void editMovie(String movieName, int releaseYear, String director, Duration duration) throws SQLException {
         this.movieName = movieName;
         this.releaseYear = releaseYear;
         this.director = director;
@@ -164,7 +164,7 @@ public class Movie {
 
         double durationConverted = (double) duration.toMinutes();
 
-        if(doesExist()) {
+        if (doesExist()) {
             String queryText = String.format("UPDATE movie SET " +
                     "movieName = '%s', " +
                     "releaseYear = '%s', " +

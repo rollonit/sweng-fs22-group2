@@ -56,9 +56,11 @@ public class Hall {
     /**
      * Parametrised constructor for the Hall class.
      *
-     * @param hallNumber the number to assign to hall
-     * @param hallWidth  the number of seats in each row of the hall
-     * @param hallLength the number of rows of seats in the hall
+     * @param hallNumber   the number to assign to hall
+     * @param hallWidth    the number of seats in each row of the hall
+     * @param hallLength   the number of rows of seats in the hall
+     * @param normalPrice  the normal price for a seat in the hall
+     * @param lastRowPrice the increased premium price for a last row seat
      */
     public Hall(String hallNumber, int hallWidth, int hallLength, double normalPrice, double lastRowPrice) throws SQLException {
         this.hallNumber = hallNumber;
@@ -116,7 +118,7 @@ public class Hall {
     /**
      * Saves the hall object to the Database
      */
-    public void saveHall() throws SQLException {
+    public int saveHall() throws SQLException {
         if (!(doesExist())) {
             String queryText = String.format("INSERT INTO hall (hallNumber, hallWidth, hallLength) " +
                             "VALUE ('%s', '%s', '%s');",
@@ -124,8 +126,10 @@ public class Hall {
             ResultSet rs = this.databaseHandler.query(queryText);
 
             updateSeats(this.normalPrice, this.lastRowPrice);
+            return 1;
         } else {
             System.out.println("HallNumber Already in Database");
+            return -1;
         }
     }
 

@@ -201,9 +201,7 @@ public class Hall {
     /**
      * Gets all Seats for the Hall
      */
-    public Seat getSeatInfo(Integer x, Integer y) throws SQLException {
-
-        String seatID = (x.toString() + "/" + y.toString());
+    public Seat getSeatInfo(String seatID) throws SQLException {
 
         return seatList.stream().filter(Seat -> seatID.equals(Seat.getSeatID())).findAny().orElse(null);
 

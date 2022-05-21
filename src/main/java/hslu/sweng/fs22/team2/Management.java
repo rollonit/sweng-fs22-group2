@@ -301,4 +301,35 @@ public class Management {
 
         return availableSeatIDsList;
     }
+
+    /**
+     * Gets Price for a booking
+     */
+    public double getBookingPrice(Booking booking){
+        double bookingPrice = 0.0;
+        if(validateBookedSeats(booking)) {
+            try {
+                Object hall = searchHallByID(((Screening) searchScreeningByID(booking.getScreeningID())).gethallNumber());
+                if (hall != null) {
+                    for(String seatID : booking.getBookedSeatsList()) {
+                        Object seat = ((Hall) hall).getSeatInfo(seatID);
+                        if(seat != null){
+                            double priceToAdd = ((Seat) seat).getPrice();
+//                            System.out.println("SeatID: " + ((Seat) seat).getSeatID());
+//                            System.out.println("Price: " + priceToAdd);
+//                            System.out.println("");
+                            bookingPrice = bookingPrice + priceToAdd;
+                        }
+
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Unable to find hall for booking");
+            }
+        }else {
+            System.out.println("Validation Failed");
+        }
+
+        return bookingPrice;
+    }
 }

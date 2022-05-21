@@ -1,7 +1,7 @@
 package hslu.sweng.fs22.team2.ui;
 
 import hslu.sweng.fs22.team2.Movie;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -42,19 +42,17 @@ public class NewMovieController {
      * Validates the new movie info, and handles adding a new movie.
      */
     public void addMovie() throws SQLException {
-        // TODO do add movie actions
-
         Movie movie = new Movie("", movieNameField.getText(), Integer.parseInt(yearField.getText()), directorField.getText(), Duration.ofMinutes(Long.parseLong(durationField.getText())));
-        int returnCode = movie.addMovie();
+        int returnCode = movie.saveMovie();
         if (!validationSupport.isInvalid() && returnCode == 1) {
             Stage toKill = (Stage) addMovieButton.getScene().getWindow();
             toKill.hide();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            System.out.println("ERror code:" + returnCode+ "movieid: "+movie.getMovieID());
+            System.out.println("ERror code:" + returnCode + "movieid: " + movie.getMovieID());
             alert.setHeaderText("There was an error while adding the movie!");
             alert.setTitle("Error");
-            alert.setContentText(returnCode == -1?"A movie with that name already exists!":"THERE IS NO HELP Movie ID Clash Error Code: "+returnCode+" MovieID: "+movie.getMovieID());
+            alert.setContentText(returnCode == -1 ? "A movie with that name already exists!" : "THERE IS NO HELP Movie ID Clash Error Code: " + returnCode + " MovieID: " + movie.getMovieID());
             alert.showAndWait();
         }
     }

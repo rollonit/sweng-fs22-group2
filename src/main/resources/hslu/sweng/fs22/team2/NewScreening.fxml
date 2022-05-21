@@ -15,7 +15,7 @@
 
   <Label text="Movie" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
   <ComboBox fx:id="moviePicker" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
-             GridPane.rowIndex="1"/>
+            GridPane.rowIndex="1"/>
 
   <Label text="Date of Screening" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
@@ -28,7 +28,8 @@
 
   <Label text="Time of Screening" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
-  <TextField fx:id="timeField" promptText="Beginning time of screening" GridPane.columnIndex="1" GridPane.columnSpan="2"
+
+  <TextField fx:id="timeField" promptText="Starting time in 24h HH:MM" GridPane.columnIndex="1" GridPane.columnSpan="2"
              GridPane.rowIndex="3"/>
 
   <Button fx:id="addScreeningButton" onAction="#addScreening" text="Add Screening" GridPane.columnIndex="2"

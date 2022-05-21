@@ -65,7 +65,9 @@ public class Seat {
      * Returns the unique seatID.
      */
     public String getSeatID() {
-        return this.seatID;
+        String seatIDFormated = "";
+        seatIDFormated = this.seatID.replaceAll("^\\d+_", "");
+        return seatIDFormated;
     }
 
     /**

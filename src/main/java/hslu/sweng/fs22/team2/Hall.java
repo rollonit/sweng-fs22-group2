@@ -258,7 +258,7 @@ public class Hall {
                 }
 
                 queryText = String.format("INSERT INTO seat (seatID, x, y, price, hallNumber) VALUE (%s, %s, %s, %s, %s)",
-                        ("'" + Integer.toString(x) + "/" + Integer.toString(y) + "'"),
+                        ("'" + this.hallNumber + "_" + Integer.toString(x) + "/" + Integer.toString(y) + "'"),
                         x, y, priceToSet, this.hallNumber);
 
                 this.databaseHandler.query(queryText);

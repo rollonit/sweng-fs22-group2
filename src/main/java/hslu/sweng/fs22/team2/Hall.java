@@ -145,6 +145,8 @@ public class Hall {
             ResultSet rs = this.databaseHandler.query(queryText);
 
             updateSeats(this.normalPrice, this.lastRowPrice);
+            this.seatList.clear();
+            this.seatList = getSeats();
             return 1;
         } else {
             System.out.println("HallNumber Already in Database");
@@ -184,10 +186,10 @@ public class Hall {
      */
     public void removeHall() throws SQLException {
         if (doesExist()) {
+            removeSeats();
+
             String queryText = String.format("DELETE FROM hall WHERE hallNumber = '%s'", this.hallNumber);
             this.databaseHandler.query(queryText);
-
-            removeSeats();
         }
     }
 

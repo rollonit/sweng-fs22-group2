@@ -30,7 +30,7 @@ public class App {
         Object searchedHall = entryHandler.searchHallByID("2");
         if(searchedHall != null) {
 //            Hall hall = ((Hall) searchedHall);
-//            System.out.println(hall.generateHallNumber());
+//            System.out.println(hall.getSeatIDList());
         }
 
         Object searchedScreening = entryHandler.searchScreeningByID("1");
@@ -41,8 +41,8 @@ public class App {
 
         Object searchedBooking = entryHandler.searchBookingByID("1");
         if(searchedBooking != null) {
-//            Booking booking = ((Booking) searchedBooking);
-//            System.out.println(booking.generateBookingID());
+            Booking booking = ((Booking) searchedBooking);
+            System.out.println(booking.getBookedSeatsList());
         }
 
 

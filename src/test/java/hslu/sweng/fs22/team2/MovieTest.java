@@ -3,8 +3,12 @@ package hslu.sweng.fs22.team2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,23 +72,71 @@ class MovieTest {
     }
 
     @Test
-    void addMovie() throws SQLException {
+    void saveMovie() throws SQLException {
         int result = this.movie.saveMovie();
 
         assertEquals(1, result);
+
+        this.movie.removeMovie();
+
     }
 
     @Test
-    void editMovie() {
+    void editMovie() throws SQLException {
+
+        String movieName2 = "TestMovie2";
+        int releaseYear2 = 2001;
+        String director2 = "abc";
+        Duration duration2 = Duration.ofMinutes(100);
+
+        String movieNameFromQuery = "";
+        int releaseYearFromQuery = 0;
+        String directorFromQuery = "";
+        double durationFromQuery = 0.0;
+
+
+        if(!this.movie.doesExist()) {
+            this.movie.saveMovie();
+        }
+
+        this.movie.editMovie(movieName2, releaseYear2, director2, duration2);
+
+        boolean check = false;
+        String queryText = String.format("SELECT * FROM movie WHERE movieID = '%s';", this.movie.getMovieID());
+        ResultSet rs = databaseHandler.query(queryText);
+        while(rs.next())
+        {
+            movieNameFromQuery = rs.getString("movieName");
+            releaseYearFromQuery = rs.getInt("releaseYear");
+            directorFromQuery = rs.getString("director");
+            durationFromQuery = rs.getDouble("duration");
+        }
+
+        int durationToInt = (int) Math.round(durationFromQuery);
+        Duration durationConverted = Duration.of((long) durationToInt, ChronoUnit.MINUTES);
+
+        if(movieNameFromQuery.equals(movieName2) &&
+                releaseYearFromQuery == releaseYear2 &&
+                directorFromQuery.equals(director2) &&
+                durationConverted.equals(duration2)
+        ){
+            check = true;
+        }
+
+        assertEquals(true, check);
+
+        this.movie.removeMovie();
+
     }
 
     @Test
     void removeMovie() throws SQLException {
-        int resultFromAdd = this.movie.saveMovie();
-        if(resultFromAdd == 1) {
-            removeMovie();
-            assertEquals(false, this.movie.doesExist());
+        if(!this.movie.doesExist()) {
+            this.movie.saveMovie();
         }
+        this.movie.removeMovie();
+        boolean check = this.movie.doesExist();
+        assertEquals(false, check);
     }
 
     @Test
@@ -95,6 +147,17 @@ class MovieTest {
     }
 
     @Test
-    void checkDuplicateName() {
+    void generateMovieID() throws SQLException{
+        ResultSet rs = databaseHandler.query("SELECT movieID FROM movie order by movieID desc LIMIT 1;");
+        String latestName = "";
+        while (rs.next()) {
+            latestName = rs.getString("movieID");
+        }
+
+        int movieIDNumber = Integer.parseInt(latestName);
+        movieIDNumber++;
+
+        String shouldbe = this.movie.generateMovieID();
+        assertEquals(shouldbe, (Integer.toString(movieIDNumber)));
     }
 }

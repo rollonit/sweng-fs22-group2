@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" hgap="15.0" prefHeight="400.0" prefWidth="600.0"
+          vgap="10" xmlns="http://javafx.com/javafx/16"
+          fx:controller="hslu.sweng.fs22.team2.ui.ScreeningController">
+  <Text text="Add New Screening" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
+    <font>
+      <Font size="32.0"/>
+    </font>
+  </Text>
+
+  <Label text="Movie" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+  <ComboBox fx:id="moviePicker" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
+            GridPane.rowIndex="1"/>
+
+  <Label text="Date of Screening" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+  <DatePicker fx:id="datePicker" promptText="Date for Screening" GridPane.columnIndex="1" GridPane.columnSpan="2"
+              GridPane.rowIndex="2"/>
+
+  <Label text="Hall" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+
+  <ChoiceBox fx:id="hallPicker" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4"/>
+
+  <Label text="Time of Screening" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+
+
+  <TextField fx:id="timeField" promptText="Starting time in 24h HH:MM" GridPane.columnIndex="1" GridPane.columnSpan="2"
+             GridPane.rowIndex="3"/>
+
+  <Button fx:id="addScreeningButton" onAction="#editScreening" text="Add Screening" GridPane.columnIndex="2"
+          GridPane.halignment="RIGHT" GridPane.rowIndex="5"/>
+  <columnConstraints>
+    <ColumnConstraints/>
+    <ColumnConstraints/>
+    <ColumnConstraints minWidth="200.0"/>
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+  </rowConstraints>
+</GridPane>

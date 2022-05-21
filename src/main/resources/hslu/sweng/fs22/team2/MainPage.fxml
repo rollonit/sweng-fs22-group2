@@ -15,5 +15,5 @@
   <Button onAction="#onNewMoviePage" text="NewMoviePage"/>
   <Button onAction="#onNewScreeningPage" text="NewScreeningPage"/>
   <Button onAction="#onNewBookingPage" text="NewBookingPage"/>
-  <Button onAction="#onPrimaryPage" text="PrimaryPage"/>
+  <!--<Button onAction="#onPrimaryPage" text="PrimaryPage"/>-->
 </VBox>

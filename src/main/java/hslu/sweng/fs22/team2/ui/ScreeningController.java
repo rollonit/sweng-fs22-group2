@@ -11,8 +11,8 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import java.sql.SQLException;
-
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class ScreeningController {
@@ -23,7 +23,7 @@ public class ScreeningController {
     public TextField timeField;
 
     ValidationSupport validationSupport = new ValidationSupport();
-
+    Screening toEdit;
     private Management management;
 
     public void initialize() throws SQLException, ParseException {
@@ -67,9 +67,18 @@ public class ScreeningController {
         });
     }
 
+    public void setToEdit(Screening screening) {
+        toEdit = screening;
+        hallPicker.getSelectionModel().select((Hall) management.searchHallByID(screening.gethallNumber()));
+        moviePicker.getSelectionModel().select((Movie) management.searchMovieByID(screening.getmovieID()));
+        timeField.setText(Helper.convertMillisToDateTime(screening.getdateTime()).format(DateTimeFormatter.ofPattern("HH:mm")));
+        datePicker.setValue(Helper.convertMillisToDateTime(screening.getdateTime()).toLocalDate());
+    }
+
     public void addScreening() throws Exception {
         String timeDate = timeField.getText() + " " + datePicker.getValue().toString();
-        Screening sc = new Screening("", moviePicker.getValue().getMovieID(), hallPicker.getValue().getHallNumber(), Helper.convertTextToTicks(timeDate));
+        Screening sc = new Screening("", moviePicker.getValue().getMovieID(), hallPicker.getValue().getHallNumber(), Helper.convertTextToMillis(timeDate));
+        System.out.println("" + ", " + moviePicker.getValue().getMovieID() + ", " + hallPicker.getValue().getHallNumber() + ", " + Helper.convertTextToMillis(timeDate)); //debug
         int returnCode = sc.saveScreening();
         if (!validationSupport.isInvalid() && returnCode == 1) {
             Stage toKill = (Stage) addScreeningButton.getScene().getWindow();
@@ -77,10 +86,19 @@ public class ScreeningController {
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             System.out.println("ERror code:" + returnCode + "screeningid: " + sc.getScreeningID());
-            alert.setHeaderText("There was an error while adding the movie!");
+            alert.setHeaderText("There was an error while adding the screening!");
             alert.setTitle("Error");
-            alert.setContentText(returnCode == -1 ? "A screening with that name already exists!" : "THERE IS NO HELP Movie ID Clash Error Code: " + returnCode + " ScreeningID: " + sc.getScreeningID());
+            alert.setContentText(returnCode == -1 ? "A screening with that name already exists!" : "THERE IS NO HELP Screening ID Clash Error Code: " + returnCode + " ScreeningID: " + sc.getScreeningID());
             alert.showAndWait();
+        }
+    }
+
+    public void editScreening() throws ParseException, SQLException {
+        String timeDate = timeField.getText() + " " + datePicker.getValue().toString();
+        toEdit.editScreening(Helper.convertTextToMillis(timeDate), hallPicker.getValue().getHallNumber(), moviePicker.getValue().getMovieID());
+        if (!validationSupport.isInvalid()) {
+            Stage toKill = (Stage) addScreeningButton.getScene().getWindow();
+            toKill.hide();
         }
     }
 }

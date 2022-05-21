@@ -1,8 +1,6 @@
 package hslu.sweng.fs22.team2.ui;
 
 import hslu.sweng.fs22.team2.Hall;
-import hslu.sweng.fs22.team2.Management;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -25,6 +23,8 @@ public class HallController {
 
     ValidationSupport validationSupport;
 
+    Hall toEdit;
+
     public void initialize() throws SQLException, ParseException {
         validationSupport = new ValidationSupport();
 
@@ -34,6 +34,15 @@ public class HallController {
         validationSupport.registerValidator(normalRowPriceField, Validator.createRegexValidator("Must be a number!", Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"), Severity.ERROR));
         validationSupport.registerValidator(lastRowPriceField, Validator.createRegexValidator("Must be a number!", Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"), Severity.ERROR));
         addHallButton.disableProperty().bind(validationSupport.invalidProperty());
+    }
+
+    public void setToEdit(Hall hall) {
+        toEdit = hall;
+        hallNumberField.setText(hall.getHallNumber());
+        hallHeightField.setText(Integer.toString(hall.getHallLength()));
+        hallWidthField.setText(Integer.toString(hall.getHallWidth()));
+        normalRowPriceField.setText(Double.toString(hall.getNormalPrice()));
+        lastRowPriceField.setText(Double.toString(hall.getLastRowPrice()));
     }
 
     public void addHall() throws SQLException {
@@ -49,6 +58,14 @@ public class HallController {
             alert.setTitle("Error");
             alert.setContentText(returnCode == -1 ? "A hall with that number already exists!" : "THERE IS NO HELP Hall ID Clash Error Code: " + returnCode + " HallID: " + hall.getHallNumber());
             alert.showAndWait();
+        }
+    }
+
+    public void editHall() throws SQLException {
+        toEdit.editHall(Integer.parseInt(hallHeightField.getText()), Integer.parseInt(hallHeightField.getText()), Double.parseDouble(normalRowPriceField.getText()), Double.parseDouble(lastRowPriceField.getText()));
+        if (!validationSupport.isInvalid()) {
+            Stage toKill = (Stage) addHallButton.getScene().getWindow();
+            toKill.hide();
         }
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="CENTER" hgap="15.0" prefHeight="400.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hslu.sweng.fs22.team2.ui.MovieController">
+  <Text text="Edit Existing Movie" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
+    <font>
+      <Font size="32.0" />
+    </font>
+  </Text>
+
+  <Label text="Movie Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+  <TextField fx:id="movieNameField" promptText="The name of the movie" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+
+  <Label text="Release Year" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+  <TextField fx:id="yearField" promptText="Year of release" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+
+  <Label text="Director" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+  <TextField fx:id="directorField" promptText="The name of the director" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+
+  <Label text="Duration (in minutes)" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+
+  <TextField fx:id="durationField" promptText="Duration in minutes" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+
+  <Button fx:id="addMovieButton" onAction="#editMovie" text="Save Edit" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+  <columnConstraints>
+    <ColumnConstraints />
+    <ColumnConstraints />
+    <ColumnConstraints minWidth="200.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints />
+    <RowConstraints />
+    <RowConstraints />
+    <RowConstraints />
+    <RowConstraints />
+    <RowConstraints />
+  </rowConstraints>
+</GridPane>

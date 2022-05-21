@@ -17,6 +17,7 @@ public class BookingController {
     public Button makeBookingButton;
     public ListView<Seat> seatsTable;
     ValidationSupport validationSupport = new ValidationSupport();
+    Booking toEdit;
     private Management management;
 
     public void initialize() throws SQLException, ParseException {
@@ -27,7 +28,7 @@ public class BookingController {
             @Override
             public String toString(Screening screening) {
                 if (screening == null) return "Please select";
-                LocalDateTime timeOfScreening = Helper.convertTicksToDateTime(screening.getdateTime());
+                LocalDateTime timeOfScreening = Helper.convertMillisToDateTime(screening.getdateTime());
                 return ((Movie) management.searchMovieByID(screening.getmovieID())).getMovieName() + " on " + timeOfScreening.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " at " + timeOfScreening.format(DateTimeFormatter.ofPattern("HH.mm"));
             }
 
@@ -38,11 +39,23 @@ public class BookingController {
         });
     }
 
+    public void setToEdit(Booking booking) {
+        toEdit = booking;
+    }
+
     public void makeBooking(ActionEvent actionEvent) {
     }
 
     public void onScreeningPick() {
-        Hall hallPicked = (Hall) management.searchHallByID(screeningPicker.getValue().gethallNumber());
-        this.seatsTable.getItems().addAll(hallPicked.getSeatList());
+        //Hall hallPicked = (Hall) management.searchHallByID(screeningPicker.getValue().gethallNumber());
+        this.seatsTable.getItems().addAll((Seat) management.getAvailableSeatIDs(screeningPicker.getValue()));
+    }
+
+    public void editBooking(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText("This feature has not been implemented yet!");
+        alert.setTitle("Info");
+        alert.setContentText("This feature is still being worked on, and hasn't been implemented yet.");
+        alert.showAndWait();
     }
 }

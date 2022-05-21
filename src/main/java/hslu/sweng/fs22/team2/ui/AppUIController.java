@@ -2,7 +2,6 @@ package hslu.sweng.fs22.team2.ui;
 
 import hslu.sweng.fs22.team2.AppUI;
 import hslu.sweng.fs22.team2.Management;
-import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -82,6 +81,30 @@ public class AppUIController {
     }
 
     /**
+     * Spawns a new 'edit movie' window based on fxml and passed the selected movie
+     *
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
+    public void onEditMoviePage() throws IOException {
+        //Creating a new window
+        Stage newMoviePrompt = new Stage();
+        newMoviePrompt.setMinWidth(400);
+        newMoviePrompt.setMinHeight(300);
+        newMoviePrompt.setTitle("Edit Existing Movie");
+
+        FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditMovie.fxml"));
+        Scene EditMovie = new Scene(loader.load(), 400, 300);
+        MovieController controller = loader.<MovieController>getController();
+        controller.setToEdit(null);
+        newMoviePrompt.setScene(EditMovie);
+
+        newMoviePrompt.initOwner(welcomeText.getScene().getWindow());
+        newMoviePrompt.initModality(Modality.APPLICATION_MODAL);
+
+        newMoviePrompt.showAndWait();
+    }
+
+    /**
      * Spawns a new 'add screening' window based on fxml
      *
      * @throws IOException in case it doesn't find the fxml file ig
@@ -103,6 +126,30 @@ public class AppUIController {
     }
 
     /**
+     * Spawns a new 'edit screening' window based on fxml
+     *
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
+    public void onEditScreeningPage() throws IOException {
+        //Creating a new window
+        Stage editScreeningPrompt = new Stage();
+        editScreeningPrompt.setMinWidth(450);
+        editScreeningPrompt.setMinHeight(360);
+        editScreeningPrompt.setTitle("Edit Existing Screening");
+
+        FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditScreening.fxml"));
+        Scene EditScreening = new Scene(loader.load(), 450, 360);
+        ScreeningController controller = loader.<ScreeningController>getController();
+        controller.setToEdit(null);
+        editScreeningPrompt.setScene(EditScreening);
+
+        editScreeningPrompt.initOwner(welcomeText.getScene().getWindow());
+        editScreeningPrompt.initModality(Modality.APPLICATION_MODAL);
+
+        editScreeningPrompt.showAndWait();
+    }
+
+    /**
      * Spawns a new 'make booking' window based on fxml
      *
      * @throws IOException in case it doesn't find the fxml file ig
@@ -114,13 +161,37 @@ public class AppUIController {
         newBookingPrompt.setMinHeight(650);
         newBookingPrompt.setTitle("Make New Booking");
 
-        Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("NewBooking.fxml")).load()), 550, 650);
-        newBookingPrompt.setScene(NewScreening);
+        Scene NewBooking = new Scene((new FXMLLoader(AppUI.class.getResource("NewBooking.fxml")).load()), 550, 650);
+        newBookingPrompt.setScene(NewBooking);
 
         newBookingPrompt.initOwner(welcomeText.getScene().getWindow());
         newBookingPrompt.initModality(Modality.APPLICATION_MODAL);
 
         newBookingPrompt.showAndWait();
+    }
+
+    /**
+     * Spawns a new 'edit booking' window based on fxml
+     *
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
+    public void onEditBookingPage() throws IOException {
+        //Creating a new window
+        Stage editBookingPrompt = new Stage();
+        editBookingPrompt.setMinWidth(550);
+        editBookingPrompt.setMinHeight(650);
+        editBookingPrompt.setTitle("Edit Existing Booking");
+
+        FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditBooking.fxml"));
+        Scene EditBooking = new Scene(loader.load(), 550, 650);
+        BookingController controller = loader.<BookingController>getController();
+        controller.setToEdit(null);
+        editBookingPrompt.setScene(EditBooking);
+
+        editBookingPrompt.initOwner(welcomeText.getScene().getWindow());
+        editBookingPrompt.initModality(Modality.APPLICATION_MODAL);
+
+        editBookingPrompt.showAndWait();
     }
 
     /**
@@ -135,8 +206,8 @@ public class AppUIController {
         newHallPrompt.setMinHeight(400);
         newHallPrompt.setTitle("Create New Hall");
 
-        Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("NewHall.fxml")).load()), 400, 400);
-        newHallPrompt.setScene(NewScreening);
+        Scene NewHall = new Scene((new FXMLLoader(AppUI.class.getResource("NewHall.fxml")).load()), 400, 400);
+        newHallPrompt.setScene(NewHall);
 
         newHallPrompt.initOwner(welcomeText.getScene().getWindow());
         newHallPrompt.initModality(Modality.APPLICATION_MODAL);
@@ -145,11 +216,35 @@ public class AppUIController {
     }
 
     /**
+     * Spawns a new 'edit Hall' window based on fxml
+     *
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
+    public void onEditHallPage() throws IOException {
+        //Creating a new window
+        Stage editHallPrompt = new Stage();
+        editHallPrompt.setMinWidth(400);
+        editHallPrompt.setMinHeight(400);
+        editHallPrompt.setTitle("Edit Existing Hall");
+
+        FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditHall.fxml"));
+        Scene EditHall = new Scene(loader.load(), 400, 400);
+        HallController controller = loader.<HallController>getController();
+        controller.setToEdit(null);
+        editHallPrompt.setScene(EditHall);
+
+        editHallPrompt.initOwner(welcomeText.getScene().getWindow());
+        editHallPrompt.initModality(Modality.APPLICATION_MODAL);
+
+        editHallPrompt.showAndWait();
+    }
+
+    /**
      * Spawns a new 'primary' window based on fxml
      *
      * @throws IOException in case it doesn't find the fxml file ig
      */
-    public void onPrimaryPage() throws IOException {
+    /*public void onPrimaryPage() throws IOException {
         //Creating a new window
         Stage newPrimaryPage = new Stage();
         newPrimaryPage.setMinWidth(800);
@@ -164,6 +259,7 @@ public class AppUIController {
 
         newPrimaryPage.showAndWait();
     }
+    */
 
     /**
      * Closes and exits the program.

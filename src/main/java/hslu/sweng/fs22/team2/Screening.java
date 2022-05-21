@@ -70,21 +70,21 @@ public class Screening {
     /**
      * @return The MovieID
      */
-    public String getmovieID() {
+    public String getMovieID() {
         return this.movieID;
     }
 
     /**
      * @return hallNumber
      */
-    public String gethallNumber() {
+    public String getHallNumber() {
         return this.hallNumber;
     }
 
     /**
-     * @return hallNumber
+     * @return the screening time
      */
-    public long getdateTime() {
+    public long getScreeningTime() {
         return this.screeningTime;
     }
 

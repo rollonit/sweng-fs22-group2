@@ -3,6 +3,7 @@ package hslu.sweng.fs22.team2.ui;
 import hslu.sweng.fs22.team2.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -22,6 +23,7 @@ public class BookingController {
     Booking toEdit;
     private Management management;
 
+    @FXML
     public void initialize() throws SQLException, ParseException {
         toEdit = new Booking();
         management = new Management();

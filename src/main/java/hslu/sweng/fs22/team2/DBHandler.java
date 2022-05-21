@@ -22,7 +22,7 @@ public class DBHandler {
     private char[] password;
 
     /**
-     * Default constructor for the DB handler, initialises the connection and makes it ready for queries. TODO check if static info and functions are better suited here.
+     * Default constructor for the DB handler, initialises the connection and makes it ready for queries.
      */
     public DBHandler() {
         this.username = "cinema_admin";

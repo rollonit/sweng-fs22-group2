@@ -1,8 +1,7 @@
 package hslu.sweng.fs22.team2.ui;
 
-import hslu.sweng.fs22.team2.AppUI;
-import hslu.sweng.fs22.team2.Management;
-import hslu.sweng.fs22.team2.Screening;
+import hslu.sweng.fs22.team2.*;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -12,20 +11,20 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Primary brains of the software, controls the behaviour of the main window.
  */
 public class AppUIController {
     public ListView<String> viewSelector;
-    public TableView<Screening> centerTable;
+    public TableView<Object> centerTable;
     Management management;
     Stage primaryStage;
     @FXML
@@ -44,16 +43,8 @@ public class AppUIController {
 
 
         ////////////
-        centerTable = new TableView<>();
-        TableColumn<Screening, String> idColumn = new TableColumn<>("ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("screeningID"));
 
-        TableColumn<Screening, String> movieColumn = new TableColumn<>("MOvieID");
-        movieColumn.setCellValueFactory(new PropertyValueFactory<>("movieID"));
-
-        centerTable.setItems(FXCollections.observableList(management.getScreeningList()));
-        centerTable.getColumns().addAll(idColumn, movieColumn);
-        ///////////
+        ////////////
     }
 
     /**
@@ -307,8 +298,43 @@ public class AppUIController {
      * Important function, updates the table items when a mouseclick is detected in the viewSelector list and populates it correctly.
      */
     public void updateTable() {
-        // debug System.out.println(viewSelector.getSelectionModel().getSelectedItem());
+        centerTable.getColumns().clear();
+        TableColumn<Object, String> idColumn = new TableColumn<>("ID");
+        idColumn.setMinWidth(25);
+        TableColumn<Object, String> movieColumn = new TableColumn<>("Movie Name");
+        movieColumn.setMinWidth(50);
+        TableColumn<Object, String> screeningDateColumn = new TableColumn<>("Screening Date");
+        TableColumn<Object, String> screeningTimeColumn = new TableColumn<>("Screening Time");
+        TableColumn<Object, String> bookingTimeColumn = new TableColumn<>("Booking Time");
+        TableColumn<Object, String> bookingCodeColumn = new TableColumn<>("Booking Code");
+        switch (viewSelector.getSelectionModel().getSelectedItem()) {
+            case "Screenings":
 
+                idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Screening) cellData.getValue()).getScreeningID()));
 
+                movieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Movie) management.searchMovieByID(((Screening) cellData.getValue()).getMovieID())).getMovieName()));
+
+                centerTable.getColumns().add(idColumn);
+                centerTable.getColumns().add(movieColumn);
+                centerTable.setItems(FXCollections.observableArrayList(management.getScreeningList()));
+                break;
+            case "Bookings":
+                idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Booking) cellData.getValue()).getBookingID()));
+                movieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Movie) management.searchMovieByID(((Screening) management.searchScreeningByID(((Booking) cellData.getValue()).getScreeningID())).getMovieID())).getMovieName()));
+
+                screeningTimeColumn.setCellValueFactory(data -> new SimpleStringProperty(Helper.convertMillisToDateTime(((Screening) management.searchScreeningByID(((Booking) data.getValue()).getScreeningID())).getScreeningTime()).format(DateTimeFormatter.ofPattern("HH.mm"))));
+                screeningDateColumn.setCellValueFactory(data -> new SimpleStringProperty(Helper.convertMillisToDateTime(((Screening) management.searchScreeningByID(((Booking) data.getValue()).getScreeningID())).getScreeningTime()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
+                bookingTimeColumn.setCellValueFactory(data -> new SimpleStringProperty(Helper.convertMillisToDateTime(((Booking) data.getValue()).getBookingTime()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy @ HH.mm"))));
+                bookingCodeColumn.setCellValueFactory(data -> new SimpleStringProperty(((Booking) data.getValue()).getBookingCode()));
+                centerTable.getColumns().addAll(idColumn, movieColumn, screeningTimeColumn, screeningDateColumn, bookingTimeColumn, bookingCodeColumn);
+                centerTable.setItems(FXCollections.observableArrayList(management.getBookingList()));
+                break;
+            case "Halls":
+                TableColumn<Object, String> bookingIdColumn = new TableColumn<>("ID");
+                bookingIdColumn.setMinWidth(25);
+                bookingIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Screening) cellData.getValue()).getScreeningID()));
+                break;
+            case "Movies":
+        }
     }
 }

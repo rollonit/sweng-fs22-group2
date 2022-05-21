@@ -103,7 +103,7 @@ public class Screening {
             ResultSet rs = this.databaseHandler.query(queryText);
             returnCode = 1;
         } else {
-            System.out.println("HallNumber Already in Database");
+            System.out.println("ScreeningID Already in Database");
             returnCode = -2;
         }
         return returnCode;
@@ -150,7 +150,7 @@ public class Screening {
         int count = 0;
         boolean exists = false;
 
-        String queryText = String.format("select COUNT(*) from screening WHERE screeningID = '%s';", this.hallNumber);
+        String queryText = String.format("select COUNT(*) from screening WHERE screeningID = '%s';", this.screeningID);
         ResultSet rs = this.databaseHandler.query(queryText);
 
         while (rs.next()) {

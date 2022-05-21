@@ -26,9 +26,10 @@ public class App {
             //System.out.println(((Movie) searchedMovie).getMovieName());
         }
 
-        Object searchedHall = entryHandler.searchHallByID("1");
+        Object searchedHall = entryHandler.searchHallByID("2");
         if(searchedHall != null) {
-            //System.out.println(((Hall) searchedHall).getHallNumber());
+//            Hall hall = ((Hall) searchedHall);
+//            hall.editHall(hall.getHallWidth(), hall.getHallLength(), hall.getNormalPrice(), hall.getLastRowPrice());
         }
 
         Object searchedScreening = entryHandler.searchScreeningByID("1");

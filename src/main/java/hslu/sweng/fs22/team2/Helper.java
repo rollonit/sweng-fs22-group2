@@ -4,9 +4,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class Helper {
     public static int countOccurrences(char delimiter, String inputString) {
@@ -42,7 +40,7 @@ public class Helper {
      * @param toConvert local date object to convert
      * @return the epoch milliseconds form of the given date object
      */
-    public static long convertDateToTicks(LocalDateTime toConvert) {
+    public static long convertDateToMillis(LocalDateTime toConvert) {
         try {
             return toConvert.atZone(ZoneId.of("Europe/Zurich")).toInstant().toEpochMilli();
         } catch (Exception e) {
@@ -56,8 +54,8 @@ public class Helper {
      * @param toConvert date in format HH:mm yyyy-MM-dd
      * @return epoch milliseconds form of the given date
      */
-    public static long convertTextToTicks(String toConvert) throws ParseException {
-        return convertDateToTicks(convertTextToDate(toConvert));
+    public static long convertTextToMillis(String toConvert) throws ParseException {
+        return convertDateToMillis(convertTextToDate(toConvert));
     }
 
     /**
@@ -66,7 +64,7 @@ public class Helper {
      * @param epochMillis epoch milliseconds to convert
      * @return a Local date time object
      */
-    public static LocalDateTime convertTicksToDateTime(long epochMillis) {
+    public static LocalDateTime convertMillisToDateTime(long epochMillis) {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), ZoneId.of("Europe/Zurich"));
     }
 }

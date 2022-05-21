@@ -33,7 +33,8 @@
   <TextField fx:id="durationField" promptText="Duration in minutes" GridPane.columnIndex="1" GridPane.columnSpan="2"
              GridPane.rowIndex="4"/>
 
-  <Button fx:id="addMovieButton" onAction="#addMovie" text="Add Movie" GridPane.columnIndex="2" GridPane.halignment="RIGHT"
+  <Button fx:id="addMovieButton" onAction="#addMovie" text="Add Movie" GridPane.columnIndex="2"
+          GridPane.halignment="RIGHT"
           GridPane.rowIndex="5"/>
   <columnConstraints>
     <ColumnConstraints/>

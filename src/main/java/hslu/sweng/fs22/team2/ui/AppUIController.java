@@ -113,7 +113,7 @@ public class AppUIController {
 
         FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditMovie.fxml"));
         Scene EditMovie = new Scene(loader.load(), 400, 300);
-        MovieController controller = loader.<MovieController>getController();
+        MovieController controller = loader.getController();
         controller.setToEdit(null);
         newMoviePrompt.setScene(EditMovie);
 
@@ -158,7 +158,7 @@ public class AppUIController {
 
         FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditScreening.fxml"));
         Scene EditScreening = new Scene(loader.load(), 450, 360);
-        ScreeningController controller = loader.<ScreeningController>getController();
+        ScreeningController controller = loader.getController();
         controller.setToEdit(null);
         editScreeningPrompt.setScene(EditScreening);
 
@@ -203,7 +203,7 @@ public class AppUIController {
 
         FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditBooking.fxml"));
         Scene EditBooking = new Scene(loader.load(), 550, 650);
-        BookingController controller = loader.<BookingController>getController();
+        BookingController controller = loader.getController();
         controller.setToEdit(null);
         editBookingPrompt.setScene(EditBooking);
 
@@ -248,7 +248,7 @@ public class AppUIController {
 
         FXMLLoader loader = new FXMLLoader(AppUI.class.getResource("EditHall.fxml"));
         Scene EditHall = new Scene(loader.load(), 400, 400);
-        HallController controller = loader.<HallController>getController();
+        HallController controller = loader.getController();
         controller.setToEdit(null);
         editHallPrompt.setScene(EditHall);
 

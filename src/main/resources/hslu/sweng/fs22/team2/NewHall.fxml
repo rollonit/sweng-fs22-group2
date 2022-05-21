@@ -2,48 +2,56 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<GridPane alignment="CENTER" hgap="15.0" prefHeight="400.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hslu.sweng.fs22.team2.ui.HallController">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" hgap="15.0" prefHeight="400.0" prefWidth="600.0"
+          vgap="10" xmlns="http://javafx.com/javafx/16"
+          fx:controller="hslu.sweng.fs22.team2.ui.HallController">
   <Text text="Add New Hall" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
     <font>
-      <Font size="32.0" />
+      <Font size="32.0"/>
     </font>
   </Text>
 
-  <Label text="Hall Number" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+  <Label text="Hall Number" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
-  <TextField fx:id="hallNumberField" promptText="The number assinged to the hall" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+  <TextField fx:id="hallNumberField" promptText="The number assinged to the hall" GridPane.columnIndex="1"
+             GridPane.columnSpan="2" GridPane.rowIndex="1"/>
 
-  <Label text="Hall Width" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+  <Label text="Hall Width" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-  <TextField fx:id="hallWidthField" promptText="Number of seats in a row" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+  <TextField fx:id="hallWidthField" promptText="Number of seats in a row" GridPane.columnIndex="1"
+             GridPane.columnSpan="2" GridPane.rowIndex="2"/>
 
-  <Label text="Hall Height" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+  <Label text="Hall Height" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
-  <TextField fx:id="hallHeightField" promptText="Number of rows" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+  <TextField fx:id="hallHeightField" promptText="Number of rows" GridPane.columnIndex="1" GridPane.columnSpan="2"
+             GridPane.rowIndex="3"/>
 
-  <Label text="Normal Row Price" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+  <Label text="Normal Row Price" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
-  <TextField fx:id="normalRowPriceField" promptText="The normal price of a seat" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+  <TextField fx:id="normalRowPriceField" promptText="The normal price of a seat" GridPane.columnIndex="1"
+             GridPane.columnSpan="2" GridPane.rowIndex="4"/>
 
-  <Label text="Last Row Price" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+  <Label text="Last Row Price" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
 
-  <TextField fx:id="lastRowPriceField" promptText="Price of a premium seat" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+  <TextField fx:id="lastRowPriceField" promptText="Price of a premium seat" GridPane.columnIndex="1"
+             GridPane.columnSpan="2" GridPane.rowIndex="5"/>
 
-  <Button fx:id="addHallButton" onAction="#addHall" text="Add Hall" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+  <Button fx:id="addHallButton" onAction="#addHall" text="Add Hall" GridPane.columnIndex="2" GridPane.halignment="RIGHT"
+          GridPane.rowIndex="6"/>
   <columnConstraints>
-    <ColumnConstraints />
-    <ColumnConstraints />
-    <ColumnConstraints minWidth="200.0" />
+    <ColumnConstraints/>
+    <ColumnConstraints/>
+    <ColumnConstraints minWidth="200.0"/>
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints />
-    <RowConstraints />
-    <RowConstraints />
-    <RowConstraints />
-    <RowConstraints />
-    <RowConstraints />
-      <RowConstraints />
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
+    <RowConstraints/>
   </rowConstraints>
 </GridPane>

@@ -4,6 +4,7 @@ package hslu.sweng.fs22.team2.ui;
 import hslu.sweng.fs22.team2.*;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
@@ -67,11 +68,20 @@ public class NewScreeningController {
         });
     }
 
-    public void addScreening() throws ParseException {
+    public void addScreening() throws Exception {
         String timeDate = timeField.getText() + " " + datePicker.getValue().toString();
-        System.out.println(timeDate);
-        System.out.println(Helper.convertTextToDate(timeDate));
-        //Screening sc = new Screening("", moviePicker.getValue().getMovieID(), hallPicker.getValue().getHallNumber(), Helper.convertDateToTicks(Helper.convertTextToDate(timeField.getText()+" "+Helper.convertTextToDate(datePicker.getValue().toString()))));
-
+        Screening sc = new Screening("", moviePicker.getValue().getMovieID(), hallPicker.getValue().getHallNumber(), Helper.convertTextToTicks(timeDate));
+        int returnCode = sc.saveScreening();
+        if (!validationSupport.isInvalid() && returnCode == 1) {
+            Stage toKill = (Stage) addScreeningButton.getScene().getWindow();
+            toKill.hide();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            System.out.println("ERror code:" + returnCode + "screeningid: " + sc.getScreeningID());
+            alert.setHeaderText("There was an error while adding the movie!");
+            alert.setTitle("Error");
+            alert.setContentText(returnCode == -1 ? "A screening with that name already exists!" : "THERE IS NO HELP Movie ID Clash Error Code: " + returnCode + " ScreeningID: " + sc.getScreeningID());
+            alert.showAndWait();
+        }
     }
 }

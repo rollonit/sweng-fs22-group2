@@ -1,7 +1,6 @@
 package hslu.sweng.fs22.team2.ui;
 
 import hslu.sweng.fs22.team2.Movie;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

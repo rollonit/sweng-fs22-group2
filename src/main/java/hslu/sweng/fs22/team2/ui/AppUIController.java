@@ -30,6 +30,7 @@ public class AppUIController {
         Stage loginPrompt = new Stage();
         loginPrompt.setMinWidth(400);
         loginPrompt.setMinHeight(300);
+        loginPrompt.setTitle("Login");
 
         Scene Login = new Scene((new FXMLLoader(AppUI.class.getResource("Login.fxml")).load()), 450, 300);
         loginPrompt.setScene(Login);
@@ -50,6 +51,7 @@ public class AppUIController {
         Stage newMoviePrompt = new Stage();
         newMoviePrompt.setMinWidth(400);
         newMoviePrompt.setMinHeight(300);
+        newMoviePrompt.setTitle("Create New Movie");
 
         Scene NewMovie = new Scene((new FXMLLoader(AppUI.class.getResource("NewMovie.fxml")).load()), 400, 300);
         newMoviePrompt.setScene(NewMovie);
@@ -70,6 +72,7 @@ public class AppUIController {
         Stage newScreeningPrompt = new Stage();
         newScreeningPrompt.setMinWidth(450);
         newScreeningPrompt.setMinHeight(360);
+        newScreeningPrompt.setTitle("Add New Screening");
 
         Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("NewScreening.fxml")).load()), 450, 360);
         newScreeningPrompt.setScene(NewScreening);
@@ -78,5 +81,26 @@ public class AppUIController {
         newScreeningPrompt.initModality(Modality.APPLICATION_MODAL);
 
         newScreeningPrompt.showAndWait();
+    }
+
+    /**
+     * Spawns a new 'make' window based on fxml
+     *
+     * @param actionEvent the event which triggered this function
+     * @throws IOException in case it doesn't find the fxml file ig
+     */
+    public void onNewBookingPage(ActionEvent actionEvent) throws IOException {
+        Stage newBookingPrompt = new Stage();
+        newBookingPrompt.setMinWidth(550);
+        newBookingPrompt.setMinHeight(650);
+        newBookingPrompt.setTitle("Make New Booking");
+
+        Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("NewBooking.fxml")).load()), 550, 650);
+        newBookingPrompt.setScene(NewScreening);
+
+        newBookingPrompt.initOwner(welcomeText.getScene().getWindow());
+        newBookingPrompt.initModality(Modality.APPLICATION_MODAL);
+
+        newBookingPrompt.showAndWait();
     }
 }

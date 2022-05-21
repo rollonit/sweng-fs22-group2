@@ -85,15 +85,29 @@ public class Hall {
     /**
      * @return The Hall Width.
      */
-    public Integer getHallWidth() {
+    public int getHallWidth() {
         return this.hallWidth;
     }
 
     /**
      * @return The Hall Length.
      */
-    public Integer getHallLength() {
+    public int getHallLength() {
         return this.hallLength;
+    }
+
+    /**
+     * @return The normal price of a seat
+     */
+    public double getNormalPrice() {
+        return this.normalPrice;
+    }
+
+    /**
+     * @return The normal price of a seat
+     */
+    public double getLastRowPrice() {
+        return this.lastRowPrice;
     }
 
     /**

@@ -252,7 +252,7 @@ public class Management {
         try {
             Object screening = searchScreeningByID(booking.getScreeningID());
             if(screening != null) {
-                String hallNumber = ((Screening) screening).gethallNumber();
+                String hallNumber = ((Screening) screening).getHallNumber();
 
                 Object hall = searchHallByID(hallNumber);
                 if(hall != null) {
@@ -286,7 +286,7 @@ public class Management {
             }
         }
 
-        Object searchedHall = searchHallByID(screening.gethallNumber());
+        Object searchedHall = searchHallByID(screening.getHallNumber());
         if(searchedHall != null) {
             List<String> seatIDList = ((Hall) searchedHall).getSeatIDList();
             for(String seatID : seatIDList){
@@ -306,7 +306,7 @@ public class Management {
         double bookingPrice = 0.0;
         if(validateBookedSeats(booking)) {
             try {
-                Object hall = searchHallByID(((Screening) searchScreeningByID(booking.getScreeningID())).gethallNumber());
+                Object hall = searchHallByID(((Screening) searchScreeningByID(booking.getScreeningID())).getHallNumber());
                 if (hall != null) {
                     for(String seatID : booking.getBookedSeatsList()) {
                         Object seat = ((Hall) hall).getSeatInfo(seatID);

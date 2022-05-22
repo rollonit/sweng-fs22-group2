@@ -48,7 +48,7 @@ public class Booking {
     }
 
     /**
-     * Parametrised constructor for the Booking class. TODO NEEDS MORE INFO FOR SEATS.
+     * Parametrised constructor for the Booking class.
      *
      * @param bookingID   ID of the booking
      * @param screeningID screening ID for which the booking is made
@@ -109,8 +109,7 @@ public class Booking {
     }
 
     public List<String> getBookedSeatsList() {
-        List<String> bookedSeatsList = Arrays.asList(this.bookedSeats.split(";"));
-        return bookedSeatsList;
+        return Arrays.asList(this.bookedSeats.split(";"));
     }
 
     /**
@@ -139,7 +138,7 @@ public class Booking {
                             "(bookingID, screeningID, bookedSeats, bookingTime, bookingCode) values " +
                             "('%s', '%s', '%s', '%s', '%s');",
                     this.bookingID, this.screeningID, this.bookedSeats, this.bookingTime, this.bookingCode);
-            ResultSet rs = this.databaseHandler.query(queryText);
+            this.databaseHandler.query(queryText);
             returnCode = 1;
         } else {
             System.out.println("BookingID Already in Database");

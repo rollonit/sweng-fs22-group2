@@ -25,7 +25,7 @@ public class Helper {
      * @param toConvert date in format HH:mm yyyy-MM-dd
      * @return a local date time object if valid, 1990.01.01 00:00:00 otherwise
      */
-    public static LocalDateTime convertTextToDate(String toConvert) throws ParseException {
+    public static LocalDateTime convertTextToDate(String toConvert) {
         try {
             return LocalDateTime.parse(toConvert, DateTimeFormatter.ofPattern("HH:mm yyyy-MM-dd"));
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class Helper {
         try {
             return toConvert.atZone(ZoneId.of("Europe/Zurich")).toInstant().toEpochMilli();
         } catch (Exception e) {
-            return (long) 0;
+            return 0;
         }
     }
 
@@ -54,7 +54,7 @@ public class Helper {
      * @param toConvert date in format HH:mm yyyy-MM-dd
      * @return epoch milliseconds form of the given date
      */
-    public static long convertTextToMillis(String toConvert) throws ParseException {
+    public static long convertTextToMillis(String toConvert) {
         return convertDateToMillis(convertTextToDate(toConvert));
     }
 

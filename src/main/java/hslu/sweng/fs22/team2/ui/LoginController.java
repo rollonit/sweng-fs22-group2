@@ -8,12 +8,18 @@ import javafx.stage.Stage;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
+/**
+ * Handles the UI functions required with login window, such as validation.
+ */
 public class LoginController {
     private final ValidationSupport validationSupport = new ValidationSupport();
     public PasswordField passwordField;
     public Button loginButton;
     public TextField usernameField;
 
+    /**
+     * Initialises the validators for the login window.
+     */
     @FXML
     public void initialize() {
         validationSupport.registerValidator(usernameField, Validator.createEmptyValidator("A username is required!"));
@@ -24,7 +30,7 @@ public class LoginController {
      * Validates the login information and handles server login.
      */
     public void validateLogin() {
-        //TODO do login actions
+        // TODO do login actions
 
         if (!validationSupport.isInvalid()) {
             //cleanup

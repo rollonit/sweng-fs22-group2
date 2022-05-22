@@ -15,17 +15,23 @@ import java.time.Duration;
 import java.util.regex.Pattern;
 
 /**
- * Controller for the add movie page.
+ * Handles anything to do with the UI functions required to handle movies (create, edit, delete, etc.), MUST run setToEdit() when run in edit mode.
  */
 public class MovieController {
+    /**
+     * Handles validation for window fields.
+     */
     private final ValidationSupport validationSupport = new ValidationSupport();
+    //Various UI object handles
     public TextField movieNameField;
     public TextField directorField;
     public TextField yearField;
     public TextField durationField;
     public Button addMovieButton;
-
-    Movie beingEdited;
+    /**
+     * The screening that must be edited if the class is called in an edit mode.
+     */
+    Movie toEdit;
 
     /**
      * Initializes the validators for the fields in the new movie page.
@@ -39,16 +45,21 @@ public class MovieController {
         addMovieButton.disableProperty().bind(validationSupport.invalidProperty());
     }
 
-    public void setToEdit(Movie movie) {
-        beingEdited = movie;
-        movieNameField.setText(movie.getMovieName());
-        yearField.setText(Integer.toString(movie.getReleaseYear()));
-        directorField.setText(movie.getDirector());
-        durationField.setText(Long.toString(movie.getDuration().toMinutes()));
+    /**
+     * Sets the movie on which the edit operations must be performed. MUST be run when called in an edit mode.
+     *
+     * @param toEdit the movie to be edited
+     */
+    public void setToEdit(Movie toEdit) {
+        this.toEdit = toEdit;
+        movieNameField.setText(toEdit.getMovieName());
+        yearField.setText(Integer.toString(toEdit.getReleaseYear()));
+        directorField.setText(toEdit.getDirector());
+        durationField.setText(Long.toString(toEdit.getDuration().toMinutes()));
     }
 
     /**
-     * Validates the new movie info, and handles adding a new movie.
+     * Adds a new movie to the DB based on data from the UI fields, handles validation checks and errors with a popup.
      */
     public void addMovie() throws SQLException {
         Movie movie = new Movie("", movieNameField.getText(), Integer.parseInt(yearField.getText()), directorField.getText(), Duration.ofMinutes(Long.parseLong(durationField.getText())));
@@ -66,8 +77,11 @@ public class MovieController {
         }
     }
 
+    /**
+     * Edits the movie on the DB based on data from the UI fields. Handles validation.
+     */
     public void editMovie() throws SQLException {
-        beingEdited.editMovie(movieNameField.getText(), Integer.parseInt(yearField.getText()), directorField.getText(), Duration.ofMinutes(Long.parseLong(durationField.getText())));
+        toEdit.editMovie(movieNameField.getText(), Integer.parseInt(yearField.getText()), directorField.getText(), Duration.ofMinutes(Long.parseLong(durationField.getText())));
         if (!validationSupport.isInvalid()) {
             Stage toKill = (Stage) addMovieButton.getScene().getWindow();
             toKill.hide();

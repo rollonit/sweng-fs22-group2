@@ -97,10 +97,10 @@ public class Screening {
 
         if (!(doesExist())) {
             String queryText = String.format("insert into screening " +
-                            "(screeningID, screeningTime, hallNumber, movieID) values " +
-                            "('%s', '%s', '%s', '%s');",
+                    "(screeningID, screeningTime, hallNumber, movieID) values " +
+                    "('%s', '%s', '%s', '%s');",
                     this.screeningID, this.screeningTime, this.hallNumber, this.movieID);
-            ResultSet rs = this.databaseHandler.query(queryText);
+            this.databaseHandler.query(queryText);
             returnCode = 1;
         } else {
             System.out.println("ScreeningID Already in Database");

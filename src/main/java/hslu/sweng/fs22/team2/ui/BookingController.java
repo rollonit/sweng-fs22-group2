@@ -10,11 +10,13 @@ import javafx.util.StringConverter;
 import org.controlsfx.validation.ValidationSupport;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Handles anything to do with the UI functions required to handle screenings (create, edit, delete, etc.), MUST run setToEdit() when run in edit mode.
+ */
 public class BookingController {
     public ComboBox<Screening> screeningPicker;
     public Button makeBookingButton;
@@ -23,8 +25,11 @@ public class BookingController {
     Booking toEdit;
     private Management management;
 
+    /**
+     * Initialises the window and the validators. It also loads required data for the dropdown menus on the screen.
+     */
     @FXML
-    public void initialize() throws SQLException, ParseException {
+    public void initialize() throws SQLException {
         toEdit = new Booking();
         management = new Management();
         screeningPicker.setItems(FXCollections.observableList(management.getScreeningList()));
@@ -35,9 +40,7 @@ public class BookingController {
             public String toString(Screening screening) {
                 if (screening == null) return "Please select";
                 LocalDateTime timeOfScreening = Helper.convertMillisToDateTime(screening.getScreeningTime());
-                return ((Movie) management.searchMovieByID(screening.getMovieID())).getMovieName()
-                        + " on " + timeOfScreening.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-                        + " at " + timeOfScreening.format(DateTimeFormatter.ofPattern("HH.mm"));
+                return ((Movie) management.searchMovieByID(screening.getMovieID())).getMovieName() + " on " + timeOfScreening.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " at " + timeOfScreening.format(DateTimeFormatter.ofPattern("HH.mm"));
             }
 
             @Override
@@ -55,10 +58,18 @@ public class BookingController {
         });
     }
 
-    public void setToEdit(Booking booking) {
-        toEdit = booking;
+    /**
+     * Sets the movie on which the edit operations must be performed. MUST be run when called in an edit mode.
+     *
+     * @param toEdit the booking to edit
+     */
+    public void setToEdit(Booking toEdit) {
+        this.toEdit = toEdit;
     }
 
+    /**
+     * Creates a new booking on the DB based on data from the UI fields, handles validation checks and errors with a popup. Displays an info popup on successful booking.
+     */
     public void makeBooking(ActionEvent actionEvent) throws SQLException {
         //Appending all the selected seats to a string builder.
         StringBuilder seats = new StringBuilder();
@@ -71,10 +82,7 @@ public class BookingController {
         if (!validationSupport.isInvalid() && returnCode == 1) { // DB upload was successful
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Your Booking is successful!");
-            alert.setContentText("Your booking for "
-                    + ((Movie) management.searchMovieByID(screeningPicker.getValue().getMovieID())).getMovieName()
-                    + " on " + Helper.convertMillisToDateTime(screeningPicker.getValue().getScreeningTime()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-                    + " has been successfully placed. Your booking ID is " + booking.getBookingCode());
+            alert.setContentText("Your booking for " + ((Movie) management.searchMovieByID(screeningPicker.getValue().getMovieID())).getMovieName() + " on " + Helper.convertMillisToDateTime(screeningPicker.getValue().getScreeningTime()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " has been successfully placed. Your booking ID is " + booking.getBookingCode());
             alert.setTitle("Booking Confirmation");
             alert.showAndWait();
             Stage toKill = (Stage) makeBookingButton.getScene().getWindow();
@@ -89,6 +97,9 @@ public class BookingController {
         }
     }
 
+    /**
+     * Updates the list of available seats in the seat list based on the screening selected.
+     */
     public void onScreeningPick() {
         // Checking if all the seats in the selected screening are available and then adding them to the list
         List<String> availableSeats = management.getAvailableSeatIDs(screeningPicker.getValue());
@@ -97,6 +108,9 @@ public class BookingController {
         }
     }
 
+    /**
+     * Edits the hall on the DB based on data from the UI fields. Handles validation. TODO actually implement this.
+     */
     public void editBooking(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setHeaderText("This feature has not been implemented yet!");

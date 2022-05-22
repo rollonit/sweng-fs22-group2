@@ -12,23 +12,37 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
+/**
+ * Handles anything to do with the UI functions required to handle screenings (create, edit, delete, etc.), MUST run setToEdit() when run in edit mode.
+ */
 public class ScreeningController {
+    /**
+     * Handles validation for window fields.
+     */
+    private final ValidationSupport validationSupport = new ValidationSupport();
+    // Various UI element handles
     public Button addScreeningButton;
     public ComboBox<Movie> moviePicker;
     public DatePicker datePicker;
     public ChoiceBox<Hall> hallPicker;
     public TextField timeField;
-
-    ValidationSupport validationSupport = new ValidationSupport();
+    /**
+     * The screening that must be edited if the class is called in an edit mode.
+     */
     Screening toEdit;
+    /**
+     * Management class for DB operations.
+     */
     private Management management;
 
+    /**
+     * Initialises the window and the validators. It also loads required data for the dropdown menus on the screen.
+     */
     @FXML
-    public void initialize() throws SQLException, ParseException {
+    public void initialize() throws SQLException {
         //Validators
         validationSupport.registerValidator(moviePicker, Validator.createEmptyValidator("Screening must have a movie!"));
         validationSupport.registerValidator(datePicker, Validator.createEmptyValidator("Screening must be on a date!"));
@@ -69,6 +83,11 @@ public class ScreeningController {
         });
     }
 
+    /**
+     * Sets the screening on which the edit operations must be performed. MUST be run when called in an edit mode.
+     *
+     * @param screening the screening to be edited
+     */
     public void setToEdit(Screening screening) {
         toEdit = screening;
         hallPicker.getSelectionModel().select((Hall) management.searchHallByID(screening.getHallNumber()));
@@ -77,7 +96,10 @@ public class ScreeningController {
         datePicker.setValue(Helper.convertMillisToDateTime(screening.getScreeningTime()).toLocalDate());
     }
 
-    public void addScreening() throws Exception {
+    /**
+     * Adds a new screening to the DB based on data from the UI fields, handles validation checks and errors with a popup.
+     */
+    public void addScreening() throws SQLException {
         String timeDate = timeField.getText() + " " + datePicker.getValue().toString();
         Screening sc = new Screening("", moviePicker.getValue().getMovieID(), hallPicker.getValue().getHallNumber(), Helper.convertTextToMillis(timeDate));
         System.out.println("" + ", " + moviePicker.getValue().getMovieID() + ", " + hallPicker.getValue().getHallNumber() + ", " + Helper.convertTextToMillis(timeDate)); //debug
@@ -95,7 +117,10 @@ public class ScreeningController {
         }
     }
 
-    public void editScreening() throws ParseException, SQLException {
+    /**
+     * Edits the screening on the DB based on data from the UI fields. Handles validation.
+     */
+    public void editScreening() throws SQLException {
         String timeDate = timeField.getText() + " " + datePicker.getValue().toString();
         toEdit.editScreening(Helper.convertTextToMillis(timeDate), hallPicker.getValue().getHallNumber(), moviePicker.getValue().getMovieID());
         if (!validationSupport.isInvalid()) {

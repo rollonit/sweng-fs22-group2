@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -29,7 +28,7 @@ public class AppUIController {
     private Label welcomeText;
 
     @FXML
-    public void initialize() throws SQLException, ParseException {
+    public void initialize() throws SQLException {
         management = new Management();
         viewSelector.getItems().addAll("Screenings", "Movies", "Halls", "Bookings");
         //Detect changes in the selected item in the list
@@ -38,11 +37,6 @@ public class AppUIController {
         });
         //Select the first item by default
         viewSelector.getSelectionModel().select(0);
-
-
-        ////////////
-
-        ////////////
     }
 
     /**
@@ -276,6 +270,10 @@ public class AppUIController {
         viewSelector.getScene().getWindow().hide();
     }
 
+    /**
+     * Handles the action for the new button, checks which view is selected, and spawns a create window
+     * TODO add popup if nothing is selected
+     */
     public void onNew() throws IOException {
         switch (viewSelector.getSelectionModel().getSelectedItem()) {
             case "Screenings" -> this.onNewScreeningPage();
@@ -285,6 +283,10 @@ public class AppUIController {
         }
     }
 
+    /**
+     * Handles the action for the edit button, checks which view is selected, which item is selected and does spawns edit window while setting the toEdit on the controller class.
+     * TODO add popup if nothing is selected
+     */
     public void onEdit() throws IOException {
         switch (viewSelector.getSelectionModel().getSelectedItem()) {
             case "Screenings" ->
@@ -295,6 +297,10 @@ public class AppUIController {
         }
     }
 
+    /**
+     * Handles the action for the delete button, checks which view is selected, which item is selected and does delete
+     * TODO add popup if nothing is selected
+     */
     public void onDelete() throws SQLException {
         switch (viewSelector.getSelectionModel().getSelectedItem()) {
             case "Screenings" -> ((Screening) centerTable.getSelectionModel().getSelectedItem()).removeScreening();

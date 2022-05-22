@@ -10,9 +10,11 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.regex.Pattern;
 
+/**
+ * Handles anything to do with the UI functions required to handle halls (create, edit, delete, etc.), MUST run setToEdit() when run in edit mode.
+ */
 public class HallController {
     public TextField hallNumberField;
     public TextField hallWidthField;
@@ -25,7 +27,10 @@ public class HallController {
 
     Hall toEdit;
 
-    public void initialize() throws SQLException, ParseException {
+    /**
+     * Initialises the window and the validators.
+     */
+    public void initialize() {
         validationSupport = new ValidationSupport();
 
         validationSupport.registerValidator(hallNumberField, Validator.createRegexValidator("Must be a number!", Pattern.compile("\\d+"), Severity.ERROR));
@@ -36,15 +41,23 @@ public class HallController {
         addHallButton.disableProperty().bind(validationSupport.invalidProperty());
     }
 
-    public void setToEdit(Hall hall) {
-        toEdit = hall;
-        hallNumberField.setText(hall.getHallNumber());
-        hallHeightField.setText(Integer.toString(hall.getHallLength()));
-        hallWidthField.setText(Integer.toString(hall.getHallWidth()));
-        normalRowPriceField.setText(Double.toString(hall.getNormalPrice()));
-        lastRowPriceField.setText(Double.toString(hall.getLastRowPrice()));
+    /**
+     * Sets the hall on which the edit operations must be performed. MUST be run when called in an edit mode.
+     *
+     * @param toEdit the hall to edit
+     */
+    public void setToEdit(Hall toEdit) {
+        this.toEdit = toEdit;
+        hallNumberField.setText(HallController.this.toEdit.getHallNumber());
+        hallHeightField.setText(Integer.toString(HallController.this.toEdit.getHallLength()));
+        hallWidthField.setText(Integer.toString(HallController.this.toEdit.getHallWidth()));
+        normalRowPriceField.setText(Double.toString(HallController.this.toEdit.getNormalPrice()));
+        lastRowPriceField.setText(Double.toString(HallController.this.toEdit.getLastRowPrice()));
     }
 
+    /**
+     * Adds a new hall to the DB based on data from the UI fields, handles validation checks and errors with a popup.
+     */
     public void addHall() throws SQLException {
         Hall hall = new Hall(hallNumberField.getText(), Integer.parseInt(hallWidthField.getText()), Integer.parseInt(hallHeightField.getText()), Double.parseDouble(normalRowPriceField.getText()), Double.parseDouble(lastRowPriceField.getText()));
         int returnCode = hall.saveHall();
@@ -61,6 +74,9 @@ public class HallController {
         }
     }
 
+    /**
+     * Edits the hall on the DB based on data from the UI fields. Handles validation.
+     */
     public void editHall() throws SQLException {
         toEdit.editHall(Integer.parseInt(hallHeightField.getText()), Integer.parseInt(hallHeightField.getText()), Double.parseDouble(normalRowPriceField.getText()), Double.parseDouble(lastRowPriceField.getText()));
         if (!validationSupport.isInvalid()) {

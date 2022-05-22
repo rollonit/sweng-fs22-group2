@@ -42,7 +42,7 @@ public class Hall {
     /**
      * SeatList for Hall
      */
-    private List<Seat> seatList = new ArrayList<Seat>(0);
+    private List<Seat> seatList;
 
     /**
      * Default constructor for the Hall class.
@@ -126,7 +126,7 @@ public class Hall {
      * @return List of seatIDs
      */
     public List<String> getSeatIDList() {
-        List<String> seatIDList = new ArrayList<String>((getSeatList()).size());
+        List<String> seatIDList = new ArrayList<>((getSeatList()).size());
         for (Seat seat : (getSeatList())) {
             seatIDList.add(seat.getSeatID());
         }
@@ -200,12 +200,12 @@ public class Hall {
     private List<Seat> getSeats() throws SQLException {
         String queryText = String.format("select * from seat WHERE hallNumber = '%s';", this.hallNumber);
         ResultSet rs = this.databaseHandler.query(queryText);
-        List<Seat> seatList = new ArrayList<Seat>(0);
+        List<Seat> seatList = new ArrayList<>(0);
 
         if (rs != null) {
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
-            seatList = new ArrayList<Seat>(columns);
+            seatList = new ArrayList<>(columns);
             while (rs.next()) {
 
                 String seatID = rs.getString("seatID");
@@ -224,7 +224,7 @@ public class Hall {
     /**
      * Gets all Seats for the Hall
      */
-    public Seat getSeatInfo(String seatID) throws SQLException {
+    public Seat getSeatInfo(String seatID) {
 
         return seatList.stream().filter(Seat -> seatID.equals(Seat.getSeatID())).findAny().orElse(null);
 
@@ -233,7 +233,7 @@ public class Hall {
     /**
      * checks amount of Seats
      */
-    public Boolean checkSeats() throws SQLException {
+    public Boolean checkSeats() {
         return this.seatList.size() == (this.hallWidth * this.hallLength);
     }
 
@@ -243,7 +243,7 @@ public class Hall {
      * @param lastRowPrice Prices for the last row
      * @param normalPrice  Prices for the other rows
      */
-    private void updateSeats(double normalPrice, double lastRowPrice) throws SQLException {
+    private void updateSeats(double normalPrice, double lastRowPrice) {
         String queryText = String.format("DELETE FROM seat WHERE hallNumber = '%s'", this.hallNumber);
         this.databaseHandler.query(queryText);
 
@@ -265,7 +265,7 @@ public class Hall {
                 }
 
                 queryText = String.format("INSERT INTO seat (seatID, x, y, price, hallNumber) VALUE (%s, %s, %s, %s, %s)",
-                        ("'" + this.hallNumber + "_" + Integer.toString(x) + "/" + Integer.toString(y) + "'"),
+                        ("'" + this.hallNumber + "_" + x + "/" + y + "'"),
                         x, y, priceToSet, this.hallNumber);
 
                 this.databaseHandler.query(queryText);

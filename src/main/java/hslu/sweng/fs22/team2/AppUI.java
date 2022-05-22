@@ -4,19 +4,37 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * <h2>The Cinema Booking System</h2>
+ * This class contains the entry point for the GUI application and sets up required windows
+ */
 public class AppUI extends Application {
 
     Stage primaryStage;
+
+    /**
+     * Entry point for the application to run with a UI. Launches JavaFX
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         launch();
     }
 
+    /**
+     * Start point for JavaFX creates the primary stage, loads FXML and sets up the window dimensions, title and icons
+     *
+     * @param window the primary stage for this application, onto which
+     *               the application scene can be set.
+     *               Applications may create other stages, if needed, but they will not be
+     *               primary stages.
+     * @throws IOException if it can't find the FXML or the icon for the main window
+     */
     @Override
     public void start(Stage window) throws IOException {
         primaryStage = window;

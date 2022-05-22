@@ -6,7 +6,6 @@ import java.time.Duration;
 
 /**
  * Represents a single movie playing at the theater.
- * TODO might need to add more info or a picture
  */
 public class Movie {
     /**
@@ -120,7 +119,6 @@ public class Movie {
         return this.duration;
     }
 
-
     /**
      * Saves the movie object to the Database
      */
@@ -132,7 +130,7 @@ public class Movie {
                 double durationConverted = (double) this.duration.toMinutes();
                 String queryText = String.format("INSERT INTO movie (movieID, movieName, releaseYear, director, duration) VALUE ('%s', '%s', '%s', '%s', '%s');",
                         this.movieID, this.movieName, this.releaseYear, this.director, durationConverted);
-                ResultSet rs = this.databaseHandler.query(queryText);
+                this.databaseHandler.query(queryText);
 
                 returnCode = 1;
             } else {

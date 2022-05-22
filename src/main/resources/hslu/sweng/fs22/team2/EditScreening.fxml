@@ -7,7 +7,7 @@
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" hgap="15.0" prefHeight="400.0" prefWidth="600.0"
           vgap="10" xmlns="http://javafx.com/javafx/16"
           fx:controller="hslu.sweng.fs22.team2.ui.ScreeningController">
-  <Text text="Add New Screening" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
+  <Text text="Edit Existing Screening" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
     <font>
       <Font size="32.0"/>
     </font>
@@ -32,7 +32,7 @@
   <TextField fx:id="timeField" promptText="Starting time in 24h HH:MM" GridPane.columnIndex="1" GridPane.columnSpan="2"
              GridPane.rowIndex="3"/>
 
-  <Button fx:id="addScreeningButton" onAction="#editScreening" text="Add Screening" GridPane.columnIndex="2"
+  <Button fx:id="addScreeningButton" onAction="#editScreening" text="Edit Screening" GridPane.columnIndex="2"
           GridPane.halignment="RIGHT" GridPane.rowIndex="5"/>
   <columnConstraints>
     <ColumnConstraints/>

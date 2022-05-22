@@ -345,9 +345,11 @@ public class AppUIController {
             case "Screenings" -> {
                 idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Screening) cellData.getValue()).getScreeningID()));
                 movieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Movie) management.searchMovieByID(((Screening) cellData.getValue()).getMovieID())).getMovieName()));
+                screeningDateColumn.setCellValueFactory(data -> new SimpleStringProperty(Helper.convertMillisToDateTime(((Screening) data.getValue()).getScreeningTime()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
+                screeningTimeColumn.setCellValueFactory(data -> new SimpleStringProperty(Helper.convertMillisToDateTime(((Screening) data.getValue()).getScreeningTime()).format(DateTimeFormatter.ofPattern("HH.mm"))));
 
 
-                centerTable.getColumns().addAll(idColumn, movieColumn);
+                centerTable.getColumns().addAll(idColumn, movieColumn, screeningDateColumn, screeningTimeColumn);
                 centerTable.setItems(FXCollections.observableArrayList(management.getScreeningList()));
             }
             case "Bookings" -> {
@@ -371,6 +373,7 @@ public class AppUIController {
             }
             case "Movies" -> {
                 idColumn.setCellValueFactory(data -> new SimpleStringProperty(((Movie) data.getValue()).getMovieID()));
+                movieColumn.setCellValueFactory(data -> new SimpleStringProperty(((Movie) data.getValue()).getMovieName()));
                 directorColumn.setCellValueFactory(data -> new SimpleStringProperty(((Movie) data.getValue()).getDirector()));
                 releaseYearColumn.setCellValueFactory(data -> new SimpleStringProperty(Integer.toString(((Movie) data.getValue()).getReleaseYear())));
                 durationColumn.setCellValueFactory(data -> new SimpleStringProperty(Long.toString(((Movie) data.getValue()).getDuration().toMinutes())));

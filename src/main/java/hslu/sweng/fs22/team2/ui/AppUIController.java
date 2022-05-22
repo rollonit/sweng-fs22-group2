@@ -378,7 +378,7 @@ public class AppUIController {
                 releaseYearColumn.setCellValueFactory(data -> new SimpleStringProperty(Integer.toString(((Movie) data.getValue()).getReleaseYear())));
                 durationColumn.setCellValueFactory(data -> new SimpleStringProperty(Long.toString(((Movie) data.getValue()).getDuration().toMinutes())));
 
-                centerTable.getColumns().addAll(idColumn, directorColumn, releaseYearColumn, durationColumn);
+                centerTable.getColumns().addAll(idColumn, movieColumn, directorColumn, releaseYearColumn, durationColumn);
                 centerTable.setItems(FXCollections.observableArrayList(management.getMovieList()));
             }
         }

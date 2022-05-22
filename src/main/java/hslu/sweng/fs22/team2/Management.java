@@ -86,7 +86,108 @@ public class Management {
             }
         }
 
+        // Retrieves a list of all Halls and creates the respective objects
+        double normalPrice = 10.00;
+        double lastRowPrice = 15.00;
+        rs = databaseHandler.query("SELECT * FROM hall;");
+        if(rs != null) {
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            this.hallList = new ArrayList<Hall>(columns);
 
+            while(rs.next())
+            {
+                String hallNumber = rs.getString("hallNumber");
+                int hallWidth = rs.getInt("hallWidth");
+                int hallLength = rs.getInt("hallLength");
+
+
+                this.hallList.add(new Hall(hallNumber, hallWidth, hallLength, normalPrice, lastRowPrice));
+
+            }
+
+        }
+
+
+
+        // Retrieves a list of all Screenings and creates the respective objects
+        rs = databaseHandler.query("SELECT * FROM screening;");
+        if(rs != null) {
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            this.screeningList = new ArrayList<Screening>(columns);
+
+            while(rs.next())
+            {
+                String screeningID = rs.getString("screeningID");
+                String movieID = rs.getString("movieID");
+                String hallNumber = rs.getString("hallNumber");
+                long screeningTime = rs.getLong("screeningTime");
+
+                this.screeningList.add(new Screening(screeningID, movieID, hallNumber, screeningTime));
+            }
+
+        }
+
+
+
+        // Retrieves a list of all Bookings and creates the respective objects
+        rs = databaseHandler.query("SELECT * FROM booking;");
+        if(rs != null) {
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            this.bookingList = new ArrayList<Booking>(columns);
+
+            while(rs.next())
+            {
+                String bookingID = rs.getString("bookingID");
+                String screeningID = rs.getString("screeningID");
+                String bookedSeats = rs.getString("bookedSeats");
+                long bookedTime = rs.getLong("bookingTime");
+                String bookingCode = rs.getString("bookingCode");
+
+
+                this.bookingList.add(new Booking(bookingID, screeningID, bookedSeats, bookedTime, bookingCode));
+
+            }
+
+        }
+    }
+
+    public void update() throws SQLException {
+
+        DBHandler databaseHandler = new DBHandler();
+        helper = new Helper();
+
+
+
+        // Retrieves a list of all movies and creates the respective objects
+        ResultSet rs = databaseHandler.query("SELECT * FROM movie;");
+        if(rs != null) {
+
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            this.movieList = new ArrayList<Movie>(columns);
+            while(rs.next())
+            {
+                String movieID = rs.getString("movieID");
+                String movieName = rs.getString("movieName");
+                int releaseYear = rs.getInt("releaseYear");
+                String director = rs.getString("director");
+                double duration = rs.getDouble("duration");
+
+                int durationToInt = (int) Math.round(duration);
+                Duration durationConverted = Duration.of((long) durationToInt, ChronoUnit.MINUTES);
+
+//                System.out.println("MovieID: "+movieID);
+//                System.out.println("Movie Name: "+movieName);
+//                System.out.println("Release Year: "+releaseYear);
+//                System.out.println("Director: "+director);
+//                System.out.println("Duration: "+duration);
+
+                this.movieList.add(new Movie(movieID, movieName, releaseYear, director, durationConverted));
+            }
+        }
 
         // Retrieves a list of all Halls and creates the respective objects
         double normalPrice = 10.00;

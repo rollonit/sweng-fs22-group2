@@ -4,6 +4,7 @@ import hslu.sweng.fs22.team2.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -382,5 +383,14 @@ public class AppUIController {
                 centerTable.setItems(FXCollections.observableArrayList(management.getMovieList()));
             }
         }
+    }
+
+    public void refreshTable(ActionEvent actionEvent) {
+        try {
+            management.update();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.updateTable();
     }
 }

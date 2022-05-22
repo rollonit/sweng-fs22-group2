@@ -32,7 +32,7 @@ public class ScreeningController {
         //Validators
         validationSupport.registerValidator(moviePicker, Validator.createEmptyValidator("Screening must have a movie!"));
         validationSupport.registerValidator(datePicker, Validator.createEmptyValidator("Screening must be on a date!"));
-        validationSupport.registerValidator(timeField, Validator.createRegexValidator("Screening must have a time@!", Pattern.compile("^([ 01]?[0-9]|2[0-3]):([0-5][0-9])$"), Severity.ERROR));
+        validationSupport.registerValidator(timeField, Validator.createRegexValidator("Screening must have a time@!", Pattern.compile("^([01][0-9]|2[0-3]):([0-5][0-9])$"), Severity.ERROR));
         validationSupport.registerValidator(hallPicker, Validator.createEmptyValidator("Screening must be in a hall!"));
         addScreeningButton.disableProperty().bind(validationSupport.invalidProperty());
 

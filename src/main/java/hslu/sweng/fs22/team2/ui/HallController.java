@@ -48,11 +48,11 @@ public class HallController {
      */
     public void setToEdit(Hall toEdit) {
         this.toEdit = toEdit;
-        hallNumberField.setText(HallController.this.toEdit.getHallNumber());
-        hallHeightField.setText(Integer.toString(HallController.this.toEdit.getHallLength()));
-        hallWidthField.setText(Integer.toString(HallController.this.toEdit.getHallWidth()));
-        normalRowPriceField.setText(Double.toString(HallController.this.toEdit.getNormalPrice()));
-        lastRowPriceField.setText(Double.toString(HallController.this.toEdit.getLastRowPrice()));
+        hallNumberField.setText(this.toEdit.getHallNumber());
+        hallHeightField.setText(Integer.toString(this.toEdit.getHallLength()));
+        hallWidthField.setText(Integer.toString(this.toEdit.getHallWidth()));
+        normalRowPriceField.setText(Double.toString(this.toEdit.getNormalPrice()));
+        lastRowPriceField.setText(Double.toString(this.toEdit.getLastRowPrice()));
     }
 
     /**
@@ -78,7 +78,7 @@ public class HallController {
      * Edits the hall on the DB based on data from the UI fields. Handles validation.
      */
     public void editHall() throws SQLException {
-        toEdit.editHall(Integer.parseInt(hallHeightField.getText()), Integer.parseInt(hallHeightField.getText()), Double.parseDouble(normalRowPriceField.getText()), Double.parseDouble(lastRowPriceField.getText()));
+        toEdit.editHall(Integer.parseInt(hallWidthField.getText()), Integer.parseInt(hallHeightField.getText()), Double.parseDouble(normalRowPriceField.getText()), Double.parseDouble(lastRowPriceField.getText()));
         if (!validationSupport.isInvalid()) {
             Stage toKill = (Stage) addHallButton.getScene().getWindow();
             toKill.hide();

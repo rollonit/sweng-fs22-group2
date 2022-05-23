@@ -175,6 +175,8 @@ public class Hall {
             this.databaseHandler.query(queryText);
 
             updateSeats(normalPrice, lastRowPrice);
+            this.normalPrice = normalPrice;
+            this.lastRowPrice = lastRowPrice;
             this.seatList.clear();
             this.seatList = getSeats();
         }

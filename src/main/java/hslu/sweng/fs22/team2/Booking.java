@@ -76,7 +76,7 @@ public class Booking {
      *
      * @return the random code
      */
-    public String getRandString() {
+    public static String getRandString() {
         String charsToUse = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();

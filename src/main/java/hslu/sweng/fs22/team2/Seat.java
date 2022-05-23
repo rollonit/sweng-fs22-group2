@@ -70,6 +70,10 @@ public class Seat {
         return seatIDFormated;
     }
 
+    public String getSeatIDUncensored() {
+        return  seatID;
+    }
+
     /**
      * Returns the seat number in the row.
      */

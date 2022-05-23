@@ -201,43 +201,70 @@ class HallTest {
 
     @Test
     void getSeatInfo() throws SQLException {
+        boolean check = false;
+
         if(!this.hall.doesExist()) {
             this.hall.saveHall();
         }
 
+
         String seatID = "1/1";
-        String seatIDSQL = (this.hallNumber + "_1/1");
+        String seatIDSQL = (this.hall.getHallNumber() + "_1/1");
+        String x = "";
+        String y = "";
+        double price = 0.0;
+        Seat seatFromQuery;
 
-
-
-        this.hall.getSeatInfo(seatID);
+        Seat seat = this.hall.getSeatInfo(seatID);
 
         String queryText = String.format("SELECT * FROM seat WHERE seatID = '%s';", seatIDSQL);
         ResultSet rs = databaseHandler.query(queryText);
         while(rs.next()) {
-            int x = rs.getInt("x");
-            int y = rs.getInt("y");
-            double price = rs.getDouble("price");
+            x = rs.getString("x");
+            y = rs.getString("y");
+            price = rs.getDouble("price");
+
+            if(x.equals(seat.getX()) && y.equals(seat.getY()) && price == seat.getPrice()){
+                check = true;
+            }
         }
 
-
-
-
-
+        assertEquals(true, check);
 
 
         this.hall.removeHall();
     }
 
     @Test
-    void checkSeats() {
+    void checkSeats() throws SQLException {
+        if(!this.hall.doesExist()) {
+            this.hall.saveHall();
+        }
+        boolean check = this.hall.getSeatList().size() == (this.hall.getHallWidth() * this.hall.getHallLength());
+        assertEquals(true, check);
+
+        this.hall.removeHall();
     }
 
     @Test
-    void doesExist() {
+    void doesExist() throws SQLException {
+        Boolean result  = this.hall.doesExist();
+
+        assertEquals(false, result);
     }
 
     @Test
-    void generateHallNumber() {
+    void generateHallNumber() throws SQLException {
+        ResultSet rs = databaseHandler.query("SELECT hallNumber FROM hall order by hallNumber desc LIMIT 1;");
+        String latestName = "";
+        while (rs.next()) {
+            latestName = rs.getString("hallNumber");
+        }
+
+        int hallNumber = Integer.parseInt(latestName);
+        hallNumber++;
+
+        String shouldbe = this.hall.generateHallNumber();
+        assertEquals(shouldbe, (Integer.toString(hallNumber)));
     }
 }

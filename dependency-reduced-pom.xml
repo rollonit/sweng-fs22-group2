@@ -4,7 +4,7 @@
   <groupId>hslu.sweng.fs22.team2</groupId>
   <artifactId>SwengTeam2</artifactId>
   <name>SwengTeam2</name>
-  <version>1.0-SNAPSHOT2</version>
+  <version>1.0</version>
   <url>http://www.example.com</url>
   <build>
     <plugins>

@@ -56,6 +56,8 @@ public class BookingController {
                 setText(empty ? null : "Row: " + seat.getX() + ", Seat: " + seat.getY());
             }
         });
+
+        makeBookingButton.setDefaultButton(true);
     }
 
     /**

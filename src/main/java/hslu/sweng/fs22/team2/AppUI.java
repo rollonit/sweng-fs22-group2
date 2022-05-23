@@ -19,8 +19,6 @@ public class AppUI extends Application {
 
     /**
      * Entry point for the application to run with a UI. Launches JavaFX
-     *
-     * @param args
      */
     public static void main(String[] args) {
         launch();
@@ -42,7 +40,7 @@ public class AppUI extends Application {
         Scene MainPage = new Scene(fxmlLoader.load(), 900, 600);
 
 
-        //Set up window settings
+        // Set up window settings
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(900);
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(AppUI.class.getResourceAsStream("icon.png"))));
@@ -50,6 +48,17 @@ public class AppUI extends Application {
 
         primaryStage.setTitle("Cinema Booking System");
         primaryStage.setScene(MainPage);
+
+        // Spawns a login window that validates itself
+        Stage loginPrompt = new Stage();
+        loginPrompt.setMinWidth(400);
+        loginPrompt.setMinHeight(300);
+        loginPrompt.setTitle("Login");
+        Scene Login = new Scene((new FXMLLoader(AppUI.class.getResource("Login.fxml")).load()), 450, 300);
+        loginPrompt.setScene(Login);
+        loginPrompt.showAndWait();
+
+        // start main program
         primaryStage.show();
     }
 }

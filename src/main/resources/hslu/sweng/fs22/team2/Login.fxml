@@ -21,7 +21,8 @@
 
   <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-  <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+  <PasswordField promptText="Hint: &quot;admin&quot;" fx:id="passwordField" GridPane.columnIndex="1"
+                 GridPane.rowIndex="2"/>
   <Button GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" text="Log In"
           GridPane.halignment="RIGHT" onAction="#validateLogin" fx:id="loginButton"/>
 </GridPane>

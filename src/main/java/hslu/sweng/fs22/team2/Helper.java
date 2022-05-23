@@ -1,11 +1,13 @@
 package hslu.sweng.fs22.team2;
 
-import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * A static utility class that provides useful functions for handling dates and times and epoch milliseconds, among other things.
+ */
 public class Helper {
     public static int countOccurrences(char delimiter, String inputString) {
         int count = 0;

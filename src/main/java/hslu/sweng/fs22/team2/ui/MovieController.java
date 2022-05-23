@@ -43,6 +43,8 @@ public class MovieController {
         validationSupport.registerValidator(directorField, Validator.createEmptyValidator("Must not me empty!"));
         validationSupport.registerValidator(durationField, Validator.createRegexValidator("Invalid duration!", Pattern.compile("[\\d]+"), Severity.ERROR));
         addMovieButton.disableProperty().bind(validationSupport.invalidProperty());
+
+        addMovieButton.setDefaultButton(true);
     }
 
     /**

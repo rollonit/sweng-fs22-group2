@@ -1,6 +1,7 @@
 package hslu.sweng.fs22.team2.ui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -24,18 +25,27 @@ public class LoginController {
     public void initialize() {
         validationSupport.registerValidator(usernameField, Validator.createEmptyValidator("A username is required!"));
         loginButton.disableProperty().bind(validationSupport.invalidProperty());
+        loginButton.setDefaultButton(true);
     }
 
     /**
      * Validates the login information and handles server login.
      */
     public void validateLogin() {
-        // TODO do login actions
+        // TEST CREDENTIALS
+        String username = "employee1";
+        String pass = "admin";
 
-        if (!validationSupport.isInvalid()) {
+        if (!validationSupport.isInvalid() && usernameField.getText().equals(username) && passwordField.getText().equals(pass)) {
             //cleanup
             Stage toKill = (Stage) passwordField.getScene().getWindow();
             toKill.hide();
+        } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Wrong credentials!");
+                alert.setTitle("Error");
+                alert.setContentText("Hint: sample username: employee1, sample password: admin");
+                alert.showAndWait();
         }
     }
 }

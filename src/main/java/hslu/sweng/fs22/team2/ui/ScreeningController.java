@@ -81,6 +81,8 @@ public class ScreeningController {
                 return null;
             }
         });
+
+        addScreeningButton.setDefaultButton(true);
     }
 
     /**

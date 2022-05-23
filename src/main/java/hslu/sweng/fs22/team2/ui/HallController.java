@@ -39,6 +39,8 @@ public class HallController {
         validationSupport.registerValidator(normalRowPriceField, Validator.createRegexValidator("Must be a number!", Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"), Severity.ERROR));
         validationSupport.registerValidator(lastRowPriceField, Validator.createRegexValidator("Must be a number!", Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"), Severity.ERROR));
         addHallButton.disableProperty().bind(validationSupport.invalidProperty());
+
+        addHallButton.setDefaultButton(true);
     }
 
     /**

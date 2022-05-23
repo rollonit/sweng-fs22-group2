@@ -41,28 +41,6 @@ public class AppUIController {
     }
 
     /**
-     * FOR NOW spawns a login page and handles login validation. In the final program, this should probably show up first before the program boots, if the user is not already logged it
-     *
-     * @throws IOException in case it doesn't find the fxml file ig
-     */
-    @FXML
-    protected void onLoginPage() throws IOException {
-        //Creating a new window
-        Stage loginPrompt = new Stage();
-        loginPrompt.setMinWidth(400);
-        loginPrompt.setMinHeight(300);
-        loginPrompt.setTitle("Login");
-
-        Scene Login = new Scene((new FXMLLoader(AppUI.class.getResource("Login.fxml")).load()), 450, 300);
-        loginPrompt.setScene(Login);
-
-        loginPrompt.initOwner(centerTable.getScene().getWindow());
-        loginPrompt.initModality(Modality.APPLICATION_MODAL);
-
-        loginPrompt.showAndWait();
-    }
-
-    /**
      * Spawns a new 'add movie' window based on fxml
      *
      * @throws IOException in case it doesn't find the fxml file ig
@@ -254,10 +232,18 @@ public class AppUIController {
      */
     public void onNew() throws IOException {
         switch (viewSelector.getSelectionModel().getSelectedItem()) {
-            case "Screenings" -> this.onNewScreeningPage();
-            case "Movies" -> this.onNewMoviePage();
-            case "Bookings" -> this.onNewBookingPage();
-            case "Halls" -> this.onNewHallPage();
+            case "Screenings":
+                this.onNewScreeningPage();
+                break;
+            case "Movies":
+                this.onNewMoviePage();
+                break;
+            case "Bookings":
+                this.onNewBookingPage();
+                break;
+            case "Halls":
+                this.onNewHallPage();
+                break;
         }
     }
 
@@ -269,11 +255,18 @@ public class AppUIController {
             this.showAlert(Alert.AlertType.WARNING, "Warning", "No item selected!", "Please select the item you would like to edit.");
         } else {
             switch (viewSelector.getSelectionModel().getSelectedItem()) {
-                case "Screenings" ->
-                        this.onEditScreeningPage((Screening) centerTable.getSelectionModel().getSelectedItem());
-                case "Movies" -> this.onEditMoviePage((Movie) centerTable.getSelectionModel().getSelectedItem());
-                case "Bookings" -> this.onEditBookingPage((Booking) centerTable.getSelectionModel().getSelectedItem());
-                case "Halls" -> this.onEditHallPage((Hall) centerTable.getSelectionModel().getSelectedItem());
+                case "Screenings":
+                    this.onEditScreeningPage((Screening) centerTable.getSelectionModel().getSelectedItem());
+                    break;
+                case "Movies":
+                    this.onEditMoviePage((Movie) centerTable.getSelectionModel().getSelectedItem());
+                    break;
+                case "Bookings":
+                    this.onEditBookingPage((Booking) centerTable.getSelectionModel().getSelectedItem());
+                    break;
+                case "Halls":
+                    this.onEditHallPage((Hall) centerTable.getSelectionModel().getSelectedItem());
+                    break;
             }
         }
     }
@@ -287,11 +280,18 @@ public class AppUIController {
         } else {
             try {
                 switch (viewSelector.getSelectionModel().getSelectedItem()) {
-                    case "Screenings" ->
-                            ((Screening) centerTable.getSelectionModel().getSelectedItem()).removeScreening();
-                    case "Movies" -> ((Movie) centerTable.getSelectionModel().getSelectedItem()).removeMovie();
-                    case "Bookings" -> ((Booking) centerTable.getSelectionModel().getSelectedItem()).removeBooking();
-                    case "Halls" -> ((Hall) centerTable.getSelectionModel().getSelectedItem()).removeHall();
+                    case "Screenings":
+                        ((Screening) centerTable.getSelectionModel().getSelectedItem()).removeScreening();
+                        break;
+                    case "Movies":
+                        ((Movie) centerTable.getSelectionModel().getSelectedItem()).removeMovie();
+                        break;
+                    case "Bookings":
+                        ((Booking) centerTable.getSelectionModel().getSelectedItem()).removeBooking();
+                        break;
+                    case "Halls":
+                        ((Hall) centerTable.getSelectionModel().getSelectedItem()).removeHall();
+                        break;
                 }
             } catch (SQLException e) {
                 this.showAlert(Alert.AlertType.ERROR, "Error", "Error deleting item!", "There was an error deleting the selected item. Please check if there exist conflicts that depend on this item.");
@@ -340,7 +340,7 @@ public class AppUIController {
 
         // change Table view based on viewSelector Incredibly messy code to set up the data fields on the table.
         switch (viewSelector.getSelectionModel().getSelectedItem()) {
-            case "Screenings" -> {
+            case "Screenings":
                 idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Screening) cellData.getValue()).getScreeningID()));
                 movieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Movie) management.searchMovieByID(((Screening) cellData.getValue()).getMovieID())).getMovieName()));
                 screeningDateColumn.setCellValueFactory(data -> new SimpleStringProperty(Helper.convertMillisToDateTime(((Screening) data.getValue()).getScreeningTime()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
@@ -349,8 +349,9 @@ public class AppUIController {
 
                 centerTable.getColumns().addAll(idColumn, movieColumn, screeningDateColumn, screeningTimeColumn);
                 centerTable.setItems(FXCollections.observableArrayList(management.getScreeningList()));
-            }
-            case "Bookings" -> {
+                break;
+
+            case "Bookings":
                 idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Booking) cellData.getValue()).getBookingID()));
                 movieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Movie) management.searchMovieByID(((Screening) management.searchScreeningByID(((Booking) cellData.getValue()).getScreeningID())).getMovieID())).getMovieName()));
                 screeningTimeColumn.setCellValueFactory(data -> new SimpleStringProperty(Helper.convertMillisToDateTime(((Screening) management.searchScreeningByID(((Booking) data.getValue()).getScreeningID())).getScreeningTime()).format(DateTimeFormatter.ofPattern("HH.mm"))));
@@ -360,8 +361,9 @@ public class AppUIController {
 
                 centerTable.getColumns().addAll(idColumn, movieColumn, screeningTimeColumn, screeningDateColumn, bookingTimeColumn, bookingCodeColumn);
                 centerTable.setItems(FXCollections.observableArrayList(management.getBookingList()));
-            }
-            case "Halls" -> {
+                break;
+
+            case "Halls":
                 idColumn.setCellValueFactory(data -> new SimpleStringProperty(((Hall) data.getValue()).getHallNumber()));
                 hallWidthColumn.setCellValueFactory(data -> new SimpleStringProperty(Integer.toString(((Hall) data.getValue()).getHallWidth())));
                 hallHeightColumn.setCellValueFactory(data -> new SimpleStringProperty(Integer.toString(((Hall) data.getValue()).getHallLength())));
@@ -370,8 +372,9 @@ public class AppUIController {
 
                 centerTable.getColumns().addAll(idColumn, hallWidthColumn, hallHeightColumn, normalPriceColumn, lastRowPriceColumn);
                 centerTable.setItems(FXCollections.observableArrayList(management.getHallList()));
-            }
-            case "Movies" -> {
+                break;
+
+            case "Movies":
                 idColumn.setCellValueFactory(data -> new SimpleStringProperty(((Movie) data.getValue()).getMovieID()));
                 movieColumn.setCellValueFactory(data -> new SimpleStringProperty(((Movie) data.getValue()).getMovieName()));
                 directorColumn.setCellValueFactory(data -> new SimpleStringProperty(((Movie) data.getValue()).getDirector()));
@@ -380,7 +383,7 @@ public class AppUIController {
 
                 centerTable.getColumns().addAll(idColumn, movieColumn, directorColumn, releaseYearColumn, durationColumn);
                 centerTable.setItems(FXCollections.observableArrayList(management.getMovieList()));
-            }
+                break;
         }
     }
 

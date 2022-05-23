@@ -265,8 +265,8 @@ public class AppUIController {
      * Handles the action for the edit button, checks which view is selected, which item is selected and does spawns edit window while setting the toEdit on the controller class.
      */
     public void onEdit() throws IOException {
-        if (viewSelector.getSelectionModel().isEmpty()) {
-            this.showAlert(Alert.AlertType.ERROR, "Warning", "No item selected!", "Please select the item you would like to edit.");
+        if (centerTable.getSelectionModel().isEmpty()) {
+            this.showAlert(Alert.AlertType.WARNING, "Warning", "No item selected!", "Please select the item you would like to edit.");
         } else {
             switch (viewSelector.getSelectionModel().getSelectedItem()) {
                 case "Screenings" ->
@@ -281,15 +281,20 @@ public class AppUIController {
     /**
      * Handles the action for the delete button, checks which view is selected, which item is selected and does delete
      */
-    public void onDelete() throws SQLException {
-        if (viewSelector.getSelectionModel().isEmpty()) {
-            this.showAlert(Alert.AlertType.ERROR, "Warning", "No item selected!", "Please select the item you would like to delete.");
+    public void onDelete() {
+        if (centerTable.getSelectionModel().isEmpty()) {
+            this.showAlert(Alert.AlertType.WARNING, "Warning", "No item selected!", "Please select the item you would like to delete.");
         } else {
-            switch (viewSelector.getSelectionModel().getSelectedItem()) {
-                case "Screenings" -> ((Screening) centerTable.getSelectionModel().getSelectedItem()).removeScreening();
-                case "Movies" -> ((Movie) centerTable.getSelectionModel().getSelectedItem()).removeMovie();
-                case "Bookings" -> ((Booking) centerTable.getSelectionModel().getSelectedItem()).removeBooking();
-                case "Halls" -> ((Hall) centerTable.getSelectionModel().getSelectedItem()).removeHall();
+            try {
+                switch (viewSelector.getSelectionModel().getSelectedItem()) {
+                    case "Screenings" ->
+                            ((Screening) centerTable.getSelectionModel().getSelectedItem()).removeScreening();
+                    case "Movies" -> ((Movie) centerTable.getSelectionModel().getSelectedItem()).removeMovie();
+                    case "Bookings" -> ((Booking) centerTable.getSelectionModel().getSelectedItem()).removeBooking();
+                    case "Halls" -> ((Hall) centerTable.getSelectionModel().getSelectedItem()).removeHall();
+                }
+            } catch (SQLException e) {
+                this.showAlert(Alert.AlertType.ERROR, "Error", "Error deleting item!", "There was an error deleting the selected item. Please check if there exist conflicts that depend on this item.");
             }
         }
     }

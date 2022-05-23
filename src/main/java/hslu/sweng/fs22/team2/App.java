@@ -1,7 +1,6 @@
 package hslu.sweng.fs22.team2;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 
 /**
  * Backend main class that runs on the CL. Used for testing and things.
@@ -11,7 +10,7 @@ public class App {
     /**
      * Entry point for the backend test CLI.
      */
-    public static void main(String[] args) throws SQLException, ParseException {
+    public static void main(String[] args) throws SQLException {
         String username = "cinema_admin";
         String password = "SgWm21M6gp9S";
 

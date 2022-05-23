@@ -8,7 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -24,8 +27,6 @@ public class AppUIController {
     public TableView<Object> centerTable;
     Management management;
     Stage primaryStage;
-    @FXML
-    private Label welcomeText;
 
     @FXML
     public void initialize() throws SQLException {
@@ -55,7 +56,7 @@ public class AppUIController {
         Scene Login = new Scene((new FXMLLoader(AppUI.class.getResource("Login.fxml")).load()), 450, 300);
         loginPrompt.setScene(Login);
 
-        loginPrompt.initOwner(welcomeText.getScene().getWindow());
+        loginPrompt.initOwner(centerTable.getScene().getWindow());
         loginPrompt.initModality(Modality.APPLICATION_MODAL);
 
         loginPrompt.showAndWait();
@@ -76,7 +77,7 @@ public class AppUIController {
         Scene NewMovie = new Scene((new FXMLLoader(AppUI.class.getResource("NewMovie.fxml")).load()), 400, 300);
         newMoviePrompt.setScene(NewMovie);
 
-        newMoviePrompt.initOwner(welcomeText.getScene().getWindow());
+        newMoviePrompt.initOwner(centerTable.getScene().getWindow());
         newMoviePrompt.initModality(Modality.APPLICATION_MODAL);
 
         newMoviePrompt.showAndWait();
@@ -100,7 +101,7 @@ public class AppUIController {
         controller.setToEdit(movieToEdit);
         newMoviePrompt.setScene(EditMovie);
 
-        newMoviePrompt.initOwner(welcomeText.getScene().getWindow());
+        newMoviePrompt.initOwner(centerTable.getScene().getWindow());
         newMoviePrompt.initModality(Modality.APPLICATION_MODAL);
 
         newMoviePrompt.showAndWait();
@@ -121,7 +122,7 @@ public class AppUIController {
         Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("NewScreening.fxml")).load()), 450, 360);
         newScreeningPrompt.setScene(NewScreening);
 
-        newScreeningPrompt.initOwner(welcomeText.getScene().getWindow());
+        newScreeningPrompt.initOwner(centerTable.getScene().getWindow());
         newScreeningPrompt.initModality(Modality.APPLICATION_MODAL);
 
         newScreeningPrompt.showAndWait();
@@ -145,7 +146,7 @@ public class AppUIController {
         controller.setToEdit(screeningToEdit);
         editScreeningPrompt.setScene(EditScreening);
 
-        editScreeningPrompt.initOwner(welcomeText.getScene().getWindow());
+        editScreeningPrompt.initOwner(centerTable.getScene().getWindow());
         editScreeningPrompt.initModality(Modality.APPLICATION_MODAL);
 
         editScreeningPrompt.showAndWait();
@@ -166,7 +167,7 @@ public class AppUIController {
         Scene NewBooking = new Scene((new FXMLLoader(AppUI.class.getResource("NewBooking.fxml")).load()), 550, 650);
         newBookingPrompt.setScene(NewBooking);
 
-        newBookingPrompt.initOwner(welcomeText.getScene().getWindow());
+        newBookingPrompt.initOwner(centerTable.getScene().getWindow());
         newBookingPrompt.initModality(Modality.APPLICATION_MODAL);
 
         newBookingPrompt.showAndWait();
@@ -190,7 +191,7 @@ public class AppUIController {
         controller.setToEdit(bookingToEdit);
         editBookingPrompt.setScene(EditBooking);
 
-        editBookingPrompt.initOwner(welcomeText.getScene().getWindow());
+        editBookingPrompt.initOwner(centerTable.getScene().getWindow());
         editBookingPrompt.initModality(Modality.APPLICATION_MODAL);
 
         editBookingPrompt.showAndWait();
@@ -211,7 +212,7 @@ public class AppUIController {
         Scene NewHall = new Scene((new FXMLLoader(AppUI.class.getResource("NewHall.fxml")).load()), 400, 400);
         newHallPrompt.setScene(NewHall);
 
-        newHallPrompt.initOwner(welcomeText.getScene().getWindow());
+        newHallPrompt.initOwner(centerTable.getScene().getWindow());
         newHallPrompt.initModality(Modality.APPLICATION_MODAL);
 
         newHallPrompt.showAndWait();
@@ -235,33 +236,11 @@ public class AppUIController {
         controller.setToEdit(hall);
         editHallPrompt.setScene(EditHall);
 
-        editHallPrompt.initOwner(welcomeText.getScene().getWindow());
+        editHallPrompt.initOwner(centerTable.getScene().getWindow());
         editHallPrompt.initModality(Modality.APPLICATION_MODAL);
 
         editHallPrompt.showAndWait();
     }
-
-    /**
-     * Spawns a new 'primary' window based on fxml
-     *
-     * @throws IOException in case it doesn't find the fxml file ig
-     */
-    /*public void onPrimaryPage() throws IOException {
-        //Creating a new window
-        Stage newPrimaryPage = new Stage();
-        newPrimaryPage.setMinWidth(800);
-        newPrimaryPage.setMinHeight(600);
-        newPrimaryPage.setTitle("Primary Page");
-
-        Scene NewScreening = new Scene((new FXMLLoader(AppUI.class.getResource("PrimaryPage.fxml")).load()), 800, 600);
-        newPrimaryPage.setScene(NewScreening);
-
-        newPrimaryPage.initOwner(welcomeText.getScene().getWindow());
-        newPrimaryPage.initModality(Modality.APPLICATION_MODAL);
-
-        newPrimaryPage.showAndWait();
-    }
-    */
 
     /**
      * Closes and exits the program.
@@ -272,7 +251,6 @@ public class AppUIController {
 
     /**
      * Handles the action for the new button, checks which view is selected, and spawns a create window
-     * TODO add popup if nothing is selected
      */
     public void onNew() throws IOException {
         switch (viewSelector.getSelectionModel().getSelectedItem()) {
@@ -285,28 +263,34 @@ public class AppUIController {
 
     /**
      * Handles the action for the edit button, checks which view is selected, which item is selected and does spawns edit window while setting the toEdit on the controller class.
-     * TODO add popup if nothing is selected
      */
     public void onEdit() throws IOException {
-        switch (viewSelector.getSelectionModel().getSelectedItem()) {
-            case "Screenings" ->
-                    this.onEditScreeningPage((Screening) centerTable.getSelectionModel().getSelectedItem());
-            case "Movies" -> this.onEditMoviePage((Movie) centerTable.getSelectionModel().getSelectedItem());
-            case "Bookings" -> this.onEditBookingPage((Booking) centerTable.getSelectionModel().getSelectedItem());
-            case "Halls" -> this.onEditHallPage((Hall) centerTable.getSelectionModel().getSelectedItem());
+        if (viewSelector.getSelectionModel().isEmpty()) {
+            this.showAlert(Alert.AlertType.ERROR, "Warning", "No item selected!", "Please select the item you would like to edit.");
+        } else {
+            switch (viewSelector.getSelectionModel().getSelectedItem()) {
+                case "Screenings" ->
+                        this.onEditScreeningPage((Screening) centerTable.getSelectionModel().getSelectedItem());
+                case "Movies" -> this.onEditMoviePage((Movie) centerTable.getSelectionModel().getSelectedItem());
+                case "Bookings" -> this.onEditBookingPage((Booking) centerTable.getSelectionModel().getSelectedItem());
+                case "Halls" -> this.onEditHallPage((Hall) centerTable.getSelectionModel().getSelectedItem());
+            }
         }
     }
 
     /**
      * Handles the action for the delete button, checks which view is selected, which item is selected and does delete
-     * TODO add popup if nothing is selected
      */
     public void onDelete() throws SQLException {
-        switch (viewSelector.getSelectionModel().getSelectedItem()) {
-            case "Screenings" -> ((Screening) centerTable.getSelectionModel().getSelectedItem()).removeScreening();
-            case "Movies" -> ((Movie) centerTable.getSelectionModel().getSelectedItem()).removeMovie();
-            case "Bookings" -> ((Booking) centerTable.getSelectionModel().getSelectedItem()).removeBooking();
-            case "Halls" -> ((Hall) centerTable.getSelectionModel().getSelectedItem()).removeHall();
+        if (viewSelector.getSelectionModel().isEmpty()) {
+            this.showAlert(Alert.AlertType.ERROR, "Warning", "No item selected!", "Please select the item you would like to delete.");
+        } else {
+            switch (viewSelector.getSelectionModel().getSelectedItem()) {
+                case "Screenings" -> ((Screening) centerTable.getSelectionModel().getSelectedItem()).removeScreening();
+                case "Movies" -> ((Movie) centerTable.getSelectionModel().getSelectedItem()).removeMovie();
+                case "Bookings" -> ((Booking) centerTable.getSelectionModel().getSelectedItem()).removeBooking();
+                case "Halls" -> ((Hall) centerTable.getSelectionModel().getSelectedItem()).removeHall();
+            }
         }
     }
 

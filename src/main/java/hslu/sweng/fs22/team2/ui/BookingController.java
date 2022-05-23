@@ -109,13 +109,22 @@ public class BookingController {
     }
 
     /**
-     * Edits the hall on the DB based on data from the UI fields. Handles validation. TODO actually implement this.
+     * Edits the hall on the DB based on data from the UI fields. Handles validation.
      */
-    public void editBooking(ActionEvent actionEvent) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setHeaderText("This feature has not been implemented yet!");
-        alert.setTitle("Info");
-        alert.setContentText("This feature is still being worked on, and hasn't been implemented yet.");
-        alert.showAndWait();
+    public void editBooking() throws SQLException {
+        //Appending all the selected seats to a string builder.
+        StringBuilder seats = new StringBuilder();
+        for (Seat seat : seatsTable.getSelectionModel().getSelectedItems())
+            seats.append(seat.getSeatID()).append(";");
+        toEdit.editBooking(screeningPicker.getValue().getScreeningID(), seats.toString(), Helper.convertDateToMillis(LocalDateTime.now()), toEdit.getBookingCode());
+        if (!validationSupport.isInvalid()) {
+            Stage toKill = (Stage) makeBookingButton.getScene().getWindow();
+            toKill.hide();
+        }
+        //Alert alert = new Alert(Alert.AlertType.WARNING);
+        //alert.setHeaderText("This feature has not been implemented yet!");
+        //alert.setTitle("Info");
+        //alert.setContentText("This feature is still being worked on, and hasn't been implemented yet.");
+        //alert.showAndWait();
     }
 }

@@ -334,6 +334,8 @@ public class AppUIController {
         TableColumn<Object, String> releaseYearColumn = new TableColumn<>("Release Year");
         TableColumn<Object, String> directorColumn = new TableColumn<>("Director");
         TableColumn<Object, String> durationColumn = new TableColumn<>("Duration");
+        TableColumn<Object, String> normalPriceColumn = new TableColumn<>("Normal Row Price");
+        TableColumn<Object, String> lastRowPriceColumn = new TableColumn<>("Last Row Price");
 
 
         // change Table view based on viewSelector Incredibly messy code to set up the data fields on the table.
@@ -363,8 +365,10 @@ public class AppUIController {
                 idColumn.setCellValueFactory(data -> new SimpleStringProperty(((Hall) data.getValue()).getHallNumber()));
                 hallWidthColumn.setCellValueFactory(data -> new SimpleStringProperty(Integer.toString(((Hall) data.getValue()).getHallWidth())));
                 hallHeightColumn.setCellValueFactory(data -> new SimpleStringProperty(Integer.toString(((Hall) data.getValue()).getHallLength())));
+                normalPriceColumn.setCellValueFactory(data -> new SimpleStringProperty(Double.toString(((Hall) data.getValue()).getNormalPrice())));
+                lastRowPriceColumn.setCellValueFactory(data -> new SimpleStringProperty(Double.toString(((Hall) data.getValue()).getLastRowPrice())));
 
-                centerTable.getColumns().addAll(idColumn, hallWidthColumn, hallHeightColumn);
+                centerTable.getColumns().addAll(idColumn, hallWidthColumn, hallHeightColumn, normalPriceColumn, lastRowPriceColumn);
                 centerTable.setItems(FXCollections.observableArrayList(management.getHallList()));
             }
             case "Movies" -> {
